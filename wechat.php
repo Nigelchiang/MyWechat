@@ -20,7 +20,7 @@ class wechatCallbackapiTest
             //这里只是为了第一次验证服务器，以后可以不需要这样，可以自己增加代码
             //好像哪里有错误，我的理解不对，妈蛋。
         	echo $echoStr;
-            // responseMsg();
+            $this->responseMsg();
         	exit;
         }
     }
