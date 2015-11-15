@@ -1,15 +1,9 @@
-<!doctype html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <title>AQI查询</title>
-</head>
-<body>
 <?php
 
 header('Content-type:text/html;charset=utf-8');
 
 require("getToken.php");
+
 getPM25();
 
 function getPM25()
@@ -34,5 +28,3 @@ function getPM25()
     }
 }
 ?>
-</body>
-</html>
