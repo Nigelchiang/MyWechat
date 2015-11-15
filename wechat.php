@@ -18,8 +18,7 @@ class wechatCallbackapiTest
         if($this->checkSignature()){
             //验证签名之后，确认get来自微信服务器，原样返回随机字符串echoStr，则验证成功
             //这里只是为了第一次验证服务器，以后可以不需要这样，可以自己增加代码
-            //好像哪里有错误，我的理解不对，妈蛋。
-        	echo $echoStr;
+        	echo $echoStr;//这个以后还需要吗？
             $this->responseMsg();
         	exit;
         }
@@ -40,6 +39,8 @@ class wechatCallbackapiTest
                 $toUsername = $postObj->ToUserName;
                 $keyword = trim($postObj->Content);
                 $time = time();
+
+                //只有将返回消息放在这样的xml格式里微信才能解析，才能正确地给用户返回消息
                 $textTpl = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
 							<FromUserName><![CDATA[%s]]></FromUserName>
@@ -51,7 +52,7 @@ class wechatCallbackapiTest
 				if(!empty( $keyword ))
                 {
               		$msgType = "text";
-                	$contentStr = "你好，我是Nigel！我现在还只会说这一句话，但是我会不停地学习的~";
+                	$contentStr = ["你好，我是Nigel！我现在还只会说这一句话，但是我会不停地学习的~","你好，这是我的第二句话~"][$time%2 | 0 ];
                 	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 	echo $resultStr;
                 }else{
