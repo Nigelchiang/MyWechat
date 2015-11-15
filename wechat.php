@@ -53,7 +53,7 @@ class wechatCallbackapiTest
                 {
               		$msgType = "text";
                     $textArray=array("你好，我是Nigel！我现在还只会说这一句话，但是我会不停地学习的~","你好，这是我的第二句话~","你猜我能说多少话呢？","谢谢你关注我，真的非常感谢，真的！","你知道你喜欢谁吗？我反正只喜欢敲代码","好玩吗？还想玩吗？");
-                	$contentStr = $textArray[rand(-1,5)];
+                	$contentStr = $textArray[rand()%count($textArray)];
                 	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 	echo $resultStr;
                 }else{
