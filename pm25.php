@@ -10,6 +10,8 @@
 header('Content-type:text/html;charset=utf-8');
 
 require("getToken.php");
+getPM25();
+
 function getPM25()
 {
     $param = array("city" => "shenyang", "key" => "baa7b2f4ce8cd00af3b96daa6bdbf2d3");
@@ -31,15 +33,6 @@ function getPM25()
         echo "请求失败";
     }
 }
-
-
-echo "<table>
-<tcaption>$date</tcaption>
-<tr>
-<td>城市</td><td>$city</td></tr>
-<tr><td>AQI</td><td>$AQI</td></tr>
-<tr><td>质量</td><td>$quality</td></tr>
-</table>";
 ?>
 </body>
 </html>
