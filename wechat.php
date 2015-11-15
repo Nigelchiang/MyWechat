@@ -18,7 +18,7 @@ class wechatCallbackapiTest
         if($this->checkSignature()){
             //验证签名之后，确认get来自微信服务器，原样返回随机字符串echoStr，则验证成功
             //这里只是为了第一次验证服务器，以后可以不需要这样，可以自己增加代码
-        	// echo $echoStr;
+        	echo $echoStr;
             responseMsg();
         	exit;
         }
