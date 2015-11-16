@@ -17,7 +17,7 @@ function getWeather($cityname)
         $city = "城市：" . $weather['result']['today']['city'];//城市
         $riqi = "日期：" . $weather['result']['today']['date_y'];//日期
         $wendu = "今日温度：" . $weather['result']['today']['temperature'];//温度
-        $chuan = "穿衣指数" . $weather['result']['today']['dressing_advice'];//穿衣指数
+        $chuan = "穿衣指数: " . $weather['result']['today']['dressing_advice'];//穿衣指数
 
         return $city . "\n" . $riqi . "\n" . $wendu . "\n" . $wen . "\n" . $fen . "\n" . $chuan;
     } else {
