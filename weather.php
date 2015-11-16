@@ -8,7 +8,7 @@ function getWeather($cityname)
 {
     $urlcityname = urlencode($cityname);
     $url = "http://v.juhe.cn/weather/index?&cityname=" . $urlcityname . "&key=81e88deace60aeae578ccffb2176d484";
-    $weather = json_decode(gettoken($url), ture);
+    $weather = json_decode(getToken($url), ture);
 
 //    print_r($weather);
     if ($weather['resultcode'] == '200') {
