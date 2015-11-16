@@ -104,7 +104,7 @@ class wechatCallbackapiTest
 
 
             if (!empty($keyword)) {
-                if ($keyword == "你好"|$keyword == "您好") {
+                if ($keyword == "你好" | $keyword == "您好") {
                     $textTpl = "<xml>
                     <ToUserName><![CDATA[%s]]></ToUserName>
                     <FromUserName><![CDATA[%s]]></FromUserName>
@@ -114,7 +114,7 @@ class wechatCallbackapiTest
                     <Articles>
                     <item>
                     <Title><![CDATA[你好呀，李银河]]></Title>
-                    <Description><![CDATA[你好你好你好！]]></Description>
+                    <Description><![CDATA[你好你好你好！\n可以发送你好、天气或者任意内容，试试看，会有惊喜哦！]]></Description>
                     <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/hello.jpeg]]></PicUrl>
                     <Url><![CDATA[http://www.nigel.top]]></Url>
                     </item>
@@ -128,13 +128,13 @@ class wechatCallbackapiTest
                 if ($subKeyword == "空气" || $subKeyword == "天气" || $subKeyword == "kq") {
                     include("pm25.php");
                     $city = mb_substr($keyword, 2, 5, 'utf8');
-                    $content=getPM25($city);
+                    $content = getPM25($city);
                     $msgType = 'text';
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
                     echo $resultStr;
                 }
 
-                $textArray = array("你好，我是Nigel！我现在还只会说这一句话，但是我会不停地学习的~", "你好，这是我的第二句话~", "你猜我能说多少话呢？", "谢谢你关注我，真的非常感谢，真的！", "你知道你喜欢谁吗？我反正只喜欢敲代码", "好玩吗？还想玩吗？", "这个微信后台是用PHP写的，放在新浪的SAE上的一个简单页面，是我第一次做微信后台哦~", "我在这里写日记好了，反正也没人看得到~", "微信后台还是很好玩的，接触了很多有趣的概念，这对以后开发网络应用肯定有好处的呀~", "垃圾新浪，用Git传代码只能用https协议，怎么才能不用一直输密码呢？好烦呀", "不知不觉已经在代码里敲了好多话了…会不会有人看到呢？", "现在已经凌晨四点半了，早上第一节还有c++,哈哈，上完课就睡觉咯~", "敲代码真好玩~我愿意这样敲一辈子！", "饶意，怎么办，又想起你了。这一句应该不会抽到吧~", "霍比特人是真的好看，要不是看霍比特人我早就睡啦", "敲键盘不敢太大声…这机械键盘声音太大啦…", "再加一句，试试记住密码的效果怎么样");
+                $textArray = array("这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n可以发送你好、天气或者任意内容，试试看，会有惊喜哦！", "你好，我是Nigel！我现在还只会说这一句话，但是我会不停地学习的~", "你好，这是我的第二句话~", "你猜我能说多少话呢？", "谢谢你关注我，真的非常感谢，真的！", "你知道你喜欢谁吗？我反正只喜欢敲代码", "好玩吗？还想玩吗？", "这个微信后台是用PHP写的，放在新浪的SAE上的一个简单页面，是我第一次做微信后台哦~", "我在这里写日记好了，反正也没人看得到~", "微信后台还是很好玩的，接触了很多有趣的概念，这对以后开发网络应用肯定有好处的呀~", "垃圾新浪，用Git传代码只能用https协议，怎么才能不用一直输密码呢？好烦呀", "不知不觉已经在代码里敲了好多话了…会不会有人看到呢？", "现在已经凌晨四点半了，早上第一节还有c++,哈哈，上完课就睡觉咯~", "敲代码真好玩~我愿意这样敲一辈子！", "饶意，怎么办，又想起你了。这一句应该不会抽到吧~", "霍比特人是真的好看，要不是看霍比特人我早就睡啦", "敲键盘不敢太大声…这机械键盘声音太大啦…", "再加一句，试试记住密码的效果怎么样");
                 //从数组中随机返回一个元素的键名
                 $content = $textArray[array_rand($textArray)];
                 $msgType = 'text';
@@ -177,20 +177,6 @@ class wechatCallbackapiTest
         }
     }
 
-    function getToken($url)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.172 Safari/537.22");
-        curl_setopt($ch, CURLOPT_ENCODING, 'gzip'); //加入gzip解析
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        return $output;
-    }
 }
-
 
 ?>
