@@ -17,7 +17,7 @@ function getPM25($cityname)
             $city = $pm25['result'][0]['citynow']['city'];
             $AQI = $pm25['result'][0]['citynow']['AQI'];
             $quality = $pm25['result'][0]['citynow']['quality'];
-            $content=$date . "\n" . $city . "\n" . $AQI . "\n" . $quality;
+            $content=$date . "\n" . "城市: ".$city . "\n" ."AQI: ". $AQI . "\n" ."空气质量: ". $quality;
         } else {
             echo $pm25['error_code'] . ":" . $pm25['reason'];
         }
