@@ -34,6 +34,7 @@ class wechatCallbackapiTest
     public function responseMsg()
     {
         //extract post data
+        global $postStr;
         if (!empty($postStr)) {
             /* libxml_disable_entity_loader is to prevent XML eXternal Entity Injection,
              the best way is to check the validity of xml by yourself */
