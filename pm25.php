@@ -3,7 +3,7 @@
 header('Content-type:text/html;charset=utf-8');
 
 require("getToken.php");
-
+getPM25("沈阳");
 function getPM25($cityname)
 {
     /*
@@ -12,7 +12,7 @@ function getPM25($cityname)
      */
     $param = array("city" => $cityname, "token" => "5j1znBVAsnSf5xQyNQyq",'station'=>'no');
     $paramString = http_build_query($param);
-    $url = "http://www.pm25.in/api/querys/pm2_5.json" . $paramString;
+    echo $url = "http://www.pm25.in/api/querys/pm2_5.json?" . $paramString;
     $data = json_decode(getToken($url), true);
     if ($data) {
         if ($data['error_code'] == '0') {
@@ -29,7 +29,7 @@ function getPM25($cityname)
             $content= $data['error'];
         }
     } else {
-        $content= "请求失败";
+       $content= "请求失败";
     }
     return $content;
 }
