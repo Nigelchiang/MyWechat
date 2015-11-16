@@ -85,8 +85,7 @@ class wechatCallbackapiTest
                     <Articles>
                     <item>
                     <Title><![CDATA[谢谢关注~]]></Title>
-                    <Description><![CDATA[这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n
-                    可以发送你好、天气或者任意内容，试试看，会有惊喜哦！]]></Description>
+                    <Description><![CDATA[这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n可以发送你好、天气或者任意内容，试试看，会有惊喜哦！]]></Description>
                     <PicUrl><![CDATA[http://www.sinaimg.cn/dy/slidenews/4_img/2015_11/704_1575962_849639.jpg]]></PicUrl>
                     <Url><![CDATA[http://www.jikexueyuan.com]]></Url>
                     </item>
@@ -141,7 +140,7 @@ class wechatCallbackapiTest
                 $msgType = 'text';
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
                 echo $resultStr;
-                
+
             } else {
                 echo "Input something...";
             }
