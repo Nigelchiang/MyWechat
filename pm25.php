@@ -4,11 +4,9 @@ header('Content-type:text/html;charset=utf-8');
 
 require("getToken.php");
 
-getPM25();
-
-function getPM25()
+function getPM25($cityname)
 {
-    $param = array("city" => "shenyang", "key" => "baa7b2f4ce8cd00af3b96daa6bdbf2d3");
+    $param = array("city" => $cityname, "key" => "baa7b2f4ce8cd00af3b96daa6bdbf2d3");
     $paramString = http_build_query($param);
     $url = "http://web.juhe.cn:8080/environment/air/cityair?" . $paramString;
     $pm25 = json_decode(getToken($url), true);
