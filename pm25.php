@@ -22,7 +22,7 @@ function getPM25($cityname)
     $data = json_decode(getToken($url), true);
 
     if ($data) {
-        if (!$data['error_code']=="0") {
+        if ($data['error_code']=="0") {
             $date = "更新时间: " . $data['result'][0]['citynow']['date'];
             $city = "查询城市: " . $data['result'][0]['citynow']['city'];
             $AQI = "当前AQI: " . $data['result'][0]['citynow']['aqi'];
