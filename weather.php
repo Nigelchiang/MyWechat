@@ -11,7 +11,7 @@ function getWeather($cityname)
     $weather = json_decode(gettoken($url), ture);
 
 //    print_r($weather);
-    if ($weather['result_code' == '200']) {
+    if ($weather['resultcode' == '200']) {
         $wen = "当前温度：" . $weather['result']['sk']['temp'];//当前温度
         $fen = "当前风向风级：" . $weather['result']['sk']['wind_direction'] . "-" . $weather['result']['sk']['wind_strength'];//当前风向风级
         $city = "城市：" . $weather['result']['today']['city'];//城市
