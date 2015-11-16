@@ -35,7 +35,7 @@ class wechatCallbackapiTest
         if (!empty($postStr)) {
             $keyword = trim($postObj->Content);
             $substr = mb_substr($keyword, 0, 2, 'utf8');
-            if ($substr == "天气") {
+            if ($substr == "空气"||$substr == "天气"||$substr == "kq") {
                 include("pm25.php");
                 $this->echoText(getPM25("shenyang"));
 
