@@ -115,7 +115,7 @@ class wechatCallbackapiTest
                     <item>
                     <Title><![CDATA[你好呀，李银河]]></Title>
                     <Description><![CDATA[你好你好你好！]]></Description>
-                    <PicUrl><![CDATA[img/hello.jpeg]]></PicUrl>
+                    <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/hello.jpeg]]></PicUrl>
                     <Url><![CDATA[http://www.nigel.top]]></Url>
                     </item>
                     </Articles>
