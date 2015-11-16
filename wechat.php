@@ -1,10 +1,13 @@
 <?php
-/**
- * wechat php test
- */
+//装载模板文件
+include_once("wx_tpl.php");
+
+//获取微信发送数据
+$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
 //define your token
 define("TOKEN", "nigel");
+
 $wechatObj = new wechatCallbackapiTest();
 if ($_GET["echostr"]) {
     $wechatObj->valid();
@@ -30,117 +33,102 @@ class wechatCallbackapiTest
 
     public function responseMsg()
     {
-        //get post data, May be due to the different environments
-        $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
-
         //extract post data
         if (!empty($postStr)) {
             /* libxml_disable_entity_loader is to prevent XML eXternal Entity Injection,
              the best way is to check the validity of xml by yourself */
             libxml_disable_entity_loader(true);
+            //解析数据
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            //发送消息方ID
             $fromUsername = $postObj->FromUserName;
+            //接受消息方ID
             $toUsername = $postObj->ToUserName;
+            //消息类型
+            $msgType = $postObj->MsgType;
             $time = time();
             $keyword = trim($postObj->Content);
-            $event = $postObj->Event;
-            $eventKey = $postObj->EventKey;
-            $msgType = $postObj->MsgType;
+
             //只有将返回消息放在这样的xml格式里微信才能解析，才能正确地给用户返回消息
-            $textTpl = "<xml>
-							<ToUserName><![CDATA[%s]]></ToUserName>
-							<FromUserName><![CDATA[%s]]></FromUserName>
-							<CreateTime>%s</CreateTime>
-							<MsgType><![CDATA[%s]]></MsgType>
-							<Content><![CDATA[%s]]></Content>
-							<FuncFlag>0</FuncFlag>
-							</xml>";
-
             if ($msgType == "image") {
-                $msgType = "text";
                 $content = "你的皂片我已经收到啦，分析完成之后就回复你哦~";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
+
+                //textTpl在函数外，有全局作用域，但是在函数内无法访问
+                global $textTpl;
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
                 echo $resultStr;
+                exit;
             }
 
-            $eventKeyStr = substr($eventKey, 0, 8);
-            if ($event == "subscribe" && $eventKeyStr == "qrscene_") {
-                /*
-                 * 数据库插入
-                 * 插入value=$eventKey=qrsecne_生成参数？？
-                 */
-                $msgType = "text";
-                $content = "你通过扫描带参数的二维码关注我~谢谢";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
-                echo $resultStr;
-            }
+            if ($msgType == "event") {
+                $event = $postObj->Event;
+                $eventKey = $postObj->EventKey;
 
-            if ($event == "subscribe") {
-                $textTpl = "<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[news]]></MsgType>
-                    <ArticleCount>1</ArticleCount>
-                    <Articles>
-                    <item>
-                    <Title><![CDATA[谢谢关注~]]></Title>
-                    <Description><![CDATA[这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n
-                    可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市(比如:\"空气沈阳\")或者任意内容(比如:\"江航好帅！\"、\"你是傻逼\") …\n试试看，会有惊喜哦！]]></Description>
-                    <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/hello.jpeg]]></PicUrl>
-                    <Url><![CDATA[http://www.nigel.top]]></Url>
-                    </item>
-                    </Articles>
-                    </xml>";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
-                echo $resultStr;
-            }
+                $eventKeyStr = substr($eventKey, 0, 8);
+                if ($event == "subscribe" && $eventKeyStr == "qrscene_") {
+                    /*
+                     * 数据库插入
+                     * 插入value=$eventKey=qrsecne_生成参数？？
+                     */
+                    $content = "你通过扫描带参数的二维码关注我~谢谢";
+                    global $textTpl;
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
+                    echo $resultStr;
+                    exit;
+                }
 
-            if ($event == "SCAN") {
-                $MsgType = "text";
-                $Content = "您已关注过我啦~";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $MsgType, $Content);
-                echo $resultStr;
-            }
+                if ($event == "subscribe") {
 
+                    $articleCount = "1";
+                    $title = "谢谢关注~";
+                    $description = "这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n" .
+                        "可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市(比如:\"空气沈阳\")  " .
+                        "或者任意内容 (比如:\"江航好帅！\" 、\"你是傻逼\") …\n试试看，会有惊喜哦！";
+                    $picUrl = "http://1.n1gel.sinaapp.com/img/hello.jpeg";
+                    $url = "http://www.nigel.top";
+                    global $newsTpl;
+                    $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
+                        $picUrl, $url);
+                    echo $resultStr;
+                    exit;
+                }
+
+                if ($event == "SCAN") {
+                    $Content = "您已关注过我啦~";
+                    global $textTpl;
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $Content);
+                    echo $resultStr;
+                    exit;
+                }
+            }
 
             if (!empty($keyword)) {
                 if ($keyword == "你好" | $keyword == "您好") {
-                    $textTpl = "<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[news]]></MsgType>
-                    <ArticleCount>1</ArticleCount>
-                    <Articles>
-                    <item>
-                    <Title><![CDATA[你好呀，李银河]]></Title>
-                    <Description><![CDATA[你好你好你好！\n可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市(比如:\"空气沈阳\")或者任意内容(比如:\"江航好帅！\"、\"你是傻逼\") …\n试试看，会有惊喜哦！]]></Description>
-                    <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/hello.jpeg]]></PicUrl>
-                    <Url><![CDATA[http://www.nigel.top]]></Url>
-                    </item>
-                    </Articles>
-                    </xml>";
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
+
+                    $articleCount = "1";
+                    $title = "你好呀，李银河";
+                    $description = "你好你好你好！\n" .
+                        "可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市(比如:\"空气沈阳\")  " .
+                        "或者任意内容 (比如:\"江航好帅！\" 、\"你是傻逼\") …\n试试看，会有惊喜哦！";
+                    $picUrl = "http://1.n1gel.sinaapp.com/img/hello.jpeg";
+                    $url = "http://www.nigel.top";
+                    global $newsTpl;
+                    $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
+                        $picUrl, $url);
                     echo $resultStr;
+                    exit;
                 }
+
                 if ($keyword == "自拍") {
-                    $textTpl = "<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[news]]></MsgType>
-                    <ArticleCount>1</ArticleCount>
-                    <Articles>
-                    <item>
-                    <Title><![CDATA[臭不要脸放自拍]]></Title>
-                    <Description><![CDATA[啥也没有\n啥也没有\n啥也没有]]></Description>
-                    <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/cover.jpg]]></PicUrl>
-                    <Url><![CDATA[http://1.n1gel.sinaapp.com/img/selfie.jpg]]></Url>
-                    </item>
-                    </Articles>
-                    </xml>";
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
+
+                    $articleCount = "1";
+                    $title = "臭不要脸放自拍";
+                    $description = "啥也没有\n啥也没有\n啥也没有";
+                    $picUrl = "http://1.n1gel.sinaapp.com/img/cover.jpg";
+                    $url = "http://1.n1gel.sinaapp.com/img/selfie.jpg";
+                    global $newsTpl;
+                    $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
+                        $picUrl, $url);
                     echo $resultStr;
                 }
 
@@ -149,8 +137,8 @@ class wechatCallbackapiTest
                     include("pm25.php");
                     $city = mb_substr($keyword, 2, 5, 'utf8');
                     $content = getPM25($city);
-                    $msgType = 'text';
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
+                    global $textTpl;
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
                     echo $resultStr;
                 }
 
@@ -158,8 +146,8 @@ class wechatCallbackapiTest
                     include('weather.php');
                     $city = mb_substr($keyword, 2, 5, 'utf8');
                     $content = getWeather($city);
-                    $msgType = 'text';
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
+                    global $textTpl;
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
                     echo $resultStr;
                 }
 
@@ -197,8 +185,8 @@ class wechatCallbackapiTest
                     '~(๑•́ ₃ •̀๑)~(๑•́ ₃ •̀๑)好困呀…已经好久没睡觉了…');
                 //从数组中随机返回一个元素的键名
                 $content = $textArray[array_rand($textArray)];
-                $msgType = 'text';
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
+                global $textTpl;
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
                 echo $resultStr;
 
             } else {
