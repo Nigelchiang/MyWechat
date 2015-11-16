@@ -104,7 +104,7 @@ class wechatCallbackapiTest
 
 
             if (!empty($keyword)) {
-                if ($keyword == "你好") {
+                if ($keyword == "你好"|$keyword == "您好") {
                     $textTpl = "<xml>
                     <ToUserName><![CDATA[%s]]></ToUserName>
                     <FromUserName><![CDATA[%s]]></FromUserName>
@@ -113,10 +113,10 @@ class wechatCallbackapiTest
                     <ArticleCount>1</ArticleCount>
                     <Articles>
                     <item>
-                    <Title><![CDATA[您发送了你好]]></Title>
+                    <Title><![CDATA[你好呀，李银河]]></Title>
                     <Description><![CDATA[你好你好你好！]]></Description>
-                    <PicUrl><![CDATA[http://www.sinaimg.cn/dy/slidenews/4_img/2015_11/704_1575962_849639.jpg]]></PicUrl>
-                    <Url><![CDATA[http://www.jikexueyuan.com]]></Url>
+                    <PicUrl><![CDATA[img/hello.jpeg]]></PicUrl>
+                    <Url><![CDATA[http://www.nigel.top]]></Url>
                     </item>
                     </Articles>
                     </xml>";
