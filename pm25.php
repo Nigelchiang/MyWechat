@@ -13,11 +13,11 @@ function getPM25($cityname)
     $content='';
     if ($pm25) {
         if ($pm25['error_code'] == '0') {
-            $date = $pm25['result'][0]['citynow']['date'];
-            $city = $pm25['result'][0]['citynow']['city'];
-            $AQI = $pm25['result'][0]['citynow']['AQI'];
-            $quality = $pm25['result'][0]['citynow']['quality'];
-            $content=$date . "\n" . "城市: ".$city . "\n" ."AQI: ". $AQI . "\n" ."空气质量: ". $quality;
+            $date = "更新时间:".$pm25['result'][0]['citynow']['date'];
+            $city = "查询城市: ".$pm25['result'][0]['citynow']['city'];
+            $AQI = "当前AQI: ".$pm25['result'][0]['citynow']['AQI'];
+            $quality = "空气质量: ".$pm25['result'][0]['citynow']['quality'];
+            $content= $city . "\n" .$date . "\n" . $AQI . "\n". $quality;
         } else {
             echo $pm25['error_code'] . ":" . $pm25['reason'];
         }
