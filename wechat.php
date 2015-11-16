@@ -124,7 +124,19 @@ class wechatCallbackapiTest
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
                     echo $resultStr;
                 }
-
+                if ($keyword == "臭不要脸放自拍") {
+                    $textTpl = "<xml>
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[image]]></MsgType>
+                    <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/selfie.jpg]]></PicUrl>
+                    <MediaId><![CDATA[media_id]]></MediaId>
+                    <MsgId>0</MsgId>
+                    </xml>";
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
+                    echo $resultStr;
+                }
                 $subKeyword = mb_substr($keyword, 0, 2, 'utf8');
                 if ($subKeyword == "空气" || $subKeyword == "kq") {
                     include("pm25.php");
@@ -143,6 +155,7 @@ class wechatCallbackapiTest
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
                     echo $resultStr;
                 }
+
                 $textArray = array("这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n可以发送你好、天气或者任意内容，试试看，会有惊喜哦！",
                     "你好，我是Nigel！我现在还只会说这一句话，但是我会不停地学习的~",
                     "你好，这是我的第二句话~",
