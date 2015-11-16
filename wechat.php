@@ -135,7 +135,7 @@ class wechatCallbackapiTest
                     <item>
                     <Title><![CDATA[臭不要脸放自拍]]></Title>
                     <Description><![CDATA[啥也没有\n啥也没有\n啥也没有]]></Description>
-                    <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/selfie.jpg]]></PicUrl>
+                    <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/cover.jpg]]></PicUrl>
                     <Url><![CDATA[http://1.n1gel.sinaapp.com/img/selfie.jpg]]></Url>
                     </item>
                     </Articles>
