@@ -16,17 +16,21 @@ function getPM25($cityname)
     $data = json_decode(getToken($url), true);
     print_r($data);
     if ($data) {
-        $date = "更新时间: " . $data[0]['time_point'];
-        $city = "查询城市: " . $data[0]['area'];
-        $AQI = "当前AQI: " . $data[0]['aqi'];
-        $pm2_5 = "PM2.5(1h平均): " . $data[0]['pm2_5'];
-        $pm2_5_24h = "PM2.5(24h平均)" . $data[0]['pm2_5_24h'];
-        $primary_pollutant = "首要污染物" . $data[0]['primary_pollutant'];
-        $quality = "空气质量: " . $data[0]['quality'];
-        $content = $city . "\n" . $AQI . "\n" . $pm2_5 . "\n" . $pm2_5_24h . "\n" . $primary_pollutant . "\n" . $quality .
-            "\n" . $date;
+        if (!$data['error']) {
+            $date = "更新时间: " . $data['time_point'];
+            $city = "查询城市: " . $data[0]['area'];
+            $AQI = "当前AQI: " . $data[0]['aqi'];
+            $pm2_5 = "PM2.5(1h平均): " . $data[0]['pm2_5'];
+            $pm2_5_24h = "PM2.5(24h平均)" . $data[0]['pm2_5_24h'];
+            $primary_pollutant = "首要污染物" . $data[0]['primary_pollutant'];
+            $quality = "空气质量: " . $data[0]['quality'];
+            $content = $city . "\n" . $AQI . "\n" . $pm2_5 . "\n" . $pm2_5_24h . "\n" . $primary_pollutant . "\n" . $quality .
+                "\n" . $date;
+        } else {
+            $content = $data['error'];
+        }
     } else {
-        $content = $data['error'];
+        $content = "请求失败";
     }
 
     return $content;
