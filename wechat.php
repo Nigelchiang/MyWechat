@@ -129,10 +129,16 @@ class wechatCallbackapiTest
                     <ToUserName><![CDATA[%s]]></ToUserName>
                     <FromUserName><![CDATA[%s]]></FromUserName>
                     <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[image]]></MsgType>
+                    <MsgType><![CDATA[news]]></MsgType>
+                    <ArticleCount>1</ArticleCount>
+                    <Articles>
+                    <item>
+                    <Title><![CDATA[臭不要脸放自拍]]></Title>
+                    <Description><![CDATA[啥也没有\n啥也没有\n啥也没有]]></Description>
                     <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/selfie.jpg]]></PicUrl>
-                    <MediaId><![CDATA[1234]]></MediaId>
-                    <MsgId>123456778</MsgId>
+                    <Url><![CDATA[http://www.nigel.top]]></Url>
+                    </item>
+                    </Articles>
                     </xml>";
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
                     echo $resultStr;
