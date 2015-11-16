@@ -58,7 +58,7 @@ class wechatCallbackapiTest
 
             if ($msgType == "image") {
                 $msgType = "text";
-                $content = "你的皂片我已经收到啦，分析完成之后就恢复你哦~";
+                $content = "你的皂片我已经收到啦，分析完成之后就回复你哦~";
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);
                 echo $resultStr;
             }
@@ -131,8 +131,8 @@ class wechatCallbackapiTest
                     <CreateTime>%s</CreateTime>
                     <MsgType><![CDATA[image]]></MsgType>
                     <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/selfie.jpg]]></PicUrl>
-                    <MediaId><![CDATA[media_id]]></MediaId>
-                    <MsgId>0</MsgId>
+                    <MediaId><![CDATA[1234]]></MediaId>
+                    <MsgId>123456778</MsgId>
                     </xml>";
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
                     echo $resultStr;
