@@ -85,8 +85,7 @@ class wechatCallbackapiTest
                     <Articles>
                     <item>
                     <Title><![CDATA[谢谢关注~]]></Title>
-                    <Description><![CDATA[这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n
-                  可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市(比如:\"空气沈阳\")或者任意内容(\"江航好帅！\")…\n试试看，会有惊喜哦！]]></Description>
+                    <Description><![CDATA[这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市(比如:\"空气沈阳\")或者任意内容(\"江航好帅！\")…\n试试看，会有惊喜哦！]]></Description>
                     <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/hello.jpeg]]></PicUrl>
                     <Url><![CDATA[http://www.nigel.top]]></Url>
                     </item>
