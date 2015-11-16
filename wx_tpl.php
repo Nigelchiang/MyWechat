@@ -22,7 +22,7 @@ $newsTpl = "<xml>
             <item>
             <Title><![CDATA[%s]]></Title>
             <Description><![CDATA[%s]]></Description>
-            <PicUrl><![CDATA[picurl]]></PicUrl>
+            <PicUrl><![CDATA[%s]]></PicUrl>
             <Url><![CDATA[%s]]></Url>
             </item>".
 //            <item>
