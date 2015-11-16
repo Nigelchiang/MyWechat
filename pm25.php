@@ -10,19 +10,20 @@ function getPM25($cityname)
     $paramString = http_build_query($param);
     $url = "http://web.juhe.cn:8080/environment/air/cityair?" . $paramString;
     $pm25 = json_decode(getToken($url), true);
-
+    $content='';
     if ($pm25) {
         if ($pm25['error_code'] == '0') {
             $date = $pm25['result'][0]['citynow']['date'];
             $city = $pm25['result'][0]['citynow']['city'];
             $AQI = $pm25['result'][0]['citynow']['AQI'];
             $quality = $pm25['result'][0]['citynow']['quality'];
-            echo $date . "\n" . $city . "\n" . $AQI . "\n" . $quality;
+            $content=$date . "\n" . $city . "\n" . $AQI . "\n" . $quality;
         } else {
             echo $pm25['error_code'] . ":" . $pm25['reason'];
         }
     } else {
         echo "请求失败";
     }
+    return $content;
 }
 ?>
