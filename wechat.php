@@ -115,7 +115,7 @@ class wechatCallbackapiTest
                     <Articles>
                     <item>
                     <Title><![CDATA[你好呀，李银河]]></Title>
-                    <Description><![CDATA[你好你好你好！\n可以发送你好、天气、空气或者任意内容，试试看，会有惊喜哦！]]></Description>
+                    <Description><![CDATA[你好你好你好！\n可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市iru (比如:\"空气沈阳\")或者任意内容(比如:\"江航好帅！\"、\'你是傻逼\')…\n试试看，会有惊喜哦！]]></Description>
                     <PicUrl><![CDATA[http://1.n1gel.sinaapp.com/img/hello.jpeg]]></PicUrl>
                     <Url><![CDATA[http://www.nigel.top]]></Url>
                     </item>
