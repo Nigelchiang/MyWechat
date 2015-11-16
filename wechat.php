@@ -124,7 +124,7 @@ class wechatCallbackapiTest
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
                     echo $resultStr;
                 }
-                if ($keyword == "臭不要脸放自拍") {
+                if ($keyword == "自拍") {
                     $textTpl = "<xml>
                     <ToUserName><![CDATA[%s]]></ToUserName>
                     <FromUserName><![CDATA[%s]]></FromUserName>
@@ -143,6 +143,7 @@ class wechatCallbackapiTest
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time);
                     echo $resultStr;
                 }
+
                 $subKeyword = mb_substr($keyword, 0, 2, 'utf8');
                 if ($subKeyword == "空气" || $subKeyword == "kq") {
                     include("pm25.php");
