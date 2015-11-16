@@ -52,7 +52,7 @@ class wechatCallbackapiTest
             $substr = mb_substr($keyword, 0, 2, 'utf8');
             if ($substr == "天气") {
                 include("pm25.php");
-                getPM25(urlencode("shenyang"));
+                getPM25("shenyang");
             }
             if (!empty($keyword)) {
                 $msgType = "text";
