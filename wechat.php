@@ -80,7 +80,7 @@ class wechatCallbackapiTest
             if ($form_MsgType == "shortvideo"){
 
 
-                $content="哈哈哈，这个小视频可真好玩…我还要多看几篇，待会儿给你回复处理信息哈~";
+                $content="哈哈哈，这个小视频可真好玩…我还要多看几遍，待会儿给你回复处理信息哈~";
                 global $textTpl;
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
                 echo $resultStr;
