@@ -46,22 +46,39 @@ class wechatCallbackapiTest
             //接受消息方ID
             $toUsername = $postObj->ToUserName;
             //消息类型
-            $msgType = $postObj->MsgType;
+            $form_MsgType = $postObj->MsgType;
             $time = time();
-            $keyword = trim($postObj->Content);
+            $form_Content = trim($postObj->Content);
 
             //只有将返回消息放在这样的xml格式里微信才能解析，才能正确地给用户返回消息
-            if ($msgType == "image") {
-                $content = "你的皂片我已经收到啦，分析完成之后就回复你哦~";
+            if ($form_MsgType == "image") {
+                //todo 将收到的图片放在链接里返回
+                $articleCount = "1";
+                $title = "你的美照已经收到啦~";
+                $description = "你的皂片我已经收到啦，分析完成之后就回复你哦~";
+                $picUrl = $postObj->PicUrl;
+                $url = $picUrl;
+                global $newsTpl;
+                $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
+                    $picUrl, $url);
+                echo $resultStr;
+                exit;
+            }
 
-                //textTpl在函数外，有全局作用域，但是在函数内无法访问
+            //todo 增加语音消息的处理
+            if ($form_MsgType == "voice") {
+                $content = "你的声音真美~~我会好好听哒，稍后回复你哦";
+
+
                 global $textTpl;
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
                 echo $resultStr;
                 exit;
             }
 
-            if ($msgType == "event") {
+            //todo 增加事件处理
+
+            if ($form_MsgType == "event") {
                 $event = $postObj->Event;
                 $eventKey = $postObj->EventKey;
 
@@ -103,8 +120,8 @@ class wechatCallbackapiTest
                 }
             }
 
-            if (!empty($keyword)) {
-                if ($keyword == "你好" | $keyword == "您好") {
+            if (!empty($form_Content)) {
+                if ($form_Content == "你好" | $form_Content == "您好") {
 
                     $articleCount = "1";
                     $title = "你好呀，李银河";
@@ -120,7 +137,7 @@ class wechatCallbackapiTest
                     exit;
                 }
 
-                if ($keyword == "自拍") {
+                if ($form_Content == "自拍") {
 
                     $articleCount = "1";
                     $title = "臭不要脸放自拍";
@@ -131,12 +148,13 @@ class wechatCallbackapiTest
                     $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
                         $picUrl, $url);
                     echo $resultStr;
+                    exit;
                 }
 
-                $subKeyword = mb_substr($keyword, 0, 2, 'utf8');
+                $subKeyword = mb_substr($form_Content, 0, 2, 'utf8');
                 if ($subKeyword == "空气" || $subKeyword == "kq") {
                     include("pm25.php");
-                    $city = mb_substr($keyword, 2, 5, 'utf8');
+                    $city = mb_substr($form_Content, 2, 5, 'utf8');
                     $content = getPM25($city);
                     global $textTpl;
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
@@ -145,7 +163,7 @@ class wechatCallbackapiTest
 
                 if ($subKeyword == "天气" || $subKeyword == "tq") {
                     include('weather.php');
-                    $city = mb_substr($keyword, 2, 5, 'utf8');
+                    $city = mb_substr($form_Content, 2, 5, 'utf8');
                     $content = getWeather($city);
                     global $textTpl;
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
