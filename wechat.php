@@ -89,7 +89,7 @@ class wechatCallbackapiTest
             //地理位置信息回复
             if($form_MsgType=="location"){
                 $lable=$postObj->Label;
-                $content = "你在这里：" . $lable . "对不对？我是不是很聪明呀~";
+                $content = "你在这里：" . $lable . "\n对不对？我是不是很聪明呀~";
 
                 global $textTpl;
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
