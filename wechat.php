@@ -76,7 +76,29 @@ class wechatCallbackapiTest
                 exit;
             }
 
-            //todo 增加事件处理
+            //小视频消息处理
+            if ($form_MsgType == "shortvideo"){
+
+
+                $content="哈哈哈，这个小视频可真好玩…我还要多看几篇，待会儿给你回复处理信息哈~";
+                global $textTpl;
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
+                echo $resultStr;
+            }
+
+            //地理位置信息回复
+            if($form_MsgType=="location"){
+                $lable=$postObj->Label;
+                $content = "你在这里：" . $lable . "对不对？我是不是很聪明呀~";
+
+                global $textTpl;
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $content);
+                echo $resultStr;
+            }
+
+
+
+                //todo 增加事件处理
 
             if ($form_MsgType == "event") {
                 $event = $postObj->Event;
@@ -101,7 +123,9 @@ class wechatCallbackapiTest
                     $title = "谢谢关注~";
                     $description = "这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n" .
                         "可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市(比如:\"空气沈阳\")  " .
-                        "或者任意内容 (比如:\"江航好帅！\" 、\"你是傻逼\") …\n试试看，会有惊喜哦！";
+                        "或者任意内容 (比如:\"江航好帅！\" 、\"你是傻逼\") …\n".
+                        "现在还可以发送声音、图片、视频和地理位置了哦，我都可以处理啦~赶紧试试吧！".
+                        "试试看，会有惊喜哦！";
                     $picUrl = "http://1.n1gel.sinaapp.com/img/hello.jpeg";
                     $url = "http://www.nigel.top";
                     global $newsTpl;
@@ -126,8 +150,11 @@ class wechatCallbackapiTest
                     $articleCount = "1";
                     $title = "你好呀，李银河";
                     $description = "你好你好你好！\n" .
+                        "这是我的个人微信公众号，最近正在开发后台，会慢慢添加一些有趣的功能哦！\n" .
                         "可以发送\"你好\"、天气+城市(比如:\"天气沈阳\")、空气+城市(比如:\"空气沈阳\")  " .
-                        "或者任意内容 (比如:\"江航好帅！\" 、\"你是傻逼\") …\n试试看，会有惊喜哦！";
+                        "或者任意内容 (比如:\"江航好帅！\" 、\"你是傻逼\") …\n".
+                        "现在还可以发送声音、图片、视频和地理位置了哦，我都可以处理啦~赶紧试试吧！".
+                        "试试看，会有惊喜哦！";
                     $picUrl = "http://1.n1gel.sinaapp.com/img/hello.jpeg";
                     $url = "http://www.nigel.top";
                     global $newsTpl;
