@@ -4,7 +4,6 @@ header('Content-type:text/html;charset=utf-8');
 
 require("getToken.php");
 //测试
-getPM25('沈阳');
 function getPM25($cityname)
 {
     /*
