@@ -1,6 +1,4 @@
 <?php
-//装载模板文件
-include_once("wx_tpl.php");
 
 
 //define your token
@@ -56,6 +54,9 @@ class wechatCallbackapiTest {
 
     public function responseMsg() {
 
+        //装载模板文件
+        include_once("wx_tpl.php");
+
         //获取微信发送数据
         $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
@@ -86,7 +87,7 @@ class wechatCallbackapiTest {
                     $description  = "你的皂片我已经收到啦，分析完成之后就回复你哦~";
                     $picUrl       = $postObj->PicUrl;
                     $url          = $picUrl;
-                    global $newsTpl;
+
                     $resultStr
                         = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
                                   $picUrl, $url);
@@ -144,7 +145,7 @@ class wechatCallbackapiTest {
                                             "试试看，会有惊喜哦！";
                             $picUrl       = "http://1.n1gel.sinaapp.com/img/hello.jpeg";
                             $url          = "http://www.nigel.top";
-                            global $newsTpl;
+
                             $resultStr
                                 = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
                                           $picUrl, $url);
@@ -177,7 +178,7 @@ class wechatCallbackapiTest {
                                         "试试看，会有惊喜哦！";
                         $picUrl       = "http://1.n1gel.sinaapp.com/img/hello.jpeg";
                         $url          = "http://www.nigel.top";
-                        global $newsTpl;
+
                         $resultStr
                             = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
                                       $picUrl, $url);
@@ -190,7 +191,7 @@ class wechatCallbackapiTest {
                         $description  = "啥也没有\n啥也没有\n啥也没有";
                         $picUrl       = "http://1.n1gel.sinaapp.com/img/cover.jpg";
                         $url          = "http://1.n1gel.sinaapp.com/img/selfie.jpg";
-                        global $newsTpl;
+
                         $resultStr
                             = sprintf($newsTpl, $fromUsername, $toUsername, $time, $articleCount, $title, $description,
                                       $picUrl, $url);

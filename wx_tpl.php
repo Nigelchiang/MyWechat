@@ -5,14 +5,18 @@
  * Date: 2015/11/16
  * Time: 20:04
  */
-$textTpl = "<xml>
+$test = "This is a variable in wxtpl.php";
+
+$textTpl
+    = "<xml>
             <ToUserName><![CDATA[%s]]></ToUserName>
             <FromUserName><![CDATA[%s]]></FromUserName>
             <CreateTime>%s</CreateTime>
             <MsgType><![CDATA[text]]></MsgType>
             <Content><![CDATA[%s]]></Content>
             </xml>";
-$newsTpl = "<xml>
+$newsTpl
+    = "<xml>
             <ToUserName><![CDATA[%s]]></ToUserName>
             <FromUserName><![CDATA[%s]]></FromUserName>
             <CreateTime>%s</CreateTime>
@@ -24,16 +28,17 @@ $newsTpl = "<xml>
             <Description><![CDATA[%s]]></Description>
             <PicUrl><![CDATA[%s]]></PicUrl>
             <Url><![CDATA[%s]]></Url>
-            </item>".
-//            <item>
-//            <Title><![CDATA[%s]]></Title>
-//            <Description><![CDATA[%s]]></Description>
-//            <PicUrl><![CDATA[%s]]></PicUrl>
-//            <Url><![CDATA[%s]]></Url>
-//            </item>
-            "</Articles>
+            </item>" .
+      //            <item>
+      //            <Title><![CDATA[%s]]></Title>
+      //            <Description><![CDATA[%s]]></Description>
+      //            <PicUrl><![CDATA[%s]]></PicUrl>
+      //            <Url><![CDATA[%s]]></Url>
+      //            </item>
+      "</Articles>
             </xml> ";
-$musicTpl="<xml>
+$musicTpl
+    = "<xml>
             <ToUserName><![CDATA[%s]]></ToUserName>
             <FromUserName><![CDATA[%s]]></FromUserName>
             <CreateTime>%s</CreateTime>

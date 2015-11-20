@@ -29,6 +29,16 @@
     /**
      *
      */
+    $name = "test";
+    function test() {
+
+        $name = "inside";
+        echo "inside the funciton \$name = " . $name . "<br />";
+        include("wx_tpl.php");
+        echo $test;
+    }
+
+    $name();
     ?>
 </p>
 </body>
