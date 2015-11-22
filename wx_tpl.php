@@ -5,6 +5,7 @@
  * Date: 2015/11/16
  * Time: 20:04
  */
+echo $var;
 $test = "This is a variable in wxtpl.php";
 
 $textTpl
