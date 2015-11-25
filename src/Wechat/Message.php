@@ -48,7 +48,9 @@ class Message {
         if (!defined(__CLASS__ . '::' . strtoupper($type))) {
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
-
+        //双反斜线是为了转义
+        //将用户传入的$type中的连字符和下划线都转为空格，然后ucwords根据空格将首字母大写
+        //首字母大写之后，去掉空格，接上完整的类名，new一个实例
         $message = "Overtrue\\Wechat\\Messages\\"
                    . str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
 
