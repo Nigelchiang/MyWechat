@@ -1248,7 +1248,7 @@ switch ($type) {
         }
         $weObj->text("正在功能升级，尽请期待哦~")->reply();
         $stor = new SaeStorage();
-        $stor->write("n1gel/emoji","emoji.txt",$weObj->getRev()->getRevContent()."\n");
+        $stor->write("n1gel","emoji.txt",$weObj->getRev()->getRevContent()."\n");
         break;
     case Wechat::MSGTYPE_EVENT:
         $news = array
