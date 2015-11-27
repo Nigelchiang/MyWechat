@@ -12,10 +12,9 @@ use Overtrue\Wechat\Server;
 require __DIR__ . "/autoload.php";
 
 $server = new Server("wxea2364b2dfd8449b", "test", "uyCAHekwGlBLLD78A0iFTsQ6n4O2czDTD1BSITUmyxF");
-$server->on(
-    'message', function ($message) {
+$server->on('message', function ($message) {
     return Message::make('text')->content("正在功能升级，敬请期待哦~");
 });
 
-$result=$server->serve();
+$result = $server->serve();
 echo $result;
