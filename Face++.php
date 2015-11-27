@@ -795,7 +795,8 @@ class Wechat {
             return false;
         }
         $result
-            = $this->http_get(self::API_URL_PREFIX . self::MEDIA_GET_URL . 'access_token=' . $this->access_token . '&media_id=' . $media_id);
+            =
+            $this->http_get(self::API_URL_PREFIX . self::MEDIA_GET_URL . 'access_token=' . $this->access_token . '&media_id=' . $media_id);
         if ($result) {
             $json = json_decode($result, true);
             if (isset($json['errcode'])) {
@@ -866,7 +867,8 @@ class Wechat {
             return false;
         }
         $result
-            = $this->http_get(self::API_URL_PREFIX . self::USER_GET_URL . 'access_token=' . $this->access_token . '&next_openid=' . $next_openid);
+            =
+            $this->http_get(self::API_URL_PREFIX . self::USER_GET_URL . 'access_token=' . $this->access_token . '&next_openid=' . $next_openid);
         if ($result) {
             $json = json_decode($result, true);
             if (isset($json['errcode'])) {
@@ -892,7 +894,8 @@ class Wechat {
             return false;
         }
         $result
-            = $this->http_get(self::API_URL_PREFIX . self::USER_INFO_URL . 'access_token=' . $this->access_token . '&openid=' . $openid);
+            =
+            $this->http_get(self::API_URL_PREFIX . self::USER_INFO_URL . 'access_token=' . $this->access_token . '&openid=' . $openid);
         if ($result) {
             $json = json_decode($result, true);
             if (isset($json['errcode'])) {
@@ -1008,8 +1011,9 @@ class Wechat {
             'to_groupid' => $groupid
         );
         $result
-              = $this->http_post(self::API_URL_PREFIX . self::GROUP_MEMBER_UPDATE_URL . 'access_token=' . $this->access_token,
-                                 self::json_encode($data));
+              =
+            $this->http_post(self::API_URL_PREFIX . self::GROUP_MEMBER_UPDATE_URL . 'access_token=' . $this->access_token,
+                             self::json_encode($data));
         if ($result) {
             $json = json_decode($result, true);
             if (!$json || !empty($json['errcode'])) {
@@ -1070,7 +1074,8 @@ class Wechat {
             return false;
         }
         $result
-            = $this->http_get(self::OAUTH_TOKEN_PREFIX . self::OAUTH_TOKEN_URL . 'appid=' . $this->appid . '&secret=' . $this->appsecret . '&code=' . $code . '&grant_type=authorization_code');
+            =
+            $this->http_get(self::OAUTH_TOKEN_PREFIX . self::OAUTH_TOKEN_URL . 'appid=' . $this->appid . '&secret=' . $this->appsecret . '&code=' . $code . '&grant_type=authorization_code');
         if ($result) {
             $json = json_decode($result, true);
             if (!$json || !empty($json['errcode'])) {
@@ -1094,7 +1099,8 @@ class Wechat {
      */
     public function getOauthRefreshToken($refresh_token) {
         $result
-            = $this->http_get(self::OAUTH_TOKEN_PREFIX . self::OAUTH_REFRESH_URL . 'appid=' . $this->appid . '&grant_type=refresh_token&refresh_token=' . $refresh_token);
+            =
+            $this->http_get(self::OAUTH_TOKEN_PREFIX . self::OAUTH_REFRESH_URL . 'appid=' . $this->appid . '&grant_type=refresh_token&refresh_token=' . $refresh_token);
         if ($result) {
             $json = json_decode($result, true);
             if (!$json || !empty($json['errcode'])) {
@@ -1194,25 +1200,25 @@ switch ($type) {
         (
             array
             (
-                'Title'  => "欢迎光临WeeGo工作室",
+                'Title'  => "你好~欢迎关注！",
                 'PicUrl' => 'http://233.weego.sinaapp.com/images/weego_400_200.png',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             ),
             array
             (
-                'Title'  => "功能1：发送图片可以查询照片中人脸的年龄和性别信息哦",
+                'Title'  => "1：发送图片可以查询照片中人脸的年龄和性别信息哦",
                 'PicUrl' => 'http://233.weego.sinaapp.com/images/face.jpg',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             ),
             array
             (
-                'Title'  => "功能2：发送一张两人合影的照片可以计算两人的相似程度",
+                'Title'  => "2：发送一张两人合影的照片可以计算两人的相似程度",
                 'PicUrl' => 'http://233.weego.sinaapp.com/images/mask.png',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             ),
             array
             (
-                'Title'  => "功能3：山东大学绩点查询签到等功能正在开发中敬请期待",
+                'Title'  => "3：四六级查分功能正在开发中，敬请期待~",
                 'PicUrl' => 'http://233.weego.sinaapp.com/images/sdu.jpg',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             )
@@ -1246,8 +1252,11 @@ switch ($type) {
 // 调用人脸识别的API返回识别结果
 function face($imgUrl) {
     // face++ 链接
+    $key       = "5ab70241a2a2d6e7a4f10b5f79385526";
+    $secret    = "pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF";
     $jsonStr
-               = file_get_contents("http://apicn.faceplusplus.com/v2/detection/detect?url=" . $imgUrl . "&api_key=5ab70241a2a2d6e7a4f10b5f79385526&api_secret=pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF&&attribute=glass,pose,gender,age,race,smiling");
+               =
+        file_get_contents("http://apicn.faceplusplus.com/v2/detection/detect?url=" . $imgUrl . "&api_key=$key&api_secret=$secret&attribute=glass,pose,gender,age,race,smiling");
     $replyDic  = json_decode($jsonStr);
     $resultStr = "";
     $faceArray = $replyDic->{'face'};
@@ -1315,8 +1324,7 @@ function face($imgUrl) {
         $tempId2  = $tempFace->{'face_id'};
 
         // face++ 链接
-        $jsonStr
-                  = file_get_contents("https://apicn.faceplusplus.com/v2/recognition/compare?api_secret=ViX19uvxkT_A0a6d55Hb0Q0QGMTqZ95f&api_key=5eb2c984ad24ffc08c352bdb53ee52f8&face_id2=" . $tempId2 . "&face_id1=" . $tempId1);
+        $jsonStr  = file_get_contents("https://apicn.facepluspluscom/v2/recognition/compare?api_secret=$secret&api_key=$key&face_id2=" . $tempId2 . "&face_id1=" . $tempId1);
         $replyDic = json_decode($jsonStr);
         //取出相似程度
         $tempResult = $replyDic->{'similarity'};
