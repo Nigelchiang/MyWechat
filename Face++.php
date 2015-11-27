@@ -1201,7 +1201,7 @@ switch ($type) {
             array
             (
                 'Title'  => "你好~欢迎关注！",
-                'PicUrl' => 'http://233.weego.sinaapp.com/images/weego_400_200.png',
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E7%A7%91%E6%8A%80%E5%B0%81%E9%9D%A2.jpg',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             ),
             array
@@ -1216,10 +1216,14 @@ switch ($type) {
                 'PicUrl' => 'http://233.weego.sinaapp.com/images/mask.png',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             ),
+            array(
+                'Title'  => "3：机智的图灵机器人陪你聊天解闷",
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%BE%E7%81%B5%E6%9C%BA%E5%99%A8%E4%BA%BA.png',
+            ),
             array
             (
-                'Title'  => "3：四六级查分功能正在开发中，敬请期待~",
-                'PicUrl' => 'http://233.weego.sinaapp.com/images/sdu.jpg',
+                'Title'  => "4：四六级查分功能正在开发中，敬请期待~",
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             )
         );
@@ -1239,6 +1243,39 @@ switch ($type) {
         exit;
         break;
     case Wechat::MSGTYPE_EVENT:
+        $news = array
+        (
+            array
+            (
+                'Title'  => "你好~欢迎关注！",
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E7%A7%91%E6%8A%80%E5%B0%81%E9%9D%A2.jpg',
+                //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
+            ),
+            array
+            (
+                'Title'  => "1：发送图片可以查询照片中人脸的年龄和性别信息哦",
+                'PicUrl' => 'http://233.weego.sinaapp.com/images/face.jpg',
+                //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
+            ),
+            array
+            (
+                'Title'  => "2：发送一张两人合影的照片可以计算两人的相似程度",
+                'PicUrl' => 'http://233.weego.sinaapp.com/images/mask.png',
+                //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
+            ),
+            array(
+                'Title'  => "3：机智的图灵机器人陪你聊天解闷",
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%BE%E7%81%B5%E6%9C%BA%E5%99%A8%E4%BA%BA.png',
+            ),
+            array
+            (
+                'Title'  => "4：四六级查分功能正在开发中，敬请期待~",
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg',
+                //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
+            )
+        );
+        $weObj->news($news)->reply();
+        exit;
         break;
     case Wechat::MSGTYPE_IMAGE:
         /**********图片信息**********/
@@ -1333,18 +1370,18 @@ function face($imgUrl) {
             $replyDic = json_decode($jsonStr);
             //取出相似程度
             $tempResult = $replyDic->{'similarity'};
-            $resultStr .= "相似程度：" . round($tempResult) . "%\n";
+            $resultStr .= "\n相似程度：" . round($tempResult) . "%";
             //具体分析相似处
             $tempSimilarity = $replyDic->{'component_similarity'};
             $tempEye        = $tempSimilarity->{'eye'};
             $tempEyebrow    = $tempSimilarity->{'eyebrow'};
             $tempMouth      = $tempSimilarity->{'mouth'};
             $tempNose       = $tempSimilarity->{'nose'};
-            $resultStr .= "相似分析：\n";
-            $resultStr .= "眼睛：" . round($tempEye) . "%\n";
-            $resultStr .= "眉毛：" . round($tempEyebrow) . "%\n";
-            $resultStr .= "嘴巴：" . round($tempMouth) . "%\n";
-            $resultStr .= "鼻子：" . round($tempNose) . "%";
+            $resultStr .= "\n相似分析:";
+            $resultStr .= "\n眼睛：" . round($tempEye) . "%";
+            $resultStr .= "\n眉毛：" . round($tempEyebrow) . "%";
+            $resultStr .= "\n嘴巴：" . round($tempMouth) . "%";
+            $resultStr .= "\n鼻子：" . round($tempNose) . "%";
         }
 
     }
