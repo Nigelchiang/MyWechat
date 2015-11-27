@@ -1201,7 +1201,7 @@ switch ($type) {
             array
             (
                 'Title'  => "你好~欢迎关注！",
-                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E7%A7%91%E6%8A%80%E5%B0%81%E9%9D%A2.jpg',
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             ),
             array
@@ -1218,7 +1218,7 @@ switch ($type) {
             ),
             array(
                 'Title'  => "3：机智的图灵机器人陪你聊天解闷",
-                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%BE%E7%81%B5%E6%9C%BA%E5%99%A8%E4%BA%BA.png',
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png',
             ),
             array
             (
@@ -1248,7 +1248,7 @@ switch ($type) {
             array
             (
                 'Title'  => "你好~欢迎关注！",
-                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E7%A7%91%E6%8A%80%E5%B0%81%E9%9D%A2.jpg',
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg',
                 //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
             ),
             array
@@ -1265,7 +1265,7 @@ switch ($type) {
             ),
             array(
                 'Title'  => "3：机智的图灵机器人陪你聊天解闷",
-                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%BE%E7%81%B5%E6%9C%BA%E5%99%A8%E4%BA%BA.png',
+                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png',
             ),
             array
             (
