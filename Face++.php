@@ -1195,38 +1195,42 @@ $type = $weObj->getRev()->getRevType();
 //}
 switch ($type) {
     case Wechat::MSGTYPE_TEXT:
-        /**********文字信息**********/
-        $news = array
-        (
-            array
+        if ($weObj->getRev()->getRevContent() === "你好") {
+            $news = array
             (
-                'Title'  => "你好~欢迎关注！",
-                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg',
-                //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
-            ),
-            array
-            (
-                'Title'  => "1：发送图片可以查询照片中人脸的年龄和性别信息哦",
-                'PicUrl' => 'http://233.weego.sinaapp.com/images/face.jpg',
-                //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
-            ),
-            array
-            (
-                'Title'  => "2：发送一张两人合影的照片可以计算两人的相似程度",
-                'PicUrl' => 'http://233.weego.sinaapp.com/images/mask.png',
-                //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
-            ),
-            array(
-                'Title'  => "3：机智的图灵机器人陪你聊天解闷",
-                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png',
-            ),
-            array
-            (
-                'Title'  => "4：四六级查分功能正在开发中，敬请期待~",
-                'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg',
-                //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
-            )
-        );
+                array
+                (
+                    'Title'  => "你好~欢迎关注！",
+                    'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg',
+                    //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
+                ),
+                array
+                (
+                    'Title'  => "1：发送图片可以查询照片中人脸的年龄和性别信息哦",
+                    'PicUrl' => 'http://233.weego.sinaapp.com/images/face.jpg',
+                    //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
+                ),
+                array
+                (
+                    'Title'  => "2：发送一张两人合影的照片可以计算两人的相似程度",
+                    'PicUrl' => 'http://233.weego.sinaapp.com/images/mask.png',
+                    //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
+                ),
+                array(
+                    'Title'  => "3：机智的图灵机器人陪你聊天解闷",
+                    'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png',
+                ),
+                array
+                (
+                    'Title'  => "4：四六级查分功能正在开发中，敬请期待~",
+                    'PicUrl' => 'http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg',
+                    //'Url'=>'http://233.weego.sinaapp.com/web/home.php?wxid='.$fromUsername
+                )
+            );
+            $weObj->news($news)->reply();
+            exit;
+
+        }
         // 开发人员通道
         if ($weObj->getRev()->getRevContent() === "why") {
             $news = array
@@ -1238,9 +1242,13 @@ switch ($type) {
                     'Url'         => 'http://233.weego.sinaapp.com/web/home.php?wxid=' . $fromUsername
                 )
             );
+            $weObj->news($news)->reply();
+            exit;
+
         }
-        $weObj->news($news)->reply();
-        exit;
+        $weObj->text("正在功能升级，尽请期待哦~")->reply();
+        $stor = new SaeStorage();
+        $stor->write("n1gel/emoji","emoji.txt",$weObj->getRev()->getRevContent()."\n");
         break;
     case Wechat::MSGTYPE_EVENT:
         $news = array
