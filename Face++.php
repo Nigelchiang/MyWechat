@@ -1146,7 +1146,7 @@ class Wechat {
  */
 $options = array
 (
-    'token'       => 'weego',
+    'token'       => 'test',
     'debug'       => true,
     'logcallback' => 'logdebug'
 );
