@@ -1264,9 +1264,9 @@ function face($imgUrl) {
     if (count($faceArray) === 0) {
         $resultStr = "照片中木有人脸=.=";
     } else {
-        $resultStr .= "图中共检测到" . count($faceArray) . "张脸！\n";
+        $resultStr .= "图中共检测到" . count($faceArray) . "张脸!";
         for ($i = 0; $i < count($faceArray); $i++) {
-            $resultStr .= "第" . ($i + 1) . "张脸\n";
+            $resultStr .= "\n第" . ($i + 1) . "张脸";
             $tempFace = $faceArray[$i];
             // 获取所有属性
             $tempAttr = $tempFace->{'attribute'};
@@ -1294,31 +1294,31 @@ function face($imgUrl) {
             $minAge = $tempAge->{'value'} - $tempAge->{'range'};
             $minAge = $minAge < 0 ? 0 : $minAge;
             $maxAge = $tempAge->{'value'} + $tempAge->{'range'};
-            $resultStr .= "年龄：" . $minAge . "-" . $maxAge . "岁\n";
+            $resultStr .= "\n年龄：" . $minAge . "-" . $maxAge . "岁";
             // 返回性别
             if ($tempGenger->{'value'} === "Male") {
-                $resultStr .= "性别：男\n";
+                $resultStr .= "\n性别：男";
             } else if ($tempGenger->{'value'} === "Female") {
-                $resultStr .= "性别：女\n";
+                $resultStr .= "\n性别：女";
             }
             // 返回种族
             if ($tempRace->{'value'} === "Asian") {
-                $resultStr .= "种族：黄种人\n";
+                $resultStr .= "\n种族：黄种人";
             } else if ($tempRace->{'value'} === "Male") {
-                $resultStr .= "种族：白种人\n";
+                $resultStr .= "\n种族：白种人";
             } else if ($tempRace->{'value'} === "Black") {
-                $resultStr .= "种族：黑种人\n";
+                $resultStr .= "\n种族：黑种人";
             }
             // 返回眼镜
             if ($tempGlass->{'value'} === "None") {
-                $resultStr .= "眼镜：木有眼镜\n";
+                $resultStr .= "\n眼镜：木有眼镜";
             } else if ($tempGlass->{'value'} === "Dark") {
-                $resultStr .= "眼镜：目测墨镜\n";
+                $resultStr .= "\n眼镜：目测墨镜";
             } else if ($tempGlass->{'value'} === "Normal") {
-                $resultStr .= "眼镜：普通眼镜\n";
+                $resultStr .= "\n眼镜：普通眼镜";
             }
             //返回微笑
-            $resultStr .= "微笑：" . round($tempSmiling->{'value'}) . "%";
+            $resultStr .= "\n微笑：" . round($tempSmiling->{'value'}) . "%";
         }
 
         if (count($faceArray) === 2) {
@@ -1348,7 +1348,7 @@ function face($imgUrl) {
         }
 
     }
-    
+
     return $resultStr;
 }
 
