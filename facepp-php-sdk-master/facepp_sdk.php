@@ -18,7 +18,7 @@ class Facepp {
     ### or                                             ###
     ### https://apius.faceplusplus.com/v2              ###
     ######################################################
-    public $server = 'http://apicn.faceplusplus.com';
+    public $server = 'http://apicn.faceplusplus.com/v2';
     #public $server         = 'https://apicn.faceplusplus.com/v2';
     #public $server         = 'http://apius.faceplusplus.com/v2';
     #public $server         = 'https://apius.faceplusplus.com/v2';
