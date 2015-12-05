@@ -1300,7 +1300,7 @@ function face($imgUrl) {
     $faceArray = $replyDic->{'face'};
     //如果没有检测到人脸
     if (count($faceArray) === 0) {
-        $resultStr = "照片中木有人脸=.=";
+//        $resultStr = "照片中木有人脸=.=";
     } else {
         $resultStr .= "图中共检测到" . count($faceArray) . "张脸!";
         for ($i = 0; $i < count($faceArray); $i++) {
