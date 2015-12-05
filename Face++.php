@@ -3,7 +3,6 @@
 include "php-saestorage-master/saestorage.class.php";
 //引入一个微信SDK
 include "wechat.class.php";
-include "facepp-php-sdk-master/facepp_sdk.php";
 /**
  * 微信公众平台PHP-SDK, 官方API部分
  * @author  dodge <dodgepudding@gmail.com>
@@ -1291,15 +1290,14 @@ switch ($type) {
 }
 // 调用人脸识别的API返回识别结果
 function face($imgUrl) {
-    $facepp              = new Facepp();
-    $facepp->api_key     = "5ab70241a2a2d6e7a4f10b5f79385526";
-    $facepp->api_secret  = 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF';
-    $params['attribute'] = 'gender,age,race,smiling,glass,pose';
-    $params['url']       = $imgUrl;
-    $jsonStr             = $facepp->execute('/detection/detect', $params);
-    $replyDic            = json_decode($jsonStr);
-    $resultStr           = "";
-    $faceArray           = $replyDic->{'face'};
+    // face++ 链接
+    $key       = "5ab70241a2a2d6e7a4f10b5f79385526";
+    $secret    = "pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF";
+    $jsonStr   = file_get_contents("http://apicn.faceplusplus.com/v2/detection/detect?url=" . $imgUrl . "&api_key=$key&api_secret=$secret&attribute=glass,pose,gender,age,race,smiling");
+    $replyDic  = json_decode($jsonStr);
+    $resultStr = $jsonStr;
+    //    $resultStr = "";
+    $faceArray = $replyDic->{'face'};
     //如果没有检测到人脸
     if (count($faceArray) === 0) {
         $resultStr = "照片中木有人脸=.=";
