@@ -1290,13 +1290,15 @@ switch ($type) {
 }
 // 调用人脸识别的API返回识别结果
 function face($imgUrl) {
-    // face++ 链接
-    $key       = "5ab70241a2a2d6e7a4f10b5f79385526";
-    $secret    = "pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF";
-    $jsonStr   = file_get_contents("http://apicn.faceplusplus.com/v2/detection/detect?url=" . $imgUrl . "&api_key=$key&api_secret=$secret&attribute=glass,pose,gender,age,race,smiling");
-    $replyDic  = json_decode($jsonStr);
-    $resultStr = "";
-    $faceArray = $replyDic->{'face'};
+    $facepp              = new Facepp();
+    $facepp->api_key     = "5ab70241a2a2d6e7a4f10b5f79385526";
+    $facepp->api_secret  = 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF';
+    $params['attribute'] = 'gender,age,race,smiling,glass,pose';
+    $params['url']       = $imgUrl;
+    $jsonStr             = $facepp->execute('/detection/detect', $params);
+    $replyDic            = json_decode($jsonStr);
+    $resultStr           = "";
+    $faceArray           = $replyDic->{'face'};
     //如果没有检测到人脸
     if (count($faceArray) === 0) {
         $resultStr = "照片中木有人脸=.=";
@@ -1325,8 +1327,8 @@ function face($imgUrl) {
             // 造型：包含脸部姿势分析结果
             // 包括pitch_angle, roll_angle, yaw_angle
             // 分别对应抬头，旋转（平面旋转），摇头
-            // 单位为角度。
-            $tempPose = $tempAttr->{'pose'};
+            //            // 单位为角度。
+            //            $tempPose = $tempAttr->{'pose'};
             //返回年龄
             $minAge = $tempAge->{'value'} - $tempAge->{'range'};
             $minAge = $minAge < 0 ? 0 : $minAge;

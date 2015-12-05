@@ -49,49 +49,61 @@ class Facepp {
 
     private function request($request_url, $request_body) {
 
-        $curl_handle = curl_init();
-        curl_setopt($curl_handle, CURLOPT_URL, $request_url);
-        curl_setopt($curl_handle, CURLOPT_FILETIME, true);
-        curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, false);
-        if (version_compare(phpversion(), "5.5", "<=")) {
-            curl_setopt($curl_handle, CURLOPT_CLOSEPOLICY, CURLCLOSEPOLICY_LEAST_RECENTLY_USED);
-        } else {
-            curl_setopt($curl_handle, CURLOPT_SAFE_UPLOAD, false);
+        try {
+            $curl_handle = curl_init();
+            curl_setopt($curl_handle, CURLOPT_URL, $request_url);
+            curl_setopt($curl_handle, CURLOPT_FILETIME, true);
+            curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, false);
+            if (version_compare(phpversion(), "5.5", "<=")) {
+                curl_setopt($curl_handle, CURLOPT_CLOSEPOLICY, CURLCLOSEPOLICY_LEAST_RECENTLY_USED);
+            } else {
+                curl_setopt($curl_handle, CURLOPT_SAFE_UPLOAD, false);
+            }
+            curl_setopt($curl_handle, CURLOPT_MAXREDIRS, 5);
+            curl_setopt($curl_handle, CURLOPT_HEADER, false);
+            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl_handle, CURLOPT_TIMEOUT, 5184000);
+            curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 120);
+            curl_setopt($curl_handle, CURLOPT_NOSIGNAL, true);
+            curl_setopt($curl_handle, CURLOPT_REFERER, $request_url);
+            curl_setopt($curl_handle, CURLOPT_USERAGENT, $this->useragent);
+
+
+            if (extension_loaded('zlib')) {
+                curl_setopt($curl_handle, CURLOPT_ENCODING, '');
+            }
+
+            curl_setopt($curl_handle, CURLOPT_POST, true);
+
+            //图片url或者通过POST方法传递的img属性
+            //把本地的图片路径前加@能有什么用呢？我好不解啊…
+            if (array_key_exists('img', $request_body)) {
+                $request_body['img'] = '@' . $request_body['img'];
+            } else {
+                $request_body = http_build_query($request_body);
+            }
+
+            curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $request_body);
+
+            $response_text = curl_exec($curl_handle);
+
+            if (false === $response_text) {
+                throw new Exception(curl_error($curl_handle), curl_errno($curl_handle));
+            }
+            $response_header = curl_getinfo($curl_handle);
+            curl_close($curl_handle);
+
+            return array(
+                'http_code'   => $response_header['http_code'],
+                'request_url' => $request_url,
+                'body'        => $response_text
+            );
+        } catch (Exception $e) {
+            trigger_error(sprintf(
+                              'Curl failed with error #%d: %s',
+                              $e->getCode(), $e->getMessage()),
+                          E_USER_ERROR);
         }
-        curl_setopt($curl_handle, CURLOPT_MAXREDIRS, 5);
-        curl_setopt($curl_handle, CURLOPT_HEADER, false);
-        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl_handle, CURLOPT_TIMEOUT, 5184000);
-        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 120);
-        curl_setopt($curl_handle, CURLOPT_NOSIGNAL, true);
-        curl_setopt($curl_handle, CURLOPT_REFERER, $request_url);
-        curl_setopt($curl_handle, CURLOPT_USERAGENT, $this->useragent);
-
-
-        if (extension_loaded('zlib')) {
-            curl_setopt($curl_handle, CURLOPT_ENCODING, '');
-        }
-
-        curl_setopt($curl_handle, CURLOPT_POST, true);
-
-        //图片url或者通过POST方法传递的img属性
-        if (array_key_exists('img', $request_body)) {
-            $request_body['img'] = '@' . $request_body['img'];
-        } else {
-            $request_body = http_build_query($request_body);
-        }
-
-        curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $request_body);
-
-        $response_text   = curl_exec($curl_handle);
-        $response_header = curl_getinfo($curl_handle);
-        curl_close($curl_handle);
-
-        return array(
-            'http_code'   => $response_header['http_code'],
-            'request_url' => $request_url,
-            'body'        => $response_text
-        );
     }
 
     private function apiPropertiesAreSet() {
