@@ -3,6 +3,7 @@
 include "php-saestorage-master/saestorage.class.php";
 //引入一个微信SDK
 include "wechat.class.php";
+include "facepp-php-sdk-master/facepp_sdk.php";
 /**
  * 微信公众平台PHP-SDK, 官方API部分
  * @author  dodge <dodgepudding@gmail.com>
