@@ -57,31 +57,31 @@ $server->on('message', 'text', function ($message) use ($welcome) {
             //今日天气特殊处理
             $items[0]['title'] = str_replace(',', "\n", strtok(':'));
             //取出天气状况，决定天气图标
-            $tmp             = explode(' ', $items[0]['title']);
-            $items[0]['title'] = $tmp[3];
+            $tmp                 = explode(' ', $items[0]['title']);
+            $items[0]['weather'] = $tmp[3];
             for ($i = 1; $i < 4; ++$i) {
-                $items[$i]['title'] = str_replace(',', "\n", $weatherArray[$i]);
-                $tmp                = explode(' ', $items[$i]['title']);
-                $items[$i]['title']   = $tmp[2];
+                $items[$i]['title']   = str_replace(',', "\n", $weatherArray[$i]);
+                $tmp                  = explode(' ', $items[$i]['title']);
+                $items[$i]['weather'] = $tmp[2];
             }
             foreach ($items as $item) {
-                if (strstr($item['title'], "多云转晴")) {
+                if (strstr($item['weather'], "多云转晴")) {
                     $item['url'] = "http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4%E8%BD%AC%E5%A4%9A%E4%BA%91.png";
-                } elseif (strstr($item['title'], "阵雨转多云")) {
+                } elseif (strstr($item['weather'], "阵雨转多云")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%9B%A8%E8%BD%AC%E5%A4%9A%E4%BA%91.png';
-                } elseif (strstr($item['title'], "晴")) {
+                } elseif (strstr($item['weather'], "晴")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4.png';
-                } elseif (strstr($item['title'], "多云")) {
+                } elseif (strstr($item['weather'], "多云")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%9A%E4%BA%91.png';
-                } elseif (strstr($item['title'], "小雪")) {
+                } elseif (strstr($item['weather'], "小雪")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%9B%AA.png';
-                } elseif (strstr($item['title'], "阵雨")) {
+                } elseif (strstr($item['weather'], "阵雨")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%A7%E9%9B%A8.png';
-                } elseif (strstr($item['title'], "阴")) {
+                } elseif (strstr($item['weather'], "阴")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%98%B4.png';
-                } elseif (strstr($item['title'], "雪")) {
+                } elseif (strstr($item['weather'], "雪")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%A7%E9%9B%AA.png';
-                } elseif (strstr($item['title'], "小雨")) {
+                } elseif (strstr($item['weather'], "小雨")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%B0%8F%E9%9B%A8.png';
                 }
             }
