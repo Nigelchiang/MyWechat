@@ -1,5 +1,5 @@
 <?php
-require_once 'facepp_sdk.php';
+require_once 'face.php';
 //为什么这个官网的SDK却不行？
 //难道是因为这个SDK用的是curl方法吗？用curl来POST请求数据，为什么就是不行呢？
 //todo 这个我很难理解啊，请求微软的API也是这样的，到底是哪里出了错误啊……
@@ -26,6 +26,7 @@ $params['url']          = 'http://pic9.nipic.com/20100813/5301697_092941923176_2
 $response               = $facepp->execute('/detection/detect',$params);
 print_r($response);
 
+echo '<hr/>';
 if($response['http_code'] == 200) {
     #json decode 
     $data = json_decode($response['body'], 1);

@@ -43,7 +43,6 @@ class Facepp {
         $params['api_key']    = $this->api_key;
         $params['api_secret'] = $this->api_secret;
 
-        //todo 明明传进去的有大括号的字符串呀，为啥传进去会不见了呢？这是另一种字符串连接方式吗？
         return $this->request("{$this->server}{$method}", $params);
     }
 
