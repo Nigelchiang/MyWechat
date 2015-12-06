@@ -67,7 +67,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
             //这是返回数据的BUG
             $items[1]['title'] = str_replace('大雪', "~~ ", $items[1]['title']);
 
-            foreach ($items as $item) {
+            foreach ($items as &$item) {
                 if (strstr($item['weather'], "多云转晴")) {
                     $item['url'] = "http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4%E8%BD%AC%E5%A4%9A%E4%BA%91.png";
                 } elseif (strstr($item['weather'], "阵雨转多云")) {
