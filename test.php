@@ -89,7 +89,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
             return Message::make('news')->items(function () use ($city, $items) {
                 return array(
                     Message::make('news_item')->title("亲，已为你找到{$city}的天气信息")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2Fweather_cover.jpg"),
-                    Message::make('news_item')->title($items[0]['title'])->PicUrl($items[0]['url']),
+                    Message::make('news_item')->title($items[0]['title'])->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4%E8%BD%AC%E5%A4%9A%E4%BA%91.png"),
                     Message::make('news_item')->title($items[1]['title'])->PicUrl($items[1]['url']),
                     Message::make('news_item')->title($items[2]['title'])->PicUrl($items[2]['url']),
                     Message::make('news_item')->title($items[3]['title'])->PicUrl($items[3]['url'])
