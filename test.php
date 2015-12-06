@@ -64,6 +64,8 @@ $server->on('message', 'text', function ($message) use ($welcome) {
                 $tmp                  = explode(' ', $items[$i]['title']);
                 $items[$i]['weather'] = $tmp[2];
             }
+            //这是返回数据的BUG
+            $items[1]['title'] = str_replace('大雪', "\t", $weatherArray);
             foreach ($items as $item) {
                 if (strstr($item['weather'], "多云转晴")) {
                     $item['url'] = "http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4%E8%BD%AC%E5%A4%9A%E4%BA%91.png";
