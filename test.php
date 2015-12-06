@@ -31,6 +31,7 @@ $server->on('message', 'image', function ($msg) {
 
         return Message::make('text')->content($data);
     }
+    return Message::make('text')->content("error");
 
 });
 
