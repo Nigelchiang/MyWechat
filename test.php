@@ -58,30 +58,30 @@ $server->on('message', 'text', function ($message) use ($welcome) {
             $items[0]['title'] = str_replace(',', "\n", strtok(':'));
             //取出天气状况，决定天气图标
             $tmp             = explode(' ', $items[0]['title']);
-            $items[0]['msg'] = $tmp[3];
+            $items[0]['title'] = $tmp[3];
             for ($i = 1; $i < 4; ++$i) {
                 $items[$i]['title'] = str_replace(',', "\n", $weatherArray[$i]);
                 $tmp                = explode(' ', $items[$i]['title']);
-                $items[$i]['msg']   = $tmp[2];
+                $items[$i]['title']   = $tmp[2];
             }
             foreach ($items as $item) {
-                if (strstr($item['msg'], "多云转晴")) {
+                if (strstr($item['title'], "多云转晴")) {
                     $item['url'] = "http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4%E8%BD%AC%E5%A4%9A%E4%BA%91.png";
-                } elseif (strstr($item['msg'], "阵雨转多云")) {
+                } elseif (strstr($item['title'], "阵雨转多云")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%9B%A8%E8%BD%AC%E5%A4%9A%E4%BA%91.png';
-                } elseif (strstr($item['msg'], "晴")) {
+                } elseif (strstr($item['title'], "晴")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4.png';
-                } elseif (strstr($item['msg'], "多云")) {
+                } elseif (strstr($item['title'], "多云")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%9A%E4%BA%91.png';
-                } elseif (strstr($item['msg'], "小雪")) {
+                } elseif (strstr($item['title'], "小雪")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%9B%AA.png';
-                } elseif (strstr($item['msg'], "阵雨")) {
+                } elseif (strstr($item['title'], "阵雨")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%A7%E9%9B%A8.png';
-                } elseif (strstr($item['msg'], "阴")) {
+                } elseif (strstr($item['title'], "阴")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%98%B4.png';
-                } elseif (strstr($item['msg'], "雪")) {
+                } elseif (strstr($item['title'], "雪")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%A7%E9%9B%AA.png';
-                } elseif (strstr($item['msg'], "小雨")) {
+                } elseif (strstr($item['title'], "小雨")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%B0%8F%E9%9B%A8.png';
                 }
             }
@@ -89,7 +89,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
             return Message::make('news')->items(function () use ($city, $items) {
                 return array(
                     Message::make('news_item')->title("亲，已为你找到{$city}的天气信息")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2Fweather_cover.jpg"),
-                    Message::make('news_item')->title($items[0]['title'])->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4%E8%BD%AC%E5%A4%9A%E4%BA%91.png"),
+                    Message::make('news_item')->title($items[0]['title'])->PicUrl($items[0]['url']),
                     Message::make('news_item')->title($items[1]['title'])->PicUrl($items[1]['url']),
                     Message::make('news_item')->title($items[2]['title'])->PicUrl($items[2]['url']),
                     Message::make('news_item')->title($items[3]['title'])->PicUrl($items[3]['url'])
@@ -104,7 +104,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 
 });
 //图片处理，调用Face++
-$server->on('message', 'image', function ($msg) {
+$server->on('message', 'image', function ($title) {
     //    require "face/face.php";
     //    $face             = new Facepp();
     //    $face->api_key    = "5ab70241a2a2d6e7a4f10b5f79385526";
@@ -113,7 +113,7 @@ $server->on('message', 'image', function ($msg) {
         'api_key'    => "5ab70241a2a2d6e7a4f10b5f79385526",
         'api_secret' => 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF',
         'attribute'  => 'gender,age,race,smiling,glass,pose',
-        'url'        => $msg->PicUrl);
+        'url'        => $title->PicUrl);
     $url    = "http://apicn.faceplusplus.com/v2/detection/detect?" . http_build_query($params);
     //    $response         = $face->execute('/detection/detect', $params);
     $response  = file_get_contents($url);
