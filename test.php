@@ -12,7 +12,7 @@ $encodingAESKey = "uyCAHekwGlBLLD78A0iFTsQ6n4O2czDTD1BSITUmyxF";
 $server         = new Server($appId, $token, $encodingAESKey);
 
 //文字消息处理，调用图灵机器人
-$server->on('message', function ($message) {
+$server->on('message', 'text',function ($message) {
     return Message::make('text')->content("正在功能升级，敬请期待哦~");
 });
 
