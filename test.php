@@ -55,12 +55,12 @@ $server->on('message', 'text', function ($message) use ($welcome) {
             $city = strtok($weatherArray[0], ':');
 
             //今日天气特殊处理
-            $items[0]['title'] = str_replace(',', '\n', strtok(':'));
+            $items[0]['title'] = str_replace(',', "\n", strtok(':'));
             //取出天气状况，决定天气图标
             $tmp             = explode(' ', $items[0]['title']);
             $items[0]['msg'] = $tmp[3];
             for ($i = 1; $i < 4; ++$i) {
-                $items[$i]['title'] = str_replace(',', '\n', $weatherArray[$i]);
+                $items[$i]['title'] = str_replace(',', "\n", $weatherArray[$i]);
                 $tmp                = explode(' ', $items[$i]['title']);
                 $items[$i]['msg']   = $tmp[2];
             }
