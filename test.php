@@ -22,7 +22,7 @@ $server->on('message', 'image', function ($msg) {
     $face             = new Facepp();
     $face->api_key    = "5ab70241a2a2d6e7a4f10b5f79385526";
     $face->api_secret = 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF';
-    $params[]         = array(
+    $params         = array(
         'attribute' => 'gender,age,race,smiling,glass,pose',
         'url'       => $msg->PicUrl);
     $response         = $face->execute('/detection/detect', $params);
