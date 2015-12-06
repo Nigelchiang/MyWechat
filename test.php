@@ -18,7 +18,7 @@ $server->on('event', 'subscribe', function ($event) {
         global $event;
 
         return array(
-            Message::make('news_item')->title("{$event->FromUserName}你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg')->discription("test"),
+            Message::make('news_item')->title("{$event->FromUserName}你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg'),
             Message::make('news_item')->title("『1』发送图片可以查询照片中人脸的年龄和性别信息")->PicUrl('http://233.weego.sinaapp.com/images/face.jpg'),
             Message::make('news_item')->title("『2』发送一张两人合影的照片可以计算两人的相似程度")->PicUrl('http://233.weego.sinaapp.com/images/mask.png'),
             Message::make('news_item')->title("『3』机智的图灵机器人陪你聊天解闷,还可以查天气查火车查航班…")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png'),
