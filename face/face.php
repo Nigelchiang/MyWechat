@@ -86,9 +86,9 @@ class Facepp {
 
             $response_text = curl_exec($curl_handle);
 
-//            if (false === $response_text) {
-//                throw new Exception(curl_error($curl_handle), curl_errno($curl_handle));
-//            }
+            if (false === $response_text) {
+                throw new Exception(curl_error($curl_handle), curl_errno($curl_handle));
+            }
             $response_header = curl_getinfo($curl_handle);
             curl_close($curl_handle);
 
