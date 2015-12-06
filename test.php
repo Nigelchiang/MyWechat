@@ -56,7 +56,7 @@ $server->on('message', 'image', function ($msg) {
     } else {
         $resultStr .= "图中共检测到" . count($faceArray) . "张脸!";
         for ($i = 0; $i < count($faceArray); $i++) {
-            if ($i > 1) {
+            if (count($faceArray) > 1) {
                 $resultStr .= "\n第" . ($i + 1) . "张脸";
             }
             $tempFace = $faceArray[$i];
