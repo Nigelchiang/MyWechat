@@ -65,32 +65,34 @@ $server->on('message', 'text', function ($message) use ($welcome) {
                 $items[$i]['msg']   = $tmp[2];
             }
             foreach ($items as $item) {
-                if (strstr($item['msg'], "多云")) {
-                    $item['url'] = "";
+                if (strstr($item['msg'], "多云转晴")) {
+                    $item['url'] = "http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4%E8%BD%AC%E5%A4%9A%E4%BA%91.png";
+                } elseif (strstr($item['msg'], "阵雨转多云")) {
+                    $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%9B%A8%E8%BD%AC%E5%A4%9A%E4%BA%91.png';
+                } elseif (strstr($item['msg'], "晴")) {
+                    $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E6%99%B4.png';
+                } elseif (strstr($item['msg'], "多云")) {
+                    $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%9A%E4%BA%91.png';
+                } elseif (strstr($item['msg'], "小雪")) {
+                    $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%9B%AA.png';
                 } elseif (strstr($item['msg'], "阵雨")) {
-                    $item['url'] = '';
-                } elseif (strstr($item['msg'], "晴")) {
-                    $item['url'] = '';
+                    $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%A7%E9%9B%A8.png';
+                } elseif (strstr($item['msg'], "阴")) {
+                    $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%98%B4.png';
                 } elseif (strstr($item['msg'], "雪")) {
-                    $item['url'] = '';
-                } elseif (strstr($item['msg'], "晴")) {
-                    $item['url'] = '';
-                } elseif (strstr($item['msg'], "晴")) {
-                    $item['url'] = '';
-                } elseif (strstr($item['msg'], "晴")) {
-                    $item['url'] = '';
-                } elseif (strstr($item['msg'], "晴")) {
-                    $item['url'] = '';
+                    $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%A7%E9%9B%AA.png';
+                } elseif (strstr($item['msg'], "小雨")) {
+                    $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%B0%8F%E9%9B%A8.png';
                 }
             }
 
-            return Message::make('news')->items(function () use ($city, $title, $picInfo) {
+            return Message::make('news')->items(function () use ($city, $items) {
                 return array(
                     Message::make('news_item')->title("亲，已为你找到{$city}的天气信息")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2Fweather_cover.jpg"),
-                    Message::make('news_item')->title($title[0])->PicUrl($picInfo[0]['url']),
-                    Message::make('news_item')->title($title[1])->PicUrl($picInfo[1]['url']),
-                    Message::make('news_item')->title($title[2])->PicUrl($picInfo[2]['url']),
-                    Message::make('news_item')->title($title[3])->PicUrl($picInfo[3]['url'])
+                    Message::make('news_item')->title($items[0]['title'])->PicUrl($items[0]['url']),
+                    Message::make('news_item')->title($items[1]['title'])->PicUrl($items[1]['url']),
+                    Message::make('news_item')->title($items[2]['title'])->PicUrl($items[2]['url']),
+                    Message::make('news_item')->title($items[3]['title'])->PicUrl($items[3]['url'])
                 );
             });
         }
