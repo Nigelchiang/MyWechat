@@ -41,12 +41,12 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     $response = file_get_contents($url);
     $data     = json_decode($response, true);
 
-//    if ($data['code'] == 200000) {
-//        //处理链接类请求
-//        $link = "<a href=\"" . $data['url'] . "\"> 『点击查看』</a>";
-//
-//        return Message::make('text')->content($data['text'] . $link);
-//
+    if ($data['code'] == 200000) {
+        //处理链接类请求
+        $link = "<a href=\"" . $data['url'] . "\"> 『点击查看』</a>";
+
+        return Message::make('text')->content($data['text'] . $link);}
+
 //    } elseif ($data['code'] == 100000) {
 //        //返回天气news
 //        $weatherArray = explode(';', $data['text']);
