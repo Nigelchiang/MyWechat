@@ -45,10 +45,10 @@ $server->on('message', 'text', function ($message) use ($welcome) {
         //处理链接类请求
         $link = "<a href=\"" . $data['url'] . "\"> 『点击查看』</a>";
 
-        return Message::make('text')->content($data['text'] . $link);}
+        return Message::make('text')->content($data['text'] . $link);
 
-//    } elseif ($data['code'] == 100000) {
-//        //返回天气news
+    } elseif ($data['code'] == 100000) {
+        //返回天气news
 //        $weatherArray = explode(';', $data['text']);
 //        if (count($weatherArray) == 4) {
 //            $city = strtok($weatherArray[0], ':');
@@ -92,8 +92,8 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 //            });
 //
 //        }
-//        return Message::make('text')->content($data['text']);
-//    }
+        return Message::make('text')->content($data['text']);
+    }
 
     return Message::make('text')->content($data['text']);
 
