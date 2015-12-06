@@ -57,7 +57,8 @@ $server->on('message', 'text', function ($message) use ($welcome) {
             //今日天气特殊处理
             $item[0]['title'] = str_replace(',', '\n', strtok(':'));
             //取出天气状况，决定天气图标
-            $item[0]['msg'] = explode(' ', $item[0]['title'])[3];
+            $tmp=explode(' ', $item[0]['title']);
+            $item[0]['msg'] = $tmp[3];
 //            for ($i = 1; $i < 4; ++$i) {
 //                $title[$i]          = str_replace(',', '\n', $weatherArray[$i]);
 //                $item[$i]['msg'] = explode(' ', $item[$i]['title'])[3];
