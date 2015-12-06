@@ -12,6 +12,10 @@ $encodingAESKey = "uyCAHekwGlBLLD78A0iFTsQ6n4O2czDTD1BSITUmyxF";
 $server         = new Server($appId, $token, $encodingAESKey);
 
 //关注事件
+/**
+ * 生成提示功能的news
+ * @return array
+ */
 $welcome = function () {
     return array(
         Message::make('news_item')->title("你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg'),
@@ -20,7 +24,6 @@ $welcome = function () {
         Message::make('news_item')->title("『3』机智的图灵机器人陪你聊天解闷,还可以查天气查火车查航班…")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png'),
         Message::make('news_item')->title("『4』四六级查分功能正在开发中，敬请期待~")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
 };
-
 $server->on('event', 'subscribe', function ($event) use ($welcome) {
     return Message::make('news')->items($welcome);
 });
@@ -35,15 +38,63 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     $url .= http_build_query($params);
     $response = file_get_contents($url);
     $data     = json_decode($response, true);
-    //处理链接类请求
-    if ($data['code'] == 200000) {
+    switch ($data['code']) {
+        //处理链接类请求
+        case 200000:
+            $link = "<a href=\"" . $data['url'] . "\"> 『点击查看』</a>";
 
-        $link = "<a href=\"" . $data['url'] . "\"> 『点击查看』</a>";
+            return Message::make('text')->content($data['text'] . $link);
 
-        return Message::make('text')->content($data['text'] . $link);
+        //普通文本
+        case 100000:
+            //返回天气news
+            $weatherArray = explode(';', $data['text']);
+            if (count($weatherArray) == 4) {
+                return Message::make('news')->items(function () use ($weatherArray) {
+                    $city = strtok($weatherArray[0], ':');
+                    //今日天气特殊处理
+                    $title[0] = str_replace(strtok(':'), ',', '\n');
+                    //取出天气状况，决定天气图标
+                    $picInfo[0] = explode($title[0], ' ')[3];
+                    for ($i = 1; $i < 4; ++$i) {
+                        $title[$i]          = str_replace(strtok(':'), ',', '\n');
+                        $picInfo[$i]['msg'] = explode($title[0], ' ')[2];
+                    }
+                    foreach ($picInfo as $pic) {
+                        if (strstr($pic['msg'], "多云")) {
+                            $pic['url'] = "";
+                        } elseif (strstr($pic['msg'], "阵雨")) {
+                            $pic['url'] = '';
+                        } elseif (strstr($pic['msg'], "晴")) {
+                            $pic['url'] = '';
+                        } elseif (strstr($pic['msg'], "雪")) {
+                            $pic['url'] = '';
+                        } elseif (strstr($pic['msg'], "晴")) {
+                            $pic['url'] = '';
+                        } elseif (strstr($pic['msg'], "晴")) {
+                            $pic['url'] = '';
+                        } elseif (strstr($pic['msg'], "晴")) {
+                            $pic['url'] = '';
+                        } elseif (strstr($pic['msg'], "晴")) {
+                            $pic['url'] = '';
+                        }
+                    }
+
+                    return array(
+                        Message::make('news_item')->title("亲，已为你找到{$city}的天气信息")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2Fweather_cover.jpg"),
+                        Message::make('news_item')->title($title[0])->PicUrl($picInfo[0]['url']),
+                        Message::make('news_item')->title($title[1])->PicUrl($picInfo[1]['url']),
+                        Message::make('news_item')->title($title[2])->PicUrl($picInfo[2]['url']),
+                        Message::make('news_item')->title($title[3])->PicUrl($picInfo[3]['url'])
+                    );
+                });
+            }
+
+            return Message::make('text')->content($data['text']);
+
     }
 
-    return Message::make('text')->content($data['text']);
+
 });
 //图片处理，调用Face++
 $server->on('message', 'image', function ($msg) {
