@@ -48,9 +48,9 @@ $server->on('message', 'image', function ($msg) {
 //    $response         = $face->execute('/detection/detect', $params);
     $response = file_get_contents($url);
     $data = json_decode($response, true);
-    if (!empty($data['face'])) {
-        return Message::make('text')->content($response);
-    }
+//    if (!empty($data['face'])) {
+//        return Message::make('text')->content($data['face'][]);
+//    }
 
     return Message::make('text')->content($msg->PicUrl);
 
