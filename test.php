@@ -20,15 +20,10 @@ $server->on('message', 'text', function ($message) {
     $data     = json_decode($response);
     //处理链接类请求
     if ($data->{'code'} == 200000) {
-        return Message::make('news')->items(function () {
-            global $data;
-
-            return array(
-                Message::make('news_item')->title($data->{'text'})->picUrl($data->{'url'}),
-            );
-        });
+        return Message::make('news')->item(
+            Message::make('news_item')->title($data->{'text'})->picUrl($data->{'url'}));
     }
-
+    
     return Message::make('text')->content($data->{'text'});
 });
 
