@@ -18,7 +18,7 @@ $server->on('message', 'text', function ($message) {
     $url .= http_build_query($params);
     $response = file_get_contents($url);
     $data = json_decode($response);
-    return Message::make('text')->content($data['text']);
+    return Message::make('text')->content($data->{'text'});
 });
 
 //图片处理，调用Face++
