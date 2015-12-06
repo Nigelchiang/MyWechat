@@ -14,9 +14,8 @@ $server         = new Server($appId, $token, $encodingAESKey);
 //关注事件
 $server->on('event', 'subscribe', function ($event) {
 
-    $news = Message::make('news')->items(function () {
-        global $event;
-
+    //use语法
+    $news = Message::make('news')->items(function () use ($event){
         return array(
             Message::make('news_item')->title("{$event->FromUserName}你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg'),
             Message::make('news_item')->title("『1』发送图片可以查询照片中人脸的年龄和性别信息")->PicUrl('http://233.weego.sinaapp.com/images/face.jpg'),
