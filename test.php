@@ -22,7 +22,7 @@ $server->on('message', 'text', function ($message) {
     if ($data->{'code'} == 200000) {
         //        return Message::make('news')->item(
         //            Message::make('news_item')->title($data->{'text'})->url($data->{'url'}));
-        $link = "<a href=" . $data->{'url'} . " 点击查看>";
+        $link = "<a href=\"" . $data->{'url'} . "\">点击查看</a>";
         Message::make('text')->content($data->{'text'} . $link);
     }
 
