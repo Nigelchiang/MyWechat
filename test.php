@@ -78,7 +78,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%9A%E4%BA%91.png';
                 } elseif (strstr($item['weather'], "小雪")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%9B%AA.png';
-                } elseif (strstr($item['weather'], "阵雨")) {
+                } elseif (strstr($item['weather'], "雨")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%A7%E9%9B%A8.png';
                 } elseif (strstr($item['weather'], "阴")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E9%98%B4.png';
