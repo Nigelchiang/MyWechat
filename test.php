@@ -13,9 +13,9 @@ $server         = new Server($appId, $token, $encodingAESKey);
 
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) {
-    $url    = "http://www.tuling123.com/openapi/api";
-    $params = array("key" => "08ad04b298923b29a203d0aca21a9779", "info" => $message);
-    $url = urlencode($url . http_build_query($params));
+    $url    = "http://www.tuling123.com/openapi/api?";
+    $params = array("key" => "08ad04b298923b29a203d0aca21a9779", "info" => $message->Content);
+    $url .= http_build_query($params);
     $response = file_get_contents($url);
     $data = json_decode($response);
     return Message::make('text')->content($data['text']);
