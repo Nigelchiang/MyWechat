@@ -21,9 +21,9 @@ $server->on('message', 'text', function ($message) {
     //处理链接类请求
     if ($data->{'code'} == 200000) {
         return Message::make('news')->item(
-            Message::make('news_item')->title($data->{'text'})->picUrl($data->{'url'}));
+            Message::make('news_item')->title($data->{'text'})->url($data->{'url'}));
     }
-    
+
     return Message::make('text')->content($data->{'text'});
 });
 
