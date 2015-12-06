@@ -20,8 +20,10 @@ $server->on('message', 'text', function ($message) {
     $data     = json_decode($response);
     //处理链接类请求
     if ($data->{'code'} == 200000) {
-        return Message::make('news')->item(
-            Message::make('news_item')->title($data->{'text'})->url($data->{'url'}));
+        //        return Message::make('news')->item(
+        //            Message::make('news_item')->title($data->{'text'})->url($data->{'url'}));
+        $link = "<a href=" . $data->{'url'} . " 点击查看>";
+        Message::make('text')->content($data->{'text'} . $link);
     }
 
     return Message::make('text')->content($data->{'text'});
