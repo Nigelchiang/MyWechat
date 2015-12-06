@@ -31,7 +31,7 @@ $server->on('message', 'image', function ($msg) {
 
         return Message::make('text')->content($data);
     }
-    return Message::make('text')->content($response['http_code']." ".$response['error']);
+    return Message::make('text')->content($msg->PicUrl);
 
 });
 
