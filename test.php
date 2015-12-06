@@ -11,6 +11,10 @@ $token          = "test";
 $encodingAESKey = "uyCAHekwGlBLLD78A0iFTsQ6n4O2czDTD1BSITUmyxF";
 $server         = new Server($appId, $token, $encodingAESKey);
 
+//关注事件
+$server->on('event','subscribe',function(){
+
+});
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) {
     $url    = "http://www.tuling123.com/openapi/api?";
@@ -29,7 +33,6 @@ $server->on('message', 'text', function ($message) {
 
     return Message::make('text')->content($data->{'text'});
 });
-
 //图片处理，调用Face++
 $server->on('message', 'image', function ($msg) {
     require "face/face.php";
@@ -41,9 +44,7 @@ $server->on('message', 'image', function ($msg) {
         'url'       => $msg->PicUrl);
     $response         = $face->execute('/detection/detect', $params);
     if ($response['http_code'] == 200) {
-        $data = json_decode($response['body'], true);
-
-        return Message::make('text')->content($data);
+        return Message::make('text')->content($response);
     }
 
     return Message::make('text')->content($msg->PicUrl);

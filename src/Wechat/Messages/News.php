@@ -55,7 +55,7 @@ class News extends BaseMessage {
         if ($items instanceof Closure) {
             $items = $items();
         }
-
+        //这个不太对吧…我怎么看不懂这是什么意思啊…
         array_map(array($this, 'item'), (array)$items);
 
         return $this;

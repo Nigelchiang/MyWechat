@@ -20,8 +20,7 @@ use InvalidArgumentException;
 /**
  * 用于操作通用数组式属性的工具类
  */
-abstract class MagicAttributes
-{
+abstract class MagicAttributes {
 
     /**
      * 允许设置的属性名称
@@ -43,8 +42,7 @@ abstract class MagicAttributes
      * @param string $attribute
      * @param string $value
      */
-    public function setAttribute($attribute, $value)
-    {
+    public function setAttribute($attribute, $value) {
         return $this->with($attribute, $value);
     }
 
@@ -56,8 +54,7 @@ abstract class MagicAttributes
      *
      * @return MagicAttributes
      */
-    public function with($attribute, $value)
-    {
+    public function with($attribute, $value) {
         $attribute = $this->snake($attribute);
 
         if (!$this->validate($attribute, $value)) {
@@ -74,8 +71,7 @@ abstract class MagicAttributes
      *
      * @return array
      */
-    public function toArray()
-    {
+    public function toArray() {
         return $this->attributes;
     }
 
@@ -87,8 +83,7 @@ abstract class MagicAttributes
      *
      * @return bool
      */
-    protected function validate($attribute, $value)
-    {
+    protected function validate($attribute, $value) {
         return true;
     }
 
@@ -100,8 +95,7 @@ abstract class MagicAttributes
      *
      * @return MagicAttributes
      */
-    public function __call($method, $args)
-    {
+    public function __call($method, $args) {
         if (stripos($method, 'with') === 0) {
             $method = substr($method, 4);
         }
@@ -114,8 +108,7 @@ abstract class MagicAttributes
      *
      * @param string $property
      */
-    public function __get($property)
-    {
+    public function __get($property) {
         return !isset($this->attributes[$property]) ? null : $this->attributes[$property];
     }
 
@@ -125,8 +118,7 @@ abstract class MagicAttributes
      * @param string $property
      * @param mixed  $value
      */
-    public function __set($property, $value)
-    {
+    public function __set($property, $value) {
         return $this->with($property, $value);
     }
 
@@ -138,9 +130,8 @@ abstract class MagicAttributes
      *
      * @return string
      */
-    protected function snake($value, $delimiter = '_')
-    {
-        $key = $value.$delimiter;
+    protected function snake($value, $delimiter = '_') {
+        $key = $value . $delimiter;
 
         /**
          * 如果key已经缓存，则直接读取缓存，否则更新缓存
@@ -151,7 +142,7 @@ abstract class MagicAttributes
         }
 
         if (!ctype_lower($value)) {
-            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
+            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1' . $delimiter, $value));
         }
 
         return static::$snakeCache[$key] = $value;
