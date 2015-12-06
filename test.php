@@ -142,8 +142,7 @@ $server->on('message', 'image', function ($msg) {
 
     }
 
-
-    return Message::make('text')->content($msg->PicUrl);
+    return Message::make('text')->content($resultStr);
 
 });
 
