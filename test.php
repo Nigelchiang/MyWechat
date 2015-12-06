@@ -56,7 +56,9 @@ $server->on('message', 'image', function ($msg) {
     } else {
         $resultStr .= "图中共检测到" . count($faceArray) . "张脸!";
         for ($i = 0; $i < count($faceArray); $i++) {
-            $resultStr .= "\n第" . ($i + 1) . "张脸";
+            if ($i > 1) {
+                $resultStr .= "\n第" . ($i + 1) . "张脸";
+            }
             $tempFace = $faceArray[$i];
             // 获取所有属性
             $tempAttr = $tempFace['attribute'];
