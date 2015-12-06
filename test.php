@@ -12,12 +12,13 @@ $encodingAESKey = "uyCAHekwGlBLLD78A0iFTsQ6n4O2czDTD1BSITUmyxF";
 $server         = new Server($appId, $token, $encodingAESKey);
 
 //关注事件
-$server->on('event', 'subscribe', function ($event) {
+$welcome = function ($event) {
 
     //use语法
-    $news = Message::make('news')->items(function () use ($event){
+    $news = Message::make('news')->items(function () use ($event) {
         return array(
-            Message::make('news_item')->title("{$event->FromUserName}你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg'),
+            Message::make('news_item')->title("你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome
+            .jpg'),
             Message::make('news_item')->title("『1』发送图片可以查询照片中人脸的年龄和性别信息")->PicUrl('http://233.weego.sinaapp.com/images/face.jpg'),
             Message::make('news_item')->title("『2』发送一张两人合影的照片可以计算两人的相似程度")->PicUrl('http://233.weego.sinaapp.com/images/mask.png'),
             Message::make('news_item')->title("『3』机智的图灵机器人陪你聊天解闷,还可以查天气查火车查航班…")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png'),
@@ -26,9 +27,14 @@ $server->on('event', 'subscribe', function ($event) {
 
     return $news;
 
-});
+};
+$server->on('event', 'subscribe', $welcome);
 //文字消息处理，调用图灵机器人
-$server->on('message', 'text', function ($message) {
+$server->on('message', 'text', function ($message) use ($welcome) {
+    $guide = array("你好", "你能干什么", "哈哈", "您好", "喂");
+    if (array_key_exists($message->Content, $guide)) {
+        return Message::make('news')->items($welcome);
+    }
     $url    = "http://www.tuling123.com/openapi/api?";
     $params = array("key" => "08ad04b298923b29a203d0aca21a9779", "info" => $message->Content);
     $url .= http_build_query($params);
