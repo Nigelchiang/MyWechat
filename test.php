@@ -32,7 +32,7 @@ $server->on('event', 'subscribe', $welcome);
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) use ($welcome) {
     $guide = array("你好", "你能干什么", "哈哈", "您好", "喂");
-    if (array_key_exists($message->Content, $guide)) {
+    if (in_array($message->Content, $guide)) {
         return Message::make('news')->items($welcome);
     }
     $url    = "http://www.tuling123.com/openapi/api?";
