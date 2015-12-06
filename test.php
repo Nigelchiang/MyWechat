@@ -41,59 +41,59 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     $response = file_get_contents($url);
     $data     = json_decode($response, true);
 
-    if ($data['code'] == 200000) {
-        //处理链接类请求
-        $link = "<a href=\"" . $data['url'] . "\"> 『点击查看』</a>";
-
-        return Message::make('text')->content($data['text'] . $link);
-
-    } elseif ($data['code'] == 100000) {
-        //返回天气news
-        $weatherArray = explode(';', $data['text']);
-        if (count($weatherArray) == 4) {
-            $city = strtok($weatherArray[0], ':');
-
-            //今日天气特殊处理
-            $title[0] = str_replace(',', '\n', strtok(':'));
-            //取出天气状况，决定天气图标
-            $picInfo[0]['msg'] = explode(' ', $title[0])[3];
-            for ($i = 1; $i < 4; ++$i) {
-                $title[$i]          = str_replace(',', '\n', $weatherArray[$i]);
-                $picInfo[$i]['msg'] = explode(' ', $title[0])[3];
-            }
-            foreach ($picInfo as $pic) {
-                if (strstr($pic['msg'], "多云")) {
-                    $pic['url'] = "";
-                } elseif (strstr($pic['msg'], "阵雨")) {
-                    $pic['url'] = '';
-                } elseif (strstr($pic['msg'], "晴")) {
-                    $pic['url'] = '';
-                } elseif (strstr($pic['msg'], "雪")) {
-                    $pic['url'] = '';
-                } elseif (strstr($pic['msg'], "晴")) {
-                    $pic['url'] = '';
-                } elseif (strstr($pic['msg'], "晴")) {
-                    $pic['url'] = '';
-                } elseif (strstr($pic['msg'], "晴")) {
-                    $pic['url'] = '';
-                } elseif (strstr($pic['msg'], "晴")) {
-                    $pic['url'] = '';
-                }
-            }
-
-            return Message::make('news')->items(function () use ($city, $title, $picInfo) {
-                return array(
-                    Message::make('news_item')->title("亲，已为你找到{$city}的天气信息")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2Fweather_cover.jpg"),
-                    Message::make('news_item')->title($title[0])->PicUrl($picInfo[0]['url']),
-                    Message::make('news_item')->title($title[1])->PicUrl($picInfo[1]['url']),
-                    Message::make('news_item')->title($title[2])->PicUrl($picInfo[2]['url']),
-                    Message::make('news_item')->title($title[3])->PicUrl($picInfo[3]['url'])
-                );
-            });
-
-        }
-        return Message::make('text')->content($data['text']);
-    }
+//    if ($data['code'] == 200000) {
+//        //处理链接类请求
+//        $link = "<a href=\"" . $data['url'] . "\"> 『点击查看』</a>";
+//
+//        return Message::make('text')->content($data['text'] . $link);
+//
+//    } elseif ($data['code'] == 100000) {
+//        //返回天气news
+//        $weatherArray = explode(';', $data['text']);
+//        if (count($weatherArray) == 4) {
+//            $city = strtok($weatherArray[0], ':');
+//
+//            //今日天气特殊处理
+//            $title[0] = str_replace(',', '\n', strtok(':'));
+//            //取出天气状况，决定天气图标
+//            $picInfo[0]['msg'] = explode(' ', $title[0])[3];
+//            for ($i = 1; $i < 4; ++$i) {
+//                $title[$i]          = str_replace(',', '\n', $weatherArray[$i]);
+//                $picInfo[$i]['msg'] = explode(' ', $title[0])[3];
+//            }
+//            foreach ($picInfo as $pic) {
+//                if (strstr($pic['msg'], "多云")) {
+//                    $pic['url'] = "";
+//                } elseif (strstr($pic['msg'], "阵雨")) {
+//                    $pic['url'] = '';
+//                } elseif (strstr($pic['msg'], "晴")) {
+//                    $pic['url'] = '';
+//                } elseif (strstr($pic['msg'], "雪")) {
+//                    $pic['url'] = '';
+//                } elseif (strstr($pic['msg'], "晴")) {
+//                    $pic['url'] = '';
+//                } elseif (strstr($pic['msg'], "晴")) {
+//                    $pic['url'] = '';
+//                } elseif (strstr($pic['msg'], "晴")) {
+//                    $pic['url'] = '';
+//                } elseif (strstr($pic['msg'], "晴")) {
+//                    $pic['url'] = '';
+//                }
+//            }
+//
+//            return Message::make('news')->items(function () use ($city, $title, $picInfo) {
+//                return array(
+//                    Message::make('news_item')->title("亲，已为你找到{$city}的天气信息")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2Fweather_cover.jpg"),
+//                    Message::make('news_item')->title($title[0])->PicUrl($picInfo[0]['url']),
+//                    Message::make('news_item')->title($title[1])->PicUrl($picInfo[1]['url']),
+//                    Message::make('news_item')->title($title[2])->PicUrl($picInfo[2]['url']),
+//                    Message::make('news_item')->title($title[3])->PicUrl($picInfo[3]['url'])
+//                );
+//            });
+//
+//        }
+//        return Message::make('text')->content($data['text']);
+//    }
 
     return Message::make('text')->content($data['text']);
 
