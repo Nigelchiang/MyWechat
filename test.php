@@ -23,7 +23,8 @@ $server->on('message', 'text', function ($message) {
         //        return Message::make('news')->item(
         //            Message::make('news_item')->title($data->{'text'})->url($data->{'url'}));
         $link = "<a href=\"" . $data->{'url'} . "\">点击查看</a>";
-        return Message::make('text')->content( $link);
+
+        return Message::make('text')->content($data->{'text'} . $link);
     }
 
     return Message::make('text')->content($data->{'text'});
