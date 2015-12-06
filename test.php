@@ -57,41 +57,42 @@ $server->on('message', 'text', function ($message) use ($welcome) {
             //今日天气特殊处理
             $item[0]['title'] = str_replace(',', '\n', strtok(':'));
             //取出天气状况，决定天气图标
-            $tmp=explode(' ', $item[0]['title']);
+            $tmp            = explode(' ', $item[0]['title']);
             $item[0]['msg'] = $tmp[3];
-//            for ($i = 1; $i < 4; ++$i) {
-//                $title[$i]          = str_replace(',', '\n', $weatherArray[$i]);
-//                $item[$i]['msg'] = explode(' ', $item[$i]['title'])[3];
-//            }
-//            foreach ($picInfo as $pic) {
-//                if (strstr($pic['msg'], "多云")) {
-//                    $pic['url'] = "";
-//                } elseif (strstr($pic['msg'], "阵雨")) {
-//                    $pic['url'] = '';
-//                } elseif (strstr($pic['msg'], "晴")) {
-//                    $pic['url'] = '';
-//                } elseif (strstr($pic['msg'], "雪")) {
-//                    $pic['url'] = '';
-//                } elseif (strstr($pic['msg'], "晴")) {
-//                    $pic['url'] = '';
-//                } elseif (strstr($pic['msg'], "晴")) {
-//                    $pic['url'] = '';
-//                } elseif (strstr($pic['msg'], "晴")) {
-//                    $pic['url'] = '';
-//                } elseif (strstr($pic['msg'], "晴")) {
-//                    $pic['url'] = '';
-//                }
-//            }
+            for ($i = 1; $i < 4; ++$i) {
+                $item[$i]['title'] = str_replace(',', '\n', $weatherArray[$i]);
+                $tmp               = explode(' ', $item[$i]['title']);
+                $item[$i]['msg']   = $tmp[2];
+            }
+            //            foreach ($picInfo as $pic) {
+            //                if (strstr($pic['msg'], "多云")) {
+            //                    $pic['url'] = "";
+            //                } elseif (strstr($pic['msg'], "阵雨")) {
+            //                    $pic['url'] = '';
+            //                } elseif (strstr($pic['msg'], "晴")) {
+            //                    $pic['url'] = '';
+            //                } elseif (strstr($pic['msg'], "雪")) {
+            //                    $pic['url'] = '';
+            //                } elseif (strstr($pic['msg'], "晴")) {
+            //                    $pic['url'] = '';
+            //                } elseif (strstr($pic['msg'], "晴")) {
+            //                    $pic['url'] = '';
+            //                } elseif (strstr($pic['msg'], "晴")) {
+            //                    $pic['url'] = '';
+            //                } elseif (strstr($pic['msg'], "晴")) {
+            //                    $pic['url'] = '';
+            //                }
+            //            }
 
-//            return Message::make('news')->items(function () use ($city, $title, $picInfo) {
-//                return array(
-//                    Message::make('news_item')->title("亲，已为你找到{$city}的天气信息")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2Fweather_cover.jpg"),
-//                    Message::make('news_item')->title($title[0])->PicUrl($picInfo[0]['url']),
-//                    Message::make('news_item')->title($title[1])->PicUrl($picInfo[1]['url']),
-//                    Message::make('news_item')->title($title[2])->PicUrl($picInfo[2]['url']),
-//                    Message::make('news_item')->title($title[3])->PicUrl($picInfo[3]['url'])
-//                );
-//            });
+            //            return Message::make('news')->items(function () use ($city, $title, $picInfo) {
+            //                return array(
+            //                    Message::make('news_item')->title("亲，已为你找到{$city}的天气信息")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/weather%2Fweather_cover.jpg"),
+            //                    Message::make('news_item')->title($title[0])->PicUrl($picInfo[0]['url']),
+            //                    Message::make('news_item')->title($title[1])->PicUrl($picInfo[1]['url']),
+            //                    Message::make('news_item')->title($title[2])->PicUrl($picInfo[2]['url']),
+            //                    Message::make('news_item')->title($title[3])->PicUrl($picInfo[3]['url'])
+            //                );
+            //            });
             return Message::make('text')->content($city);
         }
 
