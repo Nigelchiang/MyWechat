@@ -105,7 +105,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 //        return Message::make('text')->content($data['text']);
 //    }
 
-    return Message::make('text')->content("test");
+    return Message::make('text')->content($data['code']);
 
 });
 //图片处理，调用Face++
