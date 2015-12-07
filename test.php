@@ -65,7 +65,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
                 $items[$i]['weather'] = $tmp[2];
             }
             //这是返回数据的BUG
-            $items[1]['title'] = str_replace('大雪', "~~ ", $items[1]['title']);
+            //            $items[1]['title'] = str_replace('大雪', "~~ ", $items[1]['title']);
 
             foreach ($items as &$item) {
                 if (strstr($item['weather'], "多云转晴")) {
@@ -86,7 +86,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%A4%A7%E9%9B%AA.png';
                 } elseif (strstr($item['weather'], "小雨")) {
                     $item['url'] = 'http://n1gel-n1gel.stor.sinaapp.com/weather%2F%E5%B0%8F%E9%9B%A8.png';
-                }else{
+                } else {
                     $item['url'] = "http://n1gel-n1gel.stor.sinaapp.com/weather%2F528a43662164c_12.png";
                 }
             }
