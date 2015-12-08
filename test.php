@@ -39,6 +39,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     $url    = "http://www.tuling123.com/openapi/api?";
     $params = array("key" => "08ad04b298923b29a203d0aca21a9779", "info" => $message->Content);
     $url .= http_build_query($params);
+    //换成使用curl，哈哈，时间变成了1/3，太厉害啦！
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -129,7 +130,13 @@ $server->on('message', 'image', function ($title) {
         'url'        => $title->PicUrl);
     $url    = "http://apicn.faceplusplus.com/v2/detection/detect?" . http_build_query($params);
     //    $response         = $face->execute('/detection/detect', $params);
-    $response  = file_get_contents($url);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $response  = curl_exec($ch);
     $data      = json_decode($response, true);
     $resultStr = '';
     $faceArray = $data['face'];
