@@ -39,7 +39,14 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     $url    = "http://www.tuling123.com/openapi/api?";
     $params = array("key" => "08ad04b298923b29a203d0aca21a9779", "info" => $message->Content);
     $url .= http_build_query($params);
-    $response = file_get_contents($url);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+
+    $response = curl_exec($ch);
     $data     = json_decode($response, true);
 
     if ($data['code'] == 200000) {
