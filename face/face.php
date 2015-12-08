@@ -66,6 +66,8 @@ class Facepp {
             curl_setopt($curl_handle, CURLOPT_NOSIGNAL, true);
             curl_setopt($curl_handle, CURLOPT_REFERER, $request_url);
             curl_setopt($curl_handle, CURLOPT_USERAGENT, $this->useragent);
+            //禁用ssl
+            curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
 
 
             if (extension_loaded('zlib')) {

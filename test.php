@@ -4,6 +4,7 @@
 use Overtrue\Wechat\Message;
 use Overtrue\Wechat\Server;
 
+sae_xhprof_start();
 require __DIR__ . "/autoload.php";
 
 $appId          = "wxea2364b2dfd8449b";
@@ -110,7 +111,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 });
 //图片处理，调用Face++
 $server->on('message', 'image', function ($title) {
-    //    require "face/face.php";
+    //    require "face/faceTest.php";
     //    $face             = new Facepp();
     //    $face->api_key    = "5ab70241a2a2d6e7a4f10b5f79385526";
     //    $face->api_secret = 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF';
@@ -225,3 +226,4 @@ $server->on('message', 'image', function ($title) {
 
 $result = $server->serve();
 echo $result;
+sae_xhprof_end();
