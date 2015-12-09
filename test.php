@@ -20,7 +20,7 @@ $server         = new Server($appId, $token, $encodingAESKey);
 $welcome = function () {
     return array(
         Message::make('news_item')->title("你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg'),
-        Message::make('news_item')->title("『1』发送图片可以查询照片中人脸的年龄和性别信息")->PicUrl('http://233.weego.sinaapp.com/images/face.jpg'),
+        Message::make('news_item')->title("『1』发送图片可以查询照片中人脸的年龄和性别信息")->PicUrl('http://233.weego.sinaapp.com/images/Face++SDK.jpg'),
         Message::make('news_item')->title("『2』发送一张两人合影的照片可以计算两人的相似程度")->PicUrl('http://233.weego.sinaapp.com/images/mask.png'),
         Message::make('news_item')->title("『3』机智的图灵机器人陪你聊天解闷,还可以查天气查火车查航班…")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png'),
         Message::make('news_item')->title("『4』四六级查分功能正在开发中，敬请期待~")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
@@ -119,17 +119,17 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 });
 //图片处理，调用Face++
 $server->on('message', 'image', function ($title) {
-    //    require "face/faceTest.php";
-    //    $face             = new Facepp();
-    //    $face->api_key    = "5ab70241a2a2d6e7a4f10b5f79385526";
-    //    $face->api_secret = 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF';
+    //    require "Face++SDK/MS_FaceDetectionTest.php";
+    //    $Face++SDK             = new Facepp();
+    //    $Face++SDK->api_key    = "5ab70241a2a2d6e7a4f10b5f79385526";
+    //    $Face++SDK->api_secret = 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF';
     $params = array(
         'api_key'    => "5ab70241a2a2d6e7a4f10b5f79385526",
         'api_secret' => 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF',
         'attribute'  => 'gender,age,race,smiling,glass,pose',
         'url'        => $title->PicUrl);
     $url    = "http://apicn.faceplusplus.com/v2/detection/detect?" . http_build_query($params);
-    //    $response         = $face->execute('/detection/detect', $params);
+    //    $response         = $Face++SDK->execute('/detection/detect', $params);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -139,9 +139,9 @@ $server->on('message', 'image', function ($title) {
     $response  = curl_exec($ch);
     $data      = json_decode($response, true);
     $resultStr = '';
-    $faceArray = $data['face'];
+    $faceArray = $data['Face++SDK'];
     //如果没有检测到人脸
-    if (empty($data['face'])) {
+    if (empty($data['Face++SDK'])) {
         $resultStr = "照片中木有人脸=.=";
     } else {
         $resultStr .= "图中共检测到" . count($faceArray) . "张脸!";
@@ -208,7 +208,7 @@ $server->on('message', 'image', function ($title) {
             $tempId1 = $faceArray[0]['face_id'];
             $tempId2 = $faceArray[1]['face_id'];
 
-            // face++ 链接
+            // Face++SDK++ 链接
             $params   = array(
                 'api_key'    => "5ab70241a2a2d6e7a4f10b5f79385526",
                 'api_secret' => 'pwhInerTEiE2FPQKRgoRZlw5vkzdJ-WF',
