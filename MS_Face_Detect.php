@@ -118,7 +118,7 @@ function drawRec(&$rec, &$img) {
     //画点
 //    imagesetthickness($img, 8);
     foreach ($points as $point) {
-        $bool = imagerectangle($img, $point['x'] - 5, $point['y'] - 5, $point['x'] + 5, $point['y'] + 5, $color);
+        $bool = imagefilledrectangle($img, $point['x'] - 7, $point['y'] - 7, $point['x'] + 7, $point['y'] + 7, $color);
     }
 
     if (!$bool) {
