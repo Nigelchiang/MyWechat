@@ -62,14 +62,14 @@ function detect($url) {
  * @param $rectangle array 微软返回的识别数据加上性别
  * @return string 返回保存后的图片URL
  */
-function draw($url, $rectangle) {
+function draw($url, &$rectangle) {
     $img = imagecreatefromstring(getImg($url));
 
     if (!is_resource($img)) {
         sae_log("img不是资源文件");
     }
 
-    foreach ($rectangle as $rec) {
+    foreach ($rectangle as &$rec) {
         drawRec($rec, $img);
     }
     $filename = str_replace("/", "", parse_url($url, PHP_URL_PATH)) . ".jpg";
@@ -90,7 +90,7 @@ function draw($url, $rectangle) {
 }
 
 
-function drawRec($rec, $img) {
+function drawRec($rec, &$img) {
 
     $x1     = $rec['left'];
     $y1     = $rec['top'];
