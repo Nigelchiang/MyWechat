@@ -65,6 +65,10 @@ function detect($url) {
 function draw($url, $rectangle) {
     $img = imagecreatefromstring(getImg($url));
 
+    if(!is_resource($img)){
+        sae_log("img不是资源文件");
+    }
+
     foreach ($rectangle as $rec) {
         drawRec($rec, $img);
     }
@@ -101,7 +105,10 @@ function drawRec($rec, $img) {
     //设置笔画的粗细
     imagesetthickness($img, 3);
     //画一个矩形
-    imagerectangle($img, $x1, $y1, $x2, $y2, $color);
+    $bool=imagerectangle($img, $x1, $y1, $x2, $y2, $color);
+    if (!$bool) {
+        sae_log("画矩形失败");
+    }
 }
 
 //欺骗浏览器，输出图片
@@ -123,6 +130,9 @@ function getImg($url) {
     curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1); // also, this seems wise considering output is image.
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $data = curl_exec($ch);
+    if ($data === false) {
+        sae_log("curl获取图片失败");
+    }
     curl_close($ch);
 
     return $data;
