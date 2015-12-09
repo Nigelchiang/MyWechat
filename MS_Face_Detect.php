@@ -77,7 +77,7 @@ function draw($url, &$rectangle) {
     //    $stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
     //imagepng这样的函数不支持wrapper,用临时文件解决
     $bool = imagejpeg($img, SAE_TMP_PATH . $filename);//保存为临时文件
-//    sae_log("保存的文件名：" . $filename);
+    //    sae_log("保存的文件名：" . $filename);
     file_put_contents("saestor://wechatimg/$filename",
                       file_get_contents(SAE_TMP_PATH . $filename));
     //    $bool = imagejpeg($img, "saestor://wechatimg/$filename");
@@ -114,9 +114,8 @@ function drawRec(&$rec, &$img) {
     //画一个矩形
     $bool = imagerectangle($img, $x1, $y1, $x2, $y2, $color);
     //画点
-    imagesetthickness($img, 8);
     foreach ($points as $point) {
-        $bool = imageline($img, $point['x'], $point['y'], $point['x'] - 1, $point['y'] - 1, $color);
+        $bool = imagerectangle($img, $point['x'] - 2, $point['y'] - 2, $point['x'] + 2, $point['y'] + 2, $color);
     }
 
     if (!$bool) {
