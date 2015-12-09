@@ -74,7 +74,7 @@ function draw($url, $rectangle) {
     //imagepng这样的函数不支持wrapper,用临时文件解决
     imagejpeg($img, SAE_TMP_PATH . $filename);//保存为临时文件
     file_put_contents("saestor://wechatimg/$filename",
-                      file_get_contents(SAE_TMP_PATH . $filename);
+                      file_get_contents(SAE_TMP_PATH . $filename));
     //    $bool = imagejpeg($img, "saestor://wechatimg/$filename");
     //    if (!$bool) {
     //        sae_log("保存文件失败");
