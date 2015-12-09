@@ -80,7 +80,7 @@ function draw($url, $rectangle) {
             sae_log("保存文件失败");
         }
 
-    return SaeStorage::getUrl("wechatimg", $filename);
+    return (new SaeStorage())->getUrl("wechatimg", $filename);
 }
 
 
