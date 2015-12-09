@@ -90,7 +90,7 @@ function draw($url, &$rectangle) {
 }
 
 
-function drawRec($rec, &$img) {
+function drawRec(&$rec, &$img) {
 
     $x1     = $rec['left'];
     $y1     = $rec['top'];
