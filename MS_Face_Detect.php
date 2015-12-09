@@ -41,7 +41,7 @@ function detect($url) {
         $output = json_decode($output, true);
 
         if (!isset($output['code'])) {
-            return array($output);
+            return $output;
         }
         // ...process $content now
     } catch (Exception $e) {
@@ -65,26 +65,27 @@ function detect($url) {
 function draw($url, $rectangle) {
     $img = imagecreatefromstring(getImg($url));
 
-    if(!is_resource($img)){
+    if (!is_resource($img)) {
         sae_log("img不是资源文件");
     }
 
     foreach ($rectangle as $rec) {
         drawRec($rec, $img);
     }
-    $filename = str_replace("/", "", parse_url($url, PHP_URL_PATH)).".jpg";
+    $filename = str_replace("/", "", parse_url($url, PHP_URL_PATH)) . ".jpg";
     //just for test
     //    $stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
     //imagepng这样的函数不支持wrapper,用临时文件解决
-    $bool=imagejpeg($img, SAE_TMP_PATH . $filename);//保存为临时文件
-    sae_log("保存的文件名：".$filename);
+    $bool = imagejpeg($img, SAE_TMP_PATH . $filename);//保存为临时文件
+    sae_log("保存的文件名：" . $filename);
     file_put_contents("saestor://wechatimg/$filename",
                       file_get_contents(SAE_TMP_PATH . $filename));
     //    $bool = imagejpeg($img, "saestor://wechatimg/$filename");
-        if (!$bool) {
-            sae_log("保存文件失败");
-        }
+    if (!$bool) {
+        sae_log("保存文件失败");
+    }
     $stor = new SaeStorage();
+
     return $stor->getUrl("wechatimg", $filename);
 }
 
@@ -98,7 +99,12 @@ function drawRec($rec, $img) {
     $gender = $rec['gender'];
     $x2     = $x1 + $width;
     $y2     = $y1 + $height;
-
+    $points = array(
+        'pupilLeft'  => $rec['pupilLeft'],
+        'pupilRight' => $rec['pupilRight'],
+        'nostTip'    => $rec['noseTip'],
+        'mouthLeft'  => $rec['mouthLeft'],
+        'mouthRight' => $rec['mouthRight']);
 
     $color_male   = imagecolorallocate($img, 13, 163, 238);
     $color_female = imagecolorallocate($img, 186, 11, 147);
@@ -106,9 +112,14 @@ function drawRec($rec, $img) {
     //设置笔画的粗细
     imagesetthickness($img, 3);
     //画一个矩形
-    $bool=imagerectangle($img, $x1, $y1, $x2, $y2, $color);
+    $bool = imagerectangle($img, $x1, $y1, $x2, $y2, $color);
+    //画点
+    foreach ($points as $point) {
+        $bool = imageline($img, $point['x'], $point['y'], $point['x'] - 1, $point['y'] - 1, $color);
+    }
+
     if (!$bool) {
-        sae_log("画矩形失败");
+        sae_log("画图失败");
     }
 }
 

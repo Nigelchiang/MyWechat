@@ -121,7 +121,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 //图片处理，调用微软API
 $server->on('message', 'image', function ($title) {
     require "MS_Face_Detect.php";
-    $picUrl=$title->PicUrl;
+    $picUrl   = $title->PicUrl;
     $response = detect($picUrl);
     if ($response !== false) {
         $amount      = count($response);
@@ -136,21 +136,29 @@ $server->on('message', 'image', function ($title) {
                 if ($amount > 1) {
                     $description .= "第{$i}张脸\n";
                 }
-                $rec  = $response[$i][0]['faceRectangle'];
-                $attr = $response[$i][0]['attributes'];
+                $rec           = $response[$i]['faceRectangle'];
+                $attr          = $response[$i]['attributes'];
+                $faceLandmarks = $response[$i]['faceLandmarks'];
 
-                $rec["gender"] = $attr['gender'];
+                $rec["gender"]     = $attr['gender'];
+                $rec['pupilLeft']  = $faceLandmarks['pupilLeft'];
+                $rec['pupilRight'] = $faceLandmarks['pupilRight'];
+                $rec['noseTip']    = $faceLandmarks['noseTip'];
+                $rec['mouthLeft']  = $faceLandmarks['mouthLeft'];
+                $rec['mouthRight'] = $faceLandmarks['mouthRight'];
                 array_push($params, $rec);
                 $description .= "年龄: " . $attr['age'];
                 $description .= "\n性别: " . $attr['gender'];
             }
-            $drawedPic = draw($picUrl,$params);
+            $drawedPic = draw($picUrl, $params);
 
             return Message::make('news')->item(
                 Message::make("news_item")->title($title)->description($description)->url($drawedPic)->PicUrl
                 ($drawedPic)
             );
         }
+
+        return Message::make('text')->content($title);
     }
 
     return Message::make('text')->content("不好意思出错啦");
