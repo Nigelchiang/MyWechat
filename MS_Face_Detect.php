@@ -58,7 +58,7 @@ function detect($url) {
 
 /**
  * 在图片上画出矩形，并返回保存之后的URL
- * @param $url string 图片的URL
+ * @param $url       string 图片的URL
  * @param $rectangle array 微软返回的识别数据加上性别
  * @return string 返回保存后的图片URL
  */
@@ -68,9 +68,13 @@ function draw($url, $rectangle) {
     foreach ($rectangle as $rec) {
         drawRec($rec, $img);
     }
-    $filename = str_replace("/","",parse_url($url, PHP_URL_PATH));
-    imagejpeg($img, "saestor://wechatimg/$filename");
-
+    $filename = str_replace("/", "", parse_url($url, PHP_URL_PATH));
+    //just for test
+    //    $stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
+    $bool = imagejpeg($img, "saestor://wechatimg/$filename");
+    if (!$bool) {
+        return "save image error.";
+    }
     return SaeStorage::getUrl("wechatimg", $filename);
 }
 

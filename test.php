@@ -126,7 +126,7 @@ $server->on('message', 'image', function ($title) {
         $amount      = count($response);
         $description = "";
         $title       = "";
-        if (isset ($response['Error'])) {
+        if ($response===array()) {
             $title .= "照片中木有人脸/:fade";
         } else {
             $title .= "照片中共检测到{$amount}张脸";
@@ -144,8 +144,9 @@ $server->on('message', 'image', function ($title) {
                 $description .= "\n性别: " . $attr['gender'];
             }
             $drawedPic = draw($title->PicUrl, $params);
+
             return Message::make('news')->item(
-                Message::make("news_item")->title($title)->description($description.$drawedPic)->url($drawedPic)->PicUrl
+                Message::make("news_item")->title($title)->description($description . $drawedPic)->url($drawedPic)->PicUrl
                 ($drawedPic)
             );
         }
