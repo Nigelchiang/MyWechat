@@ -70,9 +70,8 @@ function draw($url, $rectangle) {
     }
     $filename = str_replace("/","",parse_url($url, PHP_URL_PATH));
     imagejpeg($img, "saestor://wechatimg/$filename");
-    $stor = new SaeStorage();
 
-    return $stor->getUrl("wehcatimg", $filename);
+    return SaeStorage::getUrl("wechatimg", $filename);
 }
 
 
