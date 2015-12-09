@@ -72,13 +72,13 @@ function draw($url, $rectangle) {
     //just for test
     //    $stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
     //imagepng这样的函数不支持wrapper,用临时文件解决
-    imagejpeg($img, SAE_TMP_PATH . $filename);//保存为临时文件
+    $bool=imagejpeg($img, SAE_TMP_PATH . $filename);//保存为临时文件
     file_put_contents("saestor://wechatimg/$filename",
                       file_get_contents(SAE_TMP_PATH . $filename));
     //    $bool = imagejpeg($img, "saestor://wechatimg/$filename");
-    //    if (!$bool) {
-    //        sae_log("保存文件失败");
-    //    }
+        if (!$bool) {
+            sae_log("保存文件失败");
+        }
 
     return SaeStorage::getUrl("wechatimg", $filename);
 }
