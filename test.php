@@ -125,22 +125,22 @@ $server->on('message', 'image', function ($title) {
     if ($response !== false) {
         $amount      = count($response);
         $description = "";
-        $title = "";
-        if ($amount == 0) {
+        $title       = "";
+        if (isset ($response['Error'])) {
             $title .= "照片中木有人脸/:fade";
         } else {
             $title .= "照片中共检测到{$amount}张脸";
             $params = array();
             for ($i = 0; $i < $amount; $i++) {
                 if ($amount > 1) {
-                    $description .= "\n第{$i}张脸";
+                    $description .= "第{$i}张脸\n";
                 }
                 $rec  = $response[$i][0]['faceRectangle'];
                 $attr = $response[$i][0]['attributes'];
 
                 $rec["gender"] = $attr['gender'];
                 array_push($params, $rec);
-                $description .= "\n年龄: " . $attr['age'];
+                $description .= "年龄/:break: " . $attr['age'];
                 $description .= "\n性别: " . $attr['gender'];
             }
 
