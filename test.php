@@ -130,7 +130,7 @@ $server->on('message', 'image', function ($title) {
         if ($response === array()) {
             $title .= "照片中木有人脸/:fade";
         } else {
-            $title .= "照片中共检测到{$amount}张脸/:dig";
+            $title .= "照片中共检测到{$amount}张脸";
             $params = array();
             for ($i = 0; $i < $amount; $i++) {
                 if ($amount > 1) {

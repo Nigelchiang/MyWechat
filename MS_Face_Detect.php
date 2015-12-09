@@ -114,7 +114,7 @@ function drawRec(&$rec, &$img) {
     //画一个矩形
     $bool = imagerectangle($img, $x1, $y1, $x2, $y2, $color);
     //画点
-
+    imagesetthickness($img, 8);
     foreach ($points as $point) {
         $bool = imageline($img, $point['x'], $point['y'], $point['x'] - 1, $point['y'] - 1, $color);
     }
