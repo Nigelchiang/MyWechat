@@ -140,18 +140,17 @@ $server->on('message', 'image', function ($title) {
 
                 $rec["gender"] = $attr['gender'];
                 array_push($params, $rec);
-                $description .= "年龄/:break: " . $attr['age'];
+                $description .= "年龄: " . $attr['age'];
                 $description .= "\n性别: " . $attr['gender'];
             }
-
+            $drawedPic = draw($title->PicUrl, $params);
             return Message::make('news')->item(
-                Message::make("news_item")->title($title)->description($description)->url("http://5.n1gel.sinaapp
-                .com/MS_FaceDetectResult.php?" . http_build_query($params))
+                Message::make("news_item")->title($title)->description($description)->url($drawedPic)->PicUrl($drawedPic)
             );
         }
     }
 
-    return Message::make('text')->content("不好意思出错啦/:break");
+    return Message::make('text')->content("不好意思出错啦");
 
 
 });

@@ -56,31 +56,68 @@ function detect($url) {
     return false;
 }
 
-$url="https://oxfordportal.blob.core.windows.net/face/demo/Verification%201-2.jpg";
-$response = detect($url);
-if ($response !== false) {
-    $amount      = count($response);
-    $description = "";
+/**
+ * 在图片上画出矩形，并返回保存之后的URL
+ * @param $url string 图片的URL
+ * @param $rectangle array 微软返回的识别数据加上性别
+ * @return string 返回保存后的图片URL
+ */
+function draw($url, $rectangle) {
+    $img = imagecreatefromstring(getImg($url));
 
-    if ($amount == 0) {
-        $description = "照片中木有人脸/:fade";
-    } else {
-        $description .= "照片中共检测到{$amount}张脸";
-        $params = array();
-        for ($i = 0; $i < $amount; $i++) {
-            if ($amount > 1) {
-                $description .= "\n第{$i}张脸";
-            }
-            $rec  = $response[$i][0]['faceRectangle'];
-            $attr = $response[$i][0]['attributes'];
-
-            $rec["gender"] =$attr['gender'];
-            array_push($params, $rec);
-            $description .= "\n年龄: " . $attr['age'];
-            $description .= "\n性别: " . $attr['gender'];
-        }
-
-        $ch = curl_init("MS_FaceDetectResult.php?" ."url={$url}". http_build_query($params));
-        curl_exec($ch);
+    foreach ($rectangle as $rec) {
+        drawRec($rec, $img);
     }
+    $filename = parse_url($url, PHP_URL_HOST);
+    imagejpeg($img, "saestor://wechatimg/$filename");
+    $stor = new SaeStorage();
+
+    return $stor->getUrl("wehcatimg", $filename);
 }
+
+
+function drawRec($rec, $img) {
+
+    $x1     = $rec['left'];
+    $y1     = $rec['top'];
+    $width  = $rec['width'];
+    $height = $rec['height'];
+    $gender = $rec['gender'];
+    $x2     = $x1 + $width;
+    $y2     = $y1 + $height;
+
+
+    $color_male   = imagecolorallocate($img, 13, 163, 238);
+    $color_female = imagecolorallocate($img, 186, 11, 147);
+    $color        = ($gender == "male") ? $color_male : $color_female;
+    //设置笔画的粗细
+    imagesetthickness($img, 3);
+    //画一个矩形
+    imagerectangle($img, $x1, $y1, $x2, $y2, $color);
+}
+
+//欺骗浏览器，输出图片
+//header('Content-Type:image/jpeg');
+//imageX 第二个参数指定filename，将文件保存到一个地址而不是输出到浏览器
+//使用sae storage的wrapper来保存图片
+//$stor = new SaeStorage("mkm32j3l42", "3jxwz5kix5limjww22z0l10yk1300y35yy5j03xy");
+//var_dump($stor->getList('n'));
+//$stor->write('n', "nothing1.txt", "haha");
+
+//imagejpeg($img, "saestor://??.jpg");
+////file_put_contents("saestor://n/test.txt", "haha");
+//imagedestroy($img);
+
+function getImg($url) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // good edit, thanks!
+    curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1); // also, this seems wise considering output is image.
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $data = curl_exec($ch);
+    curl_close($ch);
+
+    return $data;
+}
+
+
