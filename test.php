@@ -121,7 +121,8 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 //图片处理，调用微软API
 $server->on('message', 'image', function ($title) {
     require "MS_Face_Detect.php";
-    $response = detect($title->PicUrl);
+    $picUrl=$title->PicUrl;
+    $response = detect($picUrl);
     if ($response !== false) {
         $amount      = count($response);
         $description = "";
@@ -143,7 +144,7 @@ $server->on('message', 'image', function ($title) {
                 $description .= "年龄: " . $attr['age'];
                 $description .= "\n性别: " . $attr['gender'];
             }
-            $drawedPic = draw($title->PicUrl, $params);
+            $drawedPic = draw($picUrl,$params);
 
             return Message::make('news')->item(
                 Message::make("news_item")->title($title)->description($description . $drawedPic)->url($drawedPic)->PicUrl
