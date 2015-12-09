@@ -125,11 +125,11 @@ $server->on('message', 'image', function ($title) {
     if ($response !== false) {
         $amount      = count($response);
         $description = "";
-
+        $title = "";
         if ($amount == 0) {
-            $description = "照片中木有人脸/:fade";
+            $title .= "照片中木有人脸/:fade";
         } else {
-            $description .= "照片中共检测到{$amount}张脸";
+            $title .= "照片中共检测到{$amount}张脸";
             $params = array();
             for ($i = 0; $i < $amount; $i++) {
                 if ($amount > 1) {
@@ -145,12 +145,10 @@ $server->on('message', 'image', function ($title) {
             }
 
             return Message::make('news')->item(
-                Message::make("news_item")->description($description)->url("http://5.n1gel.sinaapp.com/MS_FaceDetectResult.php?" .
-                                                                           http_build_query($params))
+                Message::make("news_item")->title($title)->description($description)->url("http://5.n1gel.sinaapp
+                .com/MS_FaceDetectResult.php?" . http_build_query($params))
             );
         }
-
-        return Message::make('text')->content($description);
     }
 
     return Message::make('text')->content("不好意思出错啦/:break");
