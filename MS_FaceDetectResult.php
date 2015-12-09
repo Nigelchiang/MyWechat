@@ -11,7 +11,6 @@
 //sae_xhprof_start();
 //取出URL中的数据放到数组中
 parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), $rectangle);
-var_dump($rectangle);
 //通过cUrl下载的图片，放到imagecreatefromstring里，就可以了
 $url = $_GET['$url'];
 $img = imagecreatefromstring(getImg($url));
