@@ -116,7 +116,7 @@ function drawRec(&$rec, &$img) {
     $bool = imagerectangle($img, $x1, $y1, $x2, $y2, $color);
     //画点
     foreach ($points as $point) {
-        $bool = imagerectangle($img, $point['x'] - 2, $point['y'] - 2, $point['x'] + 2, $point['y'] + 2, $color);
+        $bool = imagerectangle($img, $point['x'] - 3, $point['y'] - 3, $point['x'] + 3, $point['y'] + 3, $color);
     }
 
     if (!$bool) {
