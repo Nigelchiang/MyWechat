@@ -56,6 +56,31 @@ function detect($url) {
     return false;
 }
 
-$response=detect("https://oxfordportal.blob.core.windows.net/face/demo/detection%204.jpg");
-var_dump($a="MS_FaceDetectResult.php?".http_build_query($response));
-var_dump(urldecode($a));
+$url="https://oxfordportal.blob.core.windows.net/face/demo/Verification%201-2.jpg";
+$response = detect($url);
+if ($response !== false) {
+    $amount      = count($response);
+    $description = "";
+
+    if ($amount == 0) {
+        $description = "照片中木有人脸/:fade";
+    } else {
+        $description .= "照片中共检测到{$amount}张脸";
+        $params = array();
+        for ($i = 0; $i < $amount; $i++) {
+            if ($amount > 1) {
+                $description .= "\n第{$i}张脸";
+            }
+            $rec  = $response[$i][0]['faceRectangle'];
+            $attr = $response[$i][0]['attributes'];
+
+            $rec["gender"] =$attr['gender'];
+            array_push($params, $rec);
+            $description .= "\n年龄: " . $attr['age'];
+            $description .= "\n性别: " . $attr['gender'];
+        }
+
+        $ch = curl_init("MS_FaceDetectResult.php?" ."url={$url}". http_build_query($params));
+        curl_exec($ch);
+    }
+}

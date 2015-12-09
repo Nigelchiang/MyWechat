@@ -11,11 +11,12 @@
 //sae_xhprof_start();
 //取出URL中的数据放到数组中
 parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), $rectangle);
-
+var_dump($rectangle);
 //通过cUrl下载的图片，放到imagecreatefromstring里，就可以了
+$url = $_GET['$url'];
 $img = imagecreatefromstring(getImg($url));
 
-foreach($rectangle as $rec) {
+foreach ($rectangle as $rec) {
     drawRec($rec, $img);
 }
 
@@ -25,16 +26,18 @@ function drawRec($rectangle, $img) {
     $y1     = $rectangle['top'];
     $width  = $rectangle['width'];
     $height = $rectangle['height'];
+    $gender = $rectangle['gender'];
     $x2     = $x1 + $width;
     $y2     = $y1 + $height;
 
 
     $color_male   = imagecolorallocate($img, 13, 163, 238);
     $color_female = imagecolorallocate($img, 186, 11, 147);
+    $color        = ($gender == "male") ? $color_male : $color_female;
     //设置笔画的粗细
     imagesetthickness($img, 3);
     //画一个矩形
-    imagerectangle($img, $x1, $y1, $x2, $y2, $color_female);
+    imagerectangle($img, $x1, $y1, $x2, $y2, $color);
 }
 
 //欺骗浏览器，输出图片

@@ -118,7 +118,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     return Message::make('text')->content($data['text']);
 
 });
-//图片处理，调用Face++
+//图片处理，调用微软API
 $server->on('message', 'image', function ($title) {
     require "MS_Face_Detect.php";
     $response = detect($title->PicUrl);
@@ -132,17 +132,20 @@ $server->on('message', 'image', function ($title) {
             $description .= "照片中共检测到{$amount}张脸";
             $params = array();
             for ($i = 0; $i < $amount; $i++) {
-                if ($amount > 0) {
+                if ($amount > 1) {
                     $description .= "\n第{$i}张脸";
                 }
-                array_push($params, $response[$i]['faceRectangel']);
-                $description .= "\n年龄: " . $response[$i]['attributes']['age'];
-                $description .= "\n性别: " . $response[$i]['attributes']['gender'];
+                $rec  = $response[$i][0]['faceRectangle'];
+                $attr = $response[$i][0]['attributes'];
+
+                $rec["gender"] = $attr['gender'];
+                array_push($params, $rec);
+                $description .= "\n年龄: " . $attr['age'];
+                $description .= "\n性别: " . $attr['gender'];
             }
 
             return Message::make('news')->item(
-                Message::make("news_item")->description($description)->PicUrl("MS_FaceDetectResult.php?"
-                                                                              . http_build_query($params))
+                Message::make("news_item")->description($description)->PicUrl("MS_FaceDetectResult.php?" . http_build_query($params))
             );
         }
 
@@ -150,6 +153,7 @@ $server->on('message', 'image', function ($title) {
     }
 
     return Message::make('text')->content("不好意思出错啦/:break");
+
 
 });
 
