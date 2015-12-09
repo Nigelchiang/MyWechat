@@ -72,7 +72,7 @@ function draw($url, $rectangle) {
     foreach ($rectangle as $rec) {
         drawRec($rec, $img);
     }
-    $filename = str_replace("/", "", parse_url($url, PHP_URL_PATH));
+    $filename = str_replace("/", "", parse_url($url, PHP_URL_PATH))."jpg";
     //just for test
     //    $stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
     //imagepng这样的函数不支持wrapper,用临时文件解决
