@@ -145,7 +145,8 @@ $server->on('message', 'image', function ($title) {
             }
 
             return Message::make('news')->item(
-                Message::make("news_item")->description($description)->PicUrl("MS_FaceDetectResult.php?" . http_build_query($params))
+                Message::make("news_item")->description($description)->url("MS_FaceDetectResult.php?" .
+                                                                           http_build_query($params))
             );
         }
 
