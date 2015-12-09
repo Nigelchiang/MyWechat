@@ -147,7 +147,7 @@ $server->on('message', 'image', function ($title) {
             $drawedPic = draw($picUrl,$params);
 
             return Message::make('news')->item(
-                Message::make("news_item")->title($title)->description($description . $drawedPic)->url($drawedPic)->PicUrl
+                Message::make("news_item")->title($title)->description($description)->url($drawedPic)->PicUrl
                 ($drawedPic)
             );
         }
