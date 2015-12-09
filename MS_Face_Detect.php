@@ -68,8 +68,8 @@ function draw($url, $rectangle) {
     foreach ($rectangle as $rec) {
         drawRec($rec, $img);
     }
-    $filename = parse_url($url, PHP_URL_PATH);
-    imagejpeg($img, "saestor://wechatimg$filename");
+    $filename = str_replace("/","",parse_url($url, PHP_URL_PATH));
+    imagejpeg($img, "saestor://wechatimg/$filename");
     $stor = new SaeStorage();
 
     return $stor->getUrl("wehcatimg", $filename);
