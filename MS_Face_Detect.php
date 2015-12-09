@@ -79,8 +79,8 @@ function draw($url, $rectangle) {
         if (!$bool) {
             sae_log("保存文件失败");
         }
-
-    return (new SaeStorage())->getUrl("wechatimg", $filename);
+    $stor = new SaeStorage();
+    return $stor->getUrl("wechatimg", $filename);
 }
 
 
