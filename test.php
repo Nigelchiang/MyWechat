@@ -126,7 +126,7 @@ $server->on('message', 'image', function ($title) {
         $amount      = count($response);
         $description = "";
         $title       = "";
-        if ($response===array()) {
+        if ($response === array()) {
             $title .= "照片中木有人脸/:fade";
         } else {
             $title .= "照片中共检测到{$amount}张脸";
@@ -159,4 +159,10 @@ $server->on('message', 'image', function ($title) {
 
 $result = $server->serve();
 echo $result;
+function sae_log($msg) {
+    sae_set_display_errors(false);//关闭信息输出
+    sae_debug($msg);//记录日志
+    sae_set_display_errors(true);//记录日志后再打开信息输出，否则会阻止正常的错误信息的显示
+}
+
 sae_xhprof_end();
