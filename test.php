@@ -134,7 +134,7 @@ $server->on('message', 'image', function ($title) {
             $params = array();
             for ($i = 0; $i < $amount; $i++) {
                 if ($amount > 1) {
-                    $description .= "第{$i}张脸\n";
+                    $description .= sprintf("\n第%s张脸\n",$i+1);
                 }
                 $rec           = $response[$i]['faceRectangle'];
                 $attr          = $response[$i]['attributes'];
