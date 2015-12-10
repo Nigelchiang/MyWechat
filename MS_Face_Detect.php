@@ -99,18 +99,20 @@ function save(&$img, $url) {
     /*
      * 新的文件保存方法 用缓存来实现，这个方法应该会快很多，因为减少了两个特别慢的函数
      */
+    $domain = "wechatimg";
     $stor = new SaeStorage();
     ob_start();
     imagejpeg($img);
     $imgstr = ob_get_contents();
-    $bool   = $stor->write("wechatimg", $filename, $imgstr);
+    $bool   = $stor->write($domain, $filename, $imgstr);
     ob_end_clean();
     imagedestroy($img);
     if (!$bool) {
         sae_log("保存文件失败");
     }
 
-    return getUrl($filename);
+
+    return $stor->getUrl($domain, $filename);
 
 }
 
