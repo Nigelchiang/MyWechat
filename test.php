@@ -19,15 +19,14 @@ $server         = new Server($appId, $token, $encodingAESKey);
  * @return array
  */
 $welcome = function () {
-    $i = 0;
+    $i = 1;
 
     return array(
         Message::make('news_item')->title("你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg'),
-        Message::make('news_item')->title("『{" . $i++ . "}』发送图片可以查询照片中人脸的年龄和性别信息,还会在脸上标出来哦…")->PicUrl('http://233.weego.sinaapp.com/images/face.jpg'),
-        Message::make('news_item')->title("『{" . $i++ . "}』机智的图灵机器人陪你聊天解闷,可以查天气查火车查航班…")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png'),
-        Message::make('news_item')->title("『{" . $i++ . "}』新功能：语音聊天~直接给我发送语音就可以聊天了哦~")->PicUrl('http://n1gel-n1gel.stor.sinaapp
-        .com/img%2Fbaymax.png'),
-        Message::make('news_item')->title("『{" . $i++ . "}』四六级查分已经完成，即将上线！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
+        Message::make('news_item')->title("『" . $i++ . "』发送图片可以查询照片中人脸的年龄和性别信息,还会在脸上标出来哦…")->PicUrl('http://233.weego.sinaapp.com/images/face.jpg'),
+        Message::make('news_item')->title("『" . $i++ . "』机智的图灵机器人陪你聊天解闷,可以查天气查火车查航班…")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fbaymax.png'),
+        Message::make('news_item')->title("『" . $i++ . "』新功能：语音聊天~直接给我发送语音就可以聊天了哦~")->PicUrl('http://www.36dsj.com/wp-content/uploads/2015/03/228.jpg'),
+        Message::make('news_item')->title("『" . $i++ . "』四六级查分已经完成，即将上线！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
 };
 $server->on('event', 'subscribe', function ($event) use ($welcome) {
     return Message::make('news')->items($welcome);
