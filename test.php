@@ -31,7 +31,8 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) use ($welcome) {
-    return handleText($message->content, $welcome);
+    sae_log("消息内容 ".$message->Content);
+    return handleText($message->Content, $welcome);
 });
 //图片处理，调用微软API
 $server->on('message', 'image', function ($image) {
@@ -95,6 +96,7 @@ function sae_log($msg) {
 /**
  * 处理文字消息
  * @param $text
+ * @param $welcome closure
  * @return mixed
  */
 function handleText($text, $welcome) {
