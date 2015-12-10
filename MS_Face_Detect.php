@@ -72,7 +72,7 @@ function detect($url) {
 /**
  * 将图片资源保存到storage
  * @param $img       resource 图片资源
- * @param $url       string 微软返回的识别数据加上性别
+ * @param $url       string 原始图片的URL，用作文件名
  * @returns string storage中图片的URL
  */
 function save(&$img, $url) {

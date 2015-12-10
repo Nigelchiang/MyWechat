@@ -31,13 +31,80 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) use ($welcome) {
-    $guide = array("你好", "你能干什么", "哈哈", "您好", "喂");
-    if (in_array(trim($message->Content), $guide)) {
+    handleText($message->content, $welcome);
+});
+//图片处理，调用微软API
+$server->on('message', 'image', function ($image) {
+    require "MS_Face_Detect.php";
+    $picUrl   = $image->PicUrl;
+    $response = detect($picUrl);
+    if ($response !== false) {
+        $amount      = count($response);
+        $description = "";
+        $title       = "";
+        if ($response === array()) {
+            $title .= "照片中木有人脸/:fade";
+        } else {
+            $drawedUrl = processImg($picUrl, $response);
+            $title .= "照片中共检测到{$amount}张脸 点击查看大图";
+            for ($i = 0; $i < $amount; $i++) {
+                if ($amount > 1) {
+                    $description .= sprintf("\n第%s张脸\n", $i + 1);
+                }
+
+                $attr = $response[$i]['attributes'];
+                $description .= "年龄: " . $attr['age'];
+                $description .= "\n性别: " . $attr['gender'];
+            }
+
+            return Message::make('news')->item(
+                Message::make("news_item")->title($title)->description($description)->url($drawedUrl)->PicUrl
+                ($drawedUrl)
+            );
+        }
+
+        return Message::make('text')->content($title);
+    }
+
+    return Message::make('text')->content("不好意思出错啦/:bye");
+
+
+});
+//语音消息处理，使用微信的识别结果
+$server->on('message', 'voice', function ($message) use ($welcome) {
+    if (!isset($message->Recognition)) {
+        sae_log("无法使用语音消息的Recognition字段");
+    } else {
+        handleText($message->Recognition, $welcome);
+    }
+});
+
+$result = $server->serve();
+echo $result;
+
+/**
+ * SAE调试 在日志中心选择错误日志查看
+ * @param $msg string
+ */
+function sae_log($msg) {
+    sae_set_display_errors(false);//关闭信息输出
+    sae_debug($msg);//记录日志
+    sae_set_display_errors(true);//记录日志后再打开信息输出，否则会阻止正常的错误信息的显示
+}
+
+/**
+ * 处理文字消息
+ * @param $text
+ * @return mixed
+ */
+function handleText($text, $welcome) {
+    $guide = array("你好", "你能干什么", "哈哈", "您好", "喂", "你有什么功能");
+    if (in_array(trim($text), $guide)) {
         return Message::make('news')->items($welcome);
     }
 
     $url    = "http://www.tuling123.com/openapi/api?";
-    $params = array("key" => "08ad04b298923b29a203d0aca21a9779", "info" => $message->Content);
+    $params = array("key" => "08ad04b298923b29a203d0aca21a9779", "info" => $text);
     $url .= http_build_query($params);
     //换成使用curl，哈哈，时间变成了1/3，太厉害啦！
     $ch = curl_init();
@@ -116,56 +183,6 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 
     return Message::make('text')->content($data['text']);
 
-});
-//图片处理，调用微软API
-$server->on('message', 'image', function ($image) {
-    require "MS_Face_Detect.php";
-    $picUrl   = $image->PicUrl;
-    $response = detect($picUrl);
-    if ($response !== false) {
-        $amount      = count($response);
-        $description = "";
-        $title       = "";
-        if ($response === array()) {
-            $title .= "照片中木有人脸/:fade";
-        } else {
-            $drawedUrl = processImg($picUrl, $response);
-            $title .= "照片中共检测到{$amount}张脸 点击查看大图";
-            for ($i = 0; $i < $amount; $i++) {
-                if ($amount > 1) {
-                    $description .= sprintf("\n第%s张脸\n", $i + 1);
-                }
 
-                $attr = $response[$i]['attributes'];
-                $description .= "年龄: " . $attr['age'];
-                $description .= "\n性别: " . $attr['gender'];
-            }
-
-            return Message::make('news')->item(
-                Message::make("news_item")->title($title)->description($description)->url($drawedUrl)->PicUrl
-                ($drawedUrl)
-            );
-        }
-
-        return Message::make('text')->content($title);
-    }
-
-    return Message::make('text')->content("不好意思出错啦/:bye");
-
-
-});
-
-$result = $server->serve();
-echo $result;
-
-/**
- * SAE调试 在日志中心选择错误日志查看
- * @param $msg string
- */
-function sae_log($msg) {
-    sae_set_display_errors(false);//关闭信息输出
-    sae_debug($msg);//记录日志
-    sae_set_display_errors(true);//记录日志后再打开信息输出，否则会阻止正常的错误信息的显示
 }
-
 //sae_xhprof_end();
