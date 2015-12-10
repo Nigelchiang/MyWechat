@@ -44,7 +44,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     sae_log("openid:{$message->FromUserName} len:" . strlen($message->FromUserName));
     if (in_array(trim($message->Content), array("四六级", "46", "查分"))) {
         $openid = $message->FromUserName;
-        $url    = $_SERVER['HTTP_APPVERSION'] . $_SERVER['HTTP_HOST'] . "/cet.php?openid={$openid}";
+        $url    = "5.n1gel.sinaapp.com" . "/cet.php?openid={$openid}";
         sae_log("cet查分页面 {$url}");
 
         return Message::make('news')->item(
