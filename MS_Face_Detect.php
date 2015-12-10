@@ -6,6 +6,19 @@
  * Time: 9:32
  */
 /**
+ * @param $url  string 用户上传的图片信息
+ * @param $data array 识别的人脸信息
+ * @return string storage里存的图片URL
+ */
+function processImg($url, $data) {
+    $img = getImg($url);
+    draw($img, $data);
+    $drawed_url = save($img, $url);
+
+    return $drawed_url;
+}
+
+/**
  * 调用微软人脸识别API
  * @param $url
  * @return array 失败返回false
@@ -57,87 +70,99 @@ function detect($url) {
 }
 
 /**
- * 在图片上画出矩形，并返回保存之后的URL
- * @param $url       string 图片的URL
- * @param $rectangle array 微软返回的识别数据加上性别
- * @return string 返回保存后的图片URL
+ * 将图片资源保存到storage
+ * @param $img       resource 图片资源
+ * @param $url       string 微软返回的识别数据加上性别
+ * @returns string storage中图片的URL
  */
-function draw($url, &$rectangle) {
-    $img = imagecreatefromstring(getImg($url));
-
-    if (!is_resource($img)) {
-        sae_log("img不是资源文件");
-    }
-
-    foreach ($rectangle as &$rec) {
-        drawRec($rec, $img);
-    }
+function save(&$img, $url) {
+    //给文件名添加随机的后缀，防止重复
     $random   = mt_rand();
     $filename = str_replace("/", "", parse_url($url, PHP_URL_PATH)) . $random . ".jpg";
     //just for test
-    //    $stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
-    //imagepng这样的函数不支持wrapper,用临时文件解决
-    $bool = imagejpeg($img, SAE_TMP_PATH . $filename);//保存为临时文件
+    //$stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
 
-    sae_log("保存的文件名：" . $filename);
+    //imagepng这样的函数不支持wrapper,用临时文件解决
+    //imageX 第二个参数指定filename，将文件保存到一个地址而不是输出到浏览器
+    //使用sae storage的wrapper来保存图片
+    //file_put_contents("saestor://n/test.txt", "haha");
+
+    //保存为临时文件
+    $bool = imagejpeg($img, SAE_TMP_PATH . $filename);
+    imagedestroy($img);
+
+    //    sae_log("保存的文件名：" . $filename);
+    //从临时文件里取出，保存到storage里
     file_put_contents("saestor://wechatimg/$filename",
                       file_get_contents(SAE_TMP_PATH . $filename));
-    //    $bool = imagejpeg($img, "saestor://wechatimg/$filename");
+
     if (!$bool) {
         sae_log("保存文件失败");
     }
+
+    return getUrl($filename);
+
+}
+
+/**
+ * 获取保存在wechatimg里图片的URL
+ * @param $filename string
+ * @return string
+ */
+function getUrl($filename) {
     $stor = new SaeStorage();
 
     return $stor->getUrl("wechatimg", $filename);
 }
 
 
-function drawRec(&$rec, &$img) {
+/**
+ * @param $recs array 画图的数据
+ * @param $img  mixed  图片资源
+ */
+function draw(&$img, &$recs) {
 
-    $x1     = $rec['left'];
-    $y1     = $rec['top'];
-    $width  = $rec['width'];
-    $height = $rec['height'];
-    $gender = $rec['gender'];
-    $x2     = $x1 + $width;
-    $y2     = $y1 + $height;
-    $points = array(
-        'pupilLeft'  => $rec['pupilLeft'],
-        'pupilRight' => $rec['pupilRight'],
-        'nostTip'    => $rec['noseTip'],
-        'mouthLeft'  => $rec['mouthLeft'],
-        'mouthRight' => $rec['mouthRight']);
+    foreach ($recs as $rec) {
+        $x1     = $rec['faceRectangle']['left'];
+        $y1     = $rec['faceRectangle']['top'];
+        $width  = $rec['faceRectangle']['width'];
+        $height = $rec['faceRectangle']['height'];
+        $gender = $rec['attributes']['gender'];
+        $x2     = $x1 + $width;
+        $y2     = $y1 + $height;
+        //拆分数组,取出需要的五个点坐标
+        $points = array_slice($rec['faceLandmarks'], 0, 5);
 
-    $color_male   = imagecolorallocate($img, 13, 163, 238);
-    $color_female = imagecolorallocate($img, 186, 11, 147);
-    $color        = ($gender == "male") ? $color_male : $color_female;
-    //设置笔画的粗细
-    imagesetthickness($img, 3);
-    //画一个矩形
-    $bool = imagerectangle($img, $x1, $y1, $x2, $y2, $color);
-    //画点
-//    imagesetthickness($img, 8);
-    foreach ($points as $point) {
-        $bool = imagefilledrectangle($img, $point['x'] - 7, $point['y'] - 7, $point['x'] + 7, $point['y'] + 7, $color);
+
+        $color_male   = imagecolorallocate($img, 13, 163, 238);
+        $color_female = imagecolorallocate($img, 186, 11, 147);
+        $color        = ($gender == "male") ? $color_male : $color_female;
+        //设置笔画的粗细
+        imagesetthickness($img, 3);
+        //画一个矩形
+        $bool = imagerectangle($img, $x1, $y1, $x2, $y2, $color);
+        //画点
+        foreach ($points as $point) {
+            $bool = imagefilledrectangle($img, $point['x'] - 7, $point['y'] - 7, $point['x'] + 7, $point['y'] + 7,
+                                         $color);
+        }
+
+        if (!$bool) {
+            sae_log("画图失败");
+        }
     }
 
-    if (!$bool) {
-        sae_log("画图失败");
-    }
+    return $img;
 }
 
 //欺骗浏览器，输出图片
 //header('Content-Type:image/jpeg');
-//imageX 第二个参数指定filename，将文件保存到一个地址而不是输出到浏览器
-//使用sae storage的wrapper来保存图片
-//$stor = new SaeStorage("mkm32j3l42", "3jxwz5kix5limjww22z0l10yk1300y35yy5j03xy");
-//var_dump($stor->getList('n'));
-//$stor->write('n', "nothing1.txt", "haha");
 
-//imagejpeg($img, "saestor://??.jpg");
-////file_put_contents("saestor://n/test.txt", "haha");
-//imagedestroy($img);
-
+/**
+ * 通过cUrl下载图片
+ * @param $url string 图片的URL
+ * @return resource 创建的图片资源
+ */
 function getImg($url) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -150,7 +175,12 @@ function getImg($url) {
     }
     curl_close($ch);
 
-    return $data;
+    $img = imagecreatefromstring($data);
+    if ($img === false) {
+        sae_log("图片创建失败");
+    }
+
+    return $img;
 }
 
 

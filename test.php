@@ -118,9 +118,9 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 
 });
 //图片处理，调用微软API
-$server->on('message', 'image', function ($title) {
+$server->on('message', 'image', function ($image) {
     require "MS_Face_Detect.php";
-    $picUrl   = $title->PicUrl;
+    $picUrl   = $image->PicUrl;
     $response = detect($picUrl);
     if ($response !== false) {
         $amount      = count($response);
@@ -129,31 +129,21 @@ $server->on('message', 'image', function ($title) {
         if ($response === array()) {
             $title .= "照片中木有人脸/:fade";
         } else {
-            $title .= "照片中共检测到{$amount}张脸";
-            $params = array();
+            $drawedUrl = processImg($picUrl, $response);
+            $title .= "照片中共检测到{$amount}张脸 点击查看大图";
             for ($i = 0; $i < $amount; $i++) {
                 if ($amount > 1) {
-                    $description .= sprintf("\n第%s张脸\n",$i+1);
+                    $description .= sprintf("\n第%s张脸\n", $i + 1);
                 }
-                $rec           = $response[$i]['faceRectangle'];
-                $attr          = $response[$i]['attributes'];
-                $faceLandmarks = $response[$i]['faceLandmarks'];
 
-                $rec["gender"]     = $attr['gender'];
-                $rec['pupilLeft']  = $faceLandmarks['pupilLeft'];
-                $rec['pupilRight'] = $faceLandmarks['pupilRight'];
-                $rec['noseTip']    = $faceLandmarks['noseTip'];
-                $rec['mouthLeft']  = $faceLandmarks['mouthLeft'];
-                $rec['mouthRight'] = $faceLandmarks['mouthRight'];
-                array_push($params, $rec);
+                $attr = $response[$i]['attributes'];
                 $description .= "年龄: " . $attr['age'];
                 $description .= "\n性别: " . $attr['gender'];
             }
-            $drawedPic = draw($picUrl, $params);
 
             return Message::make('news')->item(
-                Message::make("news_item")->title($title)->description($description)->url($drawedPic)->PicUrl
-                ($drawedPic)
+                Message::make("news_item")->title($title)->description($description)->url($drawedUrl)->PicUrl
+                ($drawedUrl)
             );
         }
 
@@ -167,6 +157,11 @@ $server->on('message', 'image', function ($title) {
 
 $result = $server->serve();
 echo $result;
+
+/**
+ * SAE调试 在日志中心选择错误日志查看
+ * @param $msg string
+ */
 function sae_log($msg) {
     sae_set_display_errors(false);//关闭信息输出
     sae_debug($msg);//记录日志
