@@ -34,7 +34,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) use ($welcome) {
-    //    sae_log("消息内容 " . $message->Content);
+        sae_log("消息内容 " . $message->Content);
 
     return handleText($message->Content, $welcome);
 });
