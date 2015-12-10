@@ -82,20 +82,30 @@ function save(&$img, $url) {
     //just for test
     //$stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
 
-    //imagepng这样的函数不支持wrapper,用临时文件解决
-    //imageX 第二个参数指定filename，将文件保存到一个地址而不是输出到浏览器
-    //使用sae storage的wrapper来保存图片
-    //file_put_contents("saestor://n/test.txt", "haha");
+    /*    imagepng这样的函数不支持wrapper,用临时文件解决
+        imageX 第二个参数指定filename，将文件保存到一个地址而不是输出到浏览器
+        使用sae storage的wrapper来保存图片
+        file_put_contents("saestor://n/test.txt", "haha");
 
-    //保存为临时文件
-    $bool = imagejpeg($img, SAE_TMP_PATH . $filename);
+        保存为临时文件
+        $bool = imagejpeg($img, SAE_TMP_PATH . $filename);
+        imagedestroy($img);
+
+            sae_log("保存的文件名：" . $filename);
+        从临时文件里取出，保存到storage里
+        file_put_contents("saestor://wechatimg/$filename",
+                          file_get_contents(SAE_TMP_PATH . $filename));*/
+
+    /*
+     * 新的文件保存方法 用缓存来实现，这个方法应该会快很多，因为减少了两个特别慢的函数
+     */
+    $stor = new SaeStorage();
+    ob_start();
+    imagejpeg($img);
+    $imgstr = ob_get_contents();
+    $bool   = $stor->write("wechatimg", $filename, $imgstr);
+    ob_end_clean();
     imagedestroy($img);
-
-    //    sae_log("保存的文件名：" . $filename);
-    //从临时文件里取出，保存到storage里
-    file_put_contents("saestor://wechatimg/$filename",
-                      file_get_contents(SAE_TMP_PATH . $filename));
-
     if (!$bool) {
         sae_log("保存文件失败");
     }
