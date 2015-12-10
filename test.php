@@ -95,7 +95,7 @@ function sae_log($msg) {
 
 /**
  * 处理文字消息
- * @param $text
+ * @param $text string
  * @param $welcome closure
  * @return mixed
  */
