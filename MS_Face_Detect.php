@@ -78,7 +78,7 @@ function detect($url) {
 function save(&$img, $url) {
     //给文件名添加随机的后缀，防止重复
     $random   = mt_rand();
-    $filename = str_replace("/", "", parse_url($url, PHP_URL_PATH)) . $random . ".jpg";
+    $filename = substr(str_replace("/", "", parse_url($url, PHP_URL_PATH)), -1, 10) . $random . ".jpg";
     //just for test
     //$stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
 
@@ -100,7 +100,7 @@ function save(&$img, $url) {
      * 新的文件保存方法 用缓存来实现，这个方法应该会快很多，因为减少了两个特别慢的函数
      */
     $domain = "wechatimg";
-    $stor = new SaeStorage();
+    $stor   = new SaeStorage();
     ob_start();
     imagejpeg($img);
     $imgstr = ob_get_contents();
