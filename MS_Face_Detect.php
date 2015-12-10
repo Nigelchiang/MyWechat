@@ -78,7 +78,7 @@ function detect($url) {
 function save(&$img, $url) {
     //给文件名添加随机的后缀，防止重复
     $random   = mt_rand();
-    $filename = substr(str_replace("/", "", parse_url($url, PHP_URL_PATH)), -1, 10) . $random . ".jpg";
+    $filename = substr(str_replace("/", "", parse_url($url, PHP_URL_PATH)), -10) . $random . ".jpg";
     //just for test
     //$stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
 
