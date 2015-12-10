@@ -31,7 +31,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) use ($welcome) {
-    handleText($message->content, $welcome);
+    return handleText($message->content, $welcome);
 });
 //图片处理，调用微软API
 $server->on('message', 'image', function ($image) {
@@ -75,7 +75,7 @@ $server->on('message', 'voice', function ($message) use ($welcome) {
     if (!isset($message->Recognition)) {
         sae_log("无法使用语音消息的Recognition字段");
     } else {
-        handleText($message->Recognition, $welcome);
+        return handleText($message->Recognition, $welcome);
     }
 });
 
