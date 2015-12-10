@@ -76,6 +76,7 @@ $server->on('message', 'voice', function ($message) use ($welcome) {
     if (!isset($message->Recognition)) {
         sae_log("无法使用语音消息的Recognition字段");
     } else {
+        sae_log("语音消息内容 ".$message->Recognition);
         return handleText($message->Recognition, $welcome);
     }
 });
