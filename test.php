@@ -5,8 +5,13 @@ use Overtrue\Wechat\Message;
 use Overtrue\Wechat\Messages\NewsItem;
 use Overtrue\Wechat\Server;
 
-//sae_xhprof_start();
+//SAE调试
+//$debug=true //开关
+if (isset($debug) && $debug) {
+    sae_xhprof_start();
+}
 require __DIR__ . "/autoload.php";
+require "MS_Face_Detect.php";
 
 $appId          = "wxea2364b2dfd8449b";
 $token          = "test";
@@ -34,13 +39,24 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) use ($welcome) {
-        sae_log("消息内容 " . $message->Content);
+    //    sae_log("消息内容 " . $message->Content);
+    //四六级查分-备份考号
+    sae_log("openid:{$message->FromUserName} len:" . strlen($message->FromUserName));
+    if (in_array(trim($message->Content), array("四六级", "46", "查分"))) {
+        $openid = $message->FromUserName;
+        $url    = $_SERVER['HTTP_APPVERSION'] . $_SERVER['HTTP_HOST'] . "/cet.php?openid={$openid}";
+        sae_log("cet查分页面 {$url}");
+
+        return Message::make('news')->item(
+            Message::make('news_item')->title("四六级查分")->PicUrl()->description()->url($url)
+        );
+
+    }
 
     return handleText($message->Content, $welcome);
 });
 //图片处理，调用微软API
 $server->on('message', 'image', function ($image) {
-    require "MS_Face_Detect.php";
     $picUrl   = $image->PicUrl;
     $response = detect($picUrl);
     if ($response !== false) {
@@ -77,27 +93,14 @@ $server->on('message', 'image', function ($image) {
 });
 //语音消息处理，使用微信的识别结果
 $server->on('message', 'voice', function ($message) use ($welcome) {
-    if (!isset($message->Recognition)) {
-        sae_log("无法使用语音消息的Recognition字段");
-    } else {
-        //        sae_log("语音消息内容 " . $message->Recognition);
 
-        return handleText($message->Recognition, $welcome);
-    }
+    return handleText($message->Recognition, $welcome);
+
 });
 
 $result = $server->serve();
 echo $result;
 
-/**
- * SAE调试 在日志中心选择错误日志查看
- * @param $msg string
- */
-function sae_log($msg) {
-    sae_set_display_errors(false);//关闭信息输出
-    sae_debug($msg);//记录日志
-    sae_set_display_errors(true);//记录日志后再打开信息输出，否则会阻止正常的错误信息的显示
-}
 
 /**
  * 处理文字消息
@@ -193,4 +196,18 @@ function handleText($text, $welcome) {
 
 
 }
-//sae_xhprof_end();
+
+if (isset($debug) && $debug) {
+    sae_xhprof_end();
+}
+
+
+/**
+ * SAE调试 在日志中心选择错误日志查看
+ * @param $msg string
+ */
+function sae_log($msg) {
+    sae_set_display_errors(false);//关闭信息输出
+    sae_debug($msg);//记录日志
+    sae_set_display_errors(true);//记录日志后再打开信息输出，否则会阻止正常的错误信息的显示
+}
