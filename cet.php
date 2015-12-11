@@ -1,3 +1,5 @@
+<?php
+session_start();?>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -7,7 +9,7 @@
 </head>
 <body>
 <?php
-session_start();
+
 $openid = $_GET['openid'];
 
 //查询数据库，openid是否已经存在
