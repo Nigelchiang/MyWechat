@@ -14,11 +14,11 @@ $openid = $_GET['openid'];
 
 //查询数据库，openid是否已经存在
 $mysql  = new SaeMysql();
-$query  = "SELECT examid FROM cet WHERE openid=$openid";
+$query  = "SELECT examid FROM cet WHERE openid='$openid'";
 $examid = $mysql->getData($query);
 //用户尚未备份考号
 if (empty($examid)) {
-    $signup = "INSERT INTO cet (openid) VALUES($openid) ";
+    $signup = "INSERT INTO cet (openid) VALUES('$openid') ";
     $bool   = $mysql->runSql($signup);
     if (!$bool) {
         echo sprintf("注册失败 %d : %s",$mysql->errno(),$mysql->errmsg());
