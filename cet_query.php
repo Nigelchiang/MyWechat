@@ -54,8 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //更新数据库
         $mysql  = new SaeMysql();
         $update = "insert into cet (examid,name,openid) VALUES ('$examid','$name','$openid')";
+        $updata_wx="update wechat_user set name='$name' WHERE openid='$openid'";
         $bool   = $mysql->runSql($update);
-
+        $bool = $mysql->runSql($updata_wx);
         if (!$bool) {
             sae_log("插入考号姓名出错" . $mysql->errmsg());
         }
