@@ -52,8 +52,8 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
     } else {
         //MySQL如何修改现有的一行数据？
         //更新关注时间、关注状态，获取用户姓名
-        $update = "update wechat_user set followTime = " . date("c") . ", isFollow=1 WHERE
-        openid='$event->FromUserName'";
+        $update = "update wechat_user set followTime = '" . date("c") . "',isFollow = 1 WHERE
+        openid='$event->FromUserName' ";
         $mysql->runSql($update);
         sae_log($mysql->errno() . "-" . $mysql->errmsg());
         $name = $mysql->getVar("select name from wechat_user WHERE openid = '$event->FromUserName'");
@@ -69,7 +69,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 $server->on('event', 'unsubscribe', function ($event) {
     sae_log("用户取消关注: " . $event->openid);
     $mysql  = new SaeMysql();
-    $signup = "update  wechat_user set isFollow = 0, unfollowTime = " . date("c") . "WHERE
+    $signup = "update  wechat_user set isFollow = 0, unfollowTime = '" . date("c") . "'WHERE
     openid='$event->FromUserName'";
     $mysql->runSql($signup);
     sae_log($mysql->errno() . "-" . $mysql->errmsg());
