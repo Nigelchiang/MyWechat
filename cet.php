@@ -16,6 +16,7 @@ $openid = $_GET['openid'];
 $mysql  = new SaeMysql();
 $query  = "SELECT examid FROM cet WHERE openid='$openid'";
 $examid = $mysql->getData($query);
+sae_log($examid[0]);
 //用户尚未备份考号
 if (empty($examid)) {
     $signup = "INSERT INTO cet (openid) VALUES('$openid') ";
@@ -24,11 +25,11 @@ if (empty($examid)) {
         echo $debug=sprintf("注册失败 %d : %s",$mysql->errno(),$mysql->errmsg());
         sae_log($debug);
     } else {
-        echo "你已成功注册" . "<br/>";
+        echo "你已成功注册";
         sae_log("成功注册");
+        //跳到填写考号和姓名的页面
+        //带上openid或者设置session
     }
-    //跳到填写考号和姓名的页面
-    //带上openid或者设置session
 } else {
     //跳到结果的页面 //带上openid或者session和
     //页面获取exanid和姓名直接查询，将查询结果存到数据库并显示到页面，生成一个模板图片，让用户保存
