@@ -82,17 +82,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">考号</div>
-                <input type="text" maxlength="15" name="examid" class="form-control" placeholder="请输入15位准考证号">
+                <input type="text" maxlength="15" name="examid" class="form-control" placeholder="请输入15位准考证号"
+                       value="<?php echo $examid; ?>">
             </div>
         </div>
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">姓名</div>
-                <input type="text" maxlength="3" name="name" class="form-control" placeholder="姓名只输入前3个字">
+                <input type="text" maxlength="3" name="name" class="form-control" placeholder="姓名只输入前3个字"
+                       value="<?php echo $name; ?>">
             </div>
         </div>
         <button type="button" class="btn btn-primary btn-block" onclick="onSubmit();">备份</button>
     </form>
+    <!--自定义了一个漂亮的button，给他绑定一个点击事件，点击之后，找到这个表单，然后调用表单的提交事件，OK啦，前后端完美结合。-->
     <script>
         function onSubmit() {
             document.getElementById('submit').submit();
