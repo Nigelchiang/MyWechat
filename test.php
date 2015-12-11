@@ -42,8 +42,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
     $user         = $mysql->getLine($everFollowed);
     //用户第一次关注
     if ($user === false) {
-        $signup = "insert into wechat_user(openid,followTime) VALUES ('$event->FromUserName'," . strval
-            ($event->CreateTime) . ")";
+        $signup = "insert into wechat_user(openid,followTime) VALUES ('$event->FromUserName','" . date("c") . "')";
         $mysql->runSql($signup);
         sae_log("用户第一次关注");
         $mysql->closeDb();
