@@ -16,7 +16,7 @@ $openid = $_GET['openid'];
 $mysql  = new SaeMysql();
 $query  = "SELECT examid FROM cet WHERE openid='$openid'";
 $examid = $mysql->getData($query);
-sae_log($examid[0]);
+sae_log(json_encode($examid));
 //用户尚未备份考号
 if (empty($examid)) {
     $signup = "INSERT INTO cet (openid) VALUES('$openid') ";
