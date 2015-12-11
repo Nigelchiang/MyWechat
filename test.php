@@ -21,20 +21,55 @@ $server         = new Server($appId, $token, $encodingAESKey);
 //关注事件
 /**
  * 生成提示功能的news
+ * @param null $user_name
  * @return array
  */
-$welcome = function () {
+$welcome = function ($user_name = null) {
     $i = 1;
 
     return array(
-        Message::make('news_item')->title("你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2Fwelcome.jpg'),
+        Message::make('news_item')->title("{$user_name} 你好~欢迎关注！")->PicUrl('http://n1gel-n1gel.stor.sinaapp
+        .com/img%2Fwelcome.jpg'),
         Message::make('news_item')->title("『" . $i++ . "』发送图片可以查询照片中人脸的年龄和性别信息,还会在脸上标出来哦…")->PicUrl('http://n1gel-wechatimg.stor.sinaapp.com/mmbizaC7DypReicewYESlc5gXjH3IKQbYribnF72lBOIpmK0BWKZ6XTVdcSmaPzwp4NibAqdZTzSYuxNaRoqbrtqaacNWA0814814157.jpg'),
         Message::make('news_item')->title("『" . $i++ . "』机智的图灵机器人陪你聊天解闷,可以查天气查火车查航班…")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/2786001_213751420000_2.jpg'),
         Message::make('news_item')->title("『" . $i++ . "』新功能：语音聊天~直接给我发送语音就可以聊天了哦~")->PicUrl('http://www.36dsj.com/wp-content/uploads/2015/03/228.jpg'),
         Message::make('news_item')->title("『" . $i++ . "』四六级查分已经完成，即将上线！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
 };
 $server->on('event', 'subscribe', function ($event) use ($welcome) {
-    return Message::make('news')->items($welcome);
+    sae_log("用户关注: " . $event->openid);
+    $mysql = new SaeMysql();
+    //用户以前是否关注过
+    $everFollowed = "select openid,name from wechat_user WHERE openid='$event->FromUserName'";
+    $user         = $mysql->getLine($everFollowed);
+    //用户第一次关注
+    if ($user === array()) {
+        $signup = "insert into wechat_user(openid,followTime) VALUES ('$event->FromUserName',$event->CreateTime)";
+        $mysql->runSql($signup);
+        sae_log($mysql->errno() . "-" . $mysql->errmsg());
+        $mysql->closeDb();
+
+        return Message::make('news')->items($welcome);
+    } else {
+        //MySQL如何修改现有的一行数据？
+        //更新关注时间、关注状态，获取用户姓名
+        $update = "update wechat_user set followTime='$event->CreateTime',isFollow=1 WHERE openid='$event->FromUserName'";
+        $mysql->runSql($update);
+        $name = $mysql->getVar("select name from wechat_user WHERE openid='$event->FromUserName'");
+
+        return Message::make('news')->items(function() use($name,$welcome){
+            $welcome($name);
+        });
+    }
+
+});
+//取消关注
+$server->on('event', 'unsubscribe', function ($event) {
+    sae_log("用户取消关注: " . $event->openid);
+    $mysql  = new SaeMysql();
+    $signup = "insert into wechat_user(openid,followTime) VALUES ('$event->fromusername',$event->CreateTime)";
+    $mysql->runSql($signup);
+    sae_log($mysql->errno() . "-" . $mysql->errmsg());
+    $mysql->closeDb();
 });
 
 //文字消息处理，调用图灵机器人
@@ -44,7 +79,7 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     sae_log("openid:{$message->FromUserName} len:" . strlen($message->FromUserName));
     if (in_array(trim($message->Content), array("四六级", "46", "查分"))) {
         $openid = $message->FromUserName;
-        $url    = "5.n1gel.sinaapp.com" . "/cet.php?openid={$openid}";
+        $url    = "5.n1gel.sinaapp.com/cet.php?openid={$openid}";
         sae_log("cet查分页面 {$url}");
 
         return Message::make('news')->item(

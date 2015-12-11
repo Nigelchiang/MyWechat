@@ -1,5 +1,22 @@
 <?php
-//session_start();
+session_start();
+//查询数据库，openid是否已经存在
+
+$openid = $_GET['openid'];
+$mysql  = new SaeMysql();
+$query  = "SELECT examid,name FROM wechat_user WHERE openid='$openid'";
+//从数组取出两个变量
+//extract($mysql->getLine($query));
+$line               = $mysql->getLine($query);
+$examid             = $line['examid'];
+$name               = $line['name'];
+$_SESSION['openid'] = $openid;
+$_SESSION['examid'] = $examid;
+$_SESSION['name']   = $name;
+//var_dump($examid);
+//var_dump($mysql->getLine($query));
+//var_dump($mysql->getVar($query));
+sae_log(json_encode($openid . "-" . $examid));
 ?>
 <!DOCTYPE html>
 <html lang="zh">
@@ -11,19 +28,9 @@
 <body>
 <?php
 
-$openid = $_GET['openid'];
-
-//查询数据库，openid是否已经存在
-$mysql = new SaeMysql();
-$query = "SELECT openid,examid FROM cet WHERE openid='$openid'";
-list($openid, $examid) = each($mysql->getLine($query));
-//var_dump($examid);
-//var_dump($mysql->getLine($query));
-//var_dump($mysql->getVar($query));
-sae_log(json_encode($openid . "-" . $examid));
-//用户尚未备份考号
+//用户尚未注册
 if (empty($openid)) {
-    $signup = "INSERT INTO cet (openid) VALUES('$openid') ";
+    $signup = "INSERT INTO wechat_user (openid) VALUES('$openid') ";
     $bool   = $mysql->runSql($signup);
     if (!$bool) {
         echo $debug = sprintf("注册失败 %d : %s", $mysql->errno(), $mysql->errmsg());
@@ -33,14 +40,15 @@ if (empty($openid)) {
         sae_log("成功注册");
         echo "即将跳转到备份的页面";
         //跳到填写考号和姓名的页面
-        //带上openid或者设置session
+        header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
     }
+    //用户已注册，为备份考号和姓名
 } elseif (empty($examid)) {
     echo "即将跳转到备份的页面";
-    //跳到备份的页面 //带上openid或者session和
+    header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
     //页面获取exanid和姓名直接查询，将查询结果存到数据库并显示到页面，生成一个模板图片，让用户保存
 } else {
-    echo "即将跳转到成绩结果界面";
+    header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
 }
 
 $mysql->closeDb();
