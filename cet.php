@@ -9,6 +9,7 @@ $query              = "SELECT openid,examid,name FROM wechat_user WHERE openid='
 //从数组取出两个变量
 //extract($mysql->getLine($query));
 $line = $mysql->getLine($query);
+var_dump($line);
 //数据库保存的openid
 $openid             = $line['openid'];
 $examid             = $line['examid'];
