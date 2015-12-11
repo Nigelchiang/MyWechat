@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <body>
 
     <!--可以用一个ajax，输入完成之后就发一个请求到服务器验证一下-->
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" id="submit">
         <div class="alert alert-info">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             2015年12月四六级考试成绩预计在2016年2月20-3月1左右发布，方方会第一时间提醒大家的~
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="text" maxlength="3" name="name" class="form-control" placeholder="姓名只输入前3个字">
             </div>
         </div>
-        <button type="button" class="btn btn-primary btn-block" id="submit" onclick="onSubmit();">备份</button>
+        <button type="button" class="btn btn-primary btn-block" onclick="onSubmit();">备份</button>
     </form>
     <script>
         function onSubmit() {
