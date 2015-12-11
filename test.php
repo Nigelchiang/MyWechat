@@ -24,7 +24,7 @@ $server         = new Server($appId, $token, $encodingAESKey);
  * @param null $user_name
  * @return array
  */
-$welcome = function ($user_name = null) {
+$welcome = function ($user_name = "") {
     $i = 1;
 
     return array(
@@ -35,7 +35,7 @@ $welcome = function ($user_name = null) {
         Message::make('news_item')->title("『" . $i++ . "』四六级查分已经上线,回复\"46\"来备份考号吧！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
 };
 $server->on('event', 'subscribe', function ($event) use ($welcome) {
-    sae_log("用户关注: " . $event->openid);
+    sae_log("用户关注: " . $event->FromUserName);
     $mysql = new SaeMysql();
     //用户以前是否关注过
     $everFollowed = "select openid,name from wechat_user WHERE openid='$event->FromUserName'";
@@ -56,9 +56,10 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
         $mysql->runSql($update);
         $name = $mysql->getVar("select name from wechat_user WHERE openid = '$event->FromUserName'");
         if (is_bool($name)) {
-            $name = null;
-            sae_log("名字不存在");
+            $name = "";
+            sae_log("名字不存在" . $name);
         }
+
         $mysql->closeDb();
 
         return Message::make('news')->items(function () use ($name, $welcome) {
