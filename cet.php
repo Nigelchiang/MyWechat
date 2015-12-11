@@ -20,6 +20,7 @@ $examid=$mysql->getData($query);
 if (empty($examid)) {
     $signup ="INSERT INTO cet (openid) VALUES($openid) ";
     $mysql->runSql($signup);
+    echo "你已成功注册"."<br/>";
     //跳到填写考号和姓名的页面
     //带上openid或者设置session
 }else{
