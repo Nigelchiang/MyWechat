@@ -16,7 +16,7 @@ $openid = $_GET['openid'];
 //查询数据库，openid是否已经存在
 $mysql = new SaeMysql();
 $query = "SELECT openid,examid FROM cet WHERE openid='$openid'";
-list($openid, $examid) = $mysql->getLine($query);
+list($openid, $examid) = each($mysql->getLine($query));
 //var_dump($examid);
 //var_dump($mysql->getLine($query));
 //var_dump($mysql->getVar($query));
