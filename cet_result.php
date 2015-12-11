@@ -9,8 +9,10 @@ session_start();
 $openid = $_SESSION['openid'];
 $examid = $_SESSION['examid'];
 $name   = $_SESSION['name'];
-echo "这里是成绩展示界面，会生成一张成绩的图片\n";
-echo "openid".$openid;
+echo "这里是成绩展示界面，会生成一张成绩的图片<br/>";
+echo "openid".$openid."<br>";
+echo "examid: ".$examid."<br>";
+echo "name: ".$name."<br/>";
 
 
 function sae_log($msg) {
