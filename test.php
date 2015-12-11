@@ -56,7 +56,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
         $mysql->runSql($update);
         $name = $mysql->getVar("select name from wechat_user WHERE openid='$event->FromUserName'");
 
-        return Message::make('news')->items(function() use($name,$welcome){
+        return Message::make('news')->items(function () use ($name, $welcome) {
             $welcome($name);
         });
     }
@@ -76,17 +76,7 @@ $server->on('event', 'unsubscribe', function ($event) {
 $server->on('message', 'text', function ($message) use ($welcome) {
     //    sae_log("消息内容 " . $message->Content);
     //四六级查分-备份考号
-    if (in_array(trim($message->Content), array("四六级", "46", "查分"))) {
-        $openid = $message->FromUserName;
-        $url    = "5.n1gel.sinaapp.com/cet.php?openid={$openid}";
-
-        return Message::make('news')->item(
-            Message::make('news_item')->title("四六级查分-先来备份一下考号吧~")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/cet_cover.jpg")->description("大家期待已久的四六级查分功能终于做好啦！！\n不过，考试成绩得两个月后才会公布，那么久考号早就丢了吧…\n快来备份一下考号吧，成绩公布后，我会第一时间通知你们哦，到时候还是回复『46』就可以直接查到分数啦！\n")->url($url)
-        );
-
-    }
-
-    return handleText($message->Content, $welcome);
+    return handleText($message->Content, $message->FromUserName, $welcome);
 });
 //图片处理，调用微软API
 $server->on('message', 'image', function ($image) {
@@ -127,7 +117,7 @@ $server->on('message', 'image', function ($image) {
 //语音消息处理，使用微信的识别结果
 $server->on('message', 'voice', function ($message) use ($welcome) {
 
-    return handleText($message->Recognition, $welcome);
+    return handleText($message->Recognition, $message->FromUserName, $welcome);
 
 });
 
@@ -138,13 +128,21 @@ echo $result;
 /**
  * 处理文字消息
  * @param $text    string
+ * @param $openid string
  * @param $welcome closure
  * @return mixed
  */
-function handleText($text, $welcome) {
-    $guide = array("你好", "你能干什么", "哈哈", "您好", "喂", "你有什么功能");
-    if (in_array(trim($text), $guide)) {
+function handleText($text, $openid, $welcome) {
+    if (in_array(trim($text), array("你好", "你能干什么", "哈哈", "您好", "喂", "你有什么功能"))) {
         return Message::make('news')->items($welcome);
+    }
+    if (in_array(trim($text), array("四六级", "46", "查分"))) {
+        $url = "5.n1gel.sinaapp.com/cet.php?openid={$openid}";
+
+        return Message::make('news')->item(
+            Message::make('news_item')->title("四六级查分-先来备份一下考号吧~")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/cet_cover.jpg")->description("大家期待已久的四六级查分功能终于做好啦！！\n不过，考试成绩得两个月后才会公布，那么久考号早就丢了吧…\n快来备份一下考号吧，成绩公布后，我会第一时间通知你们哦，到时候还是回复『46』就可以直接查到分数啦！\n")->url($url)
+        );
+
     }
 
     $url    = "http://www.tuling123.com/openapi/api?";
