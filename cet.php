@@ -18,6 +18,8 @@ $mysql  = new SaeMysql();
 $query  = "SELECT examid FROM cet WHERE openid='$openid'";
 $examid = $mysql->getData($query);
 var_dump($examid);
+var_dump($mysql->getLine($query));
+var_dump($mysql->getVar($query));
 sae_log(json_encode($examid));
 //用户尚未备份考号
 if (empty($examid)) {
