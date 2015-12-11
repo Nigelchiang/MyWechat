@@ -12,10 +12,11 @@ $examid             = "select examid from cet WHERE openid='$openid' ORDER BY ex
 //从数组取出两个变量
 //extract($mysql->getLine($query));
 $line = $mysql->getLine($query);
-echo $mysql->errmsg();
+
 //数据库保存的openid
 $openid             = $line['openid'];
 $examid             = $mysql->getLine($examid);
+echo $mysql->errmsg();
 var_dump($examid);
 $name               = $line['name'];
 $_SESSION['examid'] = $examid;
