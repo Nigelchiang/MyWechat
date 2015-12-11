@@ -20,7 +20,7 @@ list($openid, $examid) = each($mysql->getLine($query));
 //var_dump($examid);
 //var_dump($mysql->getLine($query));
 //var_dump($mysql->getVar($query));
-sae_log(json_encode($openid . " " . $examid));
+sae_log(json_encode($openid . "-" . $examid));
 //用户尚未备份考号
 if (empty($openid)) {
     $signup = "INSERT INTO cet (openid) VALUES('$openid') ";
