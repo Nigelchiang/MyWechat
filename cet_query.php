@@ -9,15 +9,39 @@ $examidErr = $nameErr = '';
 $is_examid = $is_name = false;
 if (empty($examid)) {
     $examidErr = "请输入15位准考证号";
+    ?>
+    <script>
+        alert("<?php echo $examidErr?>");
+        document.getElementById("examid").focus();
+    </script>
+    <?php
 } elseif (!test_examid($examid)) {
     $examidErr = "准考证号为15位数字";
+    ?>
+    <script>
+        alert("<?php echo $examidErr?>");
+        document.getElementById("examid").focus();
+    </script>
+    <?php
 } else {
     $is_examid = true;
 }
 if (empty($name)) {
     $nameErr = "名字未填写";
+    ?>
+    <script>
+        alert("<?php echo $nameErr?>");
+        document.getElementById("name").focus();
+    </script>
+    <?php
 } elseif (!test_name($name)) {
-    $nameErr = "姓名超过3个字，可只输入前3个";
+    $nameErr = "姓名为2~3个汉字";
+    ?>
+    <script>
+        alert("<?php echo $nameErr?>");
+        document.getElementById("name").focus();
+    </script>
+    <?php
 } else {
     $is_name = true;
 }
