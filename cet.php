@@ -2,15 +2,17 @@
 session_start();
 //查询数据库，openid是否已经存在
 
-$openid = $_GET['openid'];
-$mysql  = new SaeMysql();
-$query  = "SELECT examid,name FROM wechat_user WHERE openid='$openid'";
+$openid             = $_GET['openid'];
+$_SESSION['openid'] = $openid;
+$mysql              = new SaeMysql();
+$query              = "SELECT openid,examid,name FROM wechat_user WHERE openid='$openid'";
 //从数组取出两个变量
 //extract($mysql->getLine($query));
-$line               = $mysql->getLine($query);
+$line = $mysql->getLine($query);
+//数据库保存的openid
+$openid             = $line['openid'];
 $examid             = $line['examid'];
 $name               = $line['name'];
-$_SESSION['openid'] = $openid;
 $_SESSION['examid'] = $examid;
 $_SESSION['name']   = $name;
 //var_dump($examid);

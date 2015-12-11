@@ -76,7 +76,6 @@ $server->on('event', 'unsubscribe', function ($event) {
 $server->on('message', 'text', function ($message) use ($welcome) {
     //    sae_log("消息内容 " . $message->Content);
     //四六级查分-备份考号
-    sae_log("openid:{$message->FromUserName} len:" . strlen($message->FromUserName));
     if (in_array(trim($message->Content), array("四六级", "46", "查分"))) {
         $openid = $message->FromUserName;
         $url    = "5.n1gel.sinaapp.com/cet.php?openid={$openid}";
