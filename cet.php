@@ -16,8 +16,7 @@ $line = $mysql->getLine($query);
 //数据库保存的openid
 $openid = $line['openid'];
 $examid = $mysql->getLine($examid);
-sae_log("获取examid失败 " . $mysql->errmsg());
-var_dump($examid);
+sae_log("获取examid失败 " . $mysql->errmsg()."examid: ".var_dump($examid));
 $name               = $line['name'];
 $_SESSION['examid'] = $examid;
 $_SESSION['name']   = $name;
