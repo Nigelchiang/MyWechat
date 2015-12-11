@@ -42,7 +42,8 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
     $user         = $mysql->getLine($everFollowed);
     //用户第一次关注
     if ($user === false) {
-        $signup = "insert into wechat_user(openid,followTime) VALUES ('$event->FromUserName',$event->CreateTime)";
+        $signup = "insert into wechat_user(openid,followTime) VALUES ('$event->FromUserName',".strval
+            ($event->CreateTime).")";
         $mysql->runSql($signup);
         sae_log($mysql->errno() . "-" . $mysql->errmsg());
         $mysql->closeDb();
@@ -68,7 +69,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 $server->on('event', 'unsubscribe', function ($event) {
     sae_log("用户取消关注: " . $event->openid);
     $mysql  = new SaeMysql();
-    $signup = "update  wechat_user set isFollow=0,unfollowTime=" . strval($event->CreateTime) . "WHERE
+    $signup = "update  wechat_user set isFollow=0, unfollowTime=" . strval($event->CreateTime) . "WHERE
     openid='$event->FromUserName'";
     $mysql->runSql($signup);
     sae_log($mysql->errno() . "-" . $mysql->errmsg());
