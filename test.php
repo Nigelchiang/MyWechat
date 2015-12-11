@@ -54,9 +54,10 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
         $update = "update wechat_user set followTime = '" . date("c") . "',isFollow = 1 WHERE
         openid='$event->FromUserName' ";
         $mysql->runSql($update);
-        sae_log($mysql->errno() . "-" . $mysql->errmsg());
         $name = $mysql->getVar("select name from wechat_user WHERE openid = '$event->FromUserName'");
-        sae_log($mysql->errno() . "-" . $mysql->errmsg());
+        if (is_bool($name)) {
+            $name = null;
+        }
 
         return Message::make('news')->items(function () use ($name, $welcome) {
             $welcome($name);
