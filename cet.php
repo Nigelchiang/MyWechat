@@ -8,15 +8,15 @@ $_SESSION['openid'] = $openid;
 $mysql              = new SaeMysql();
 $query              = "SELECT openid,name FROM wechat_user WHERE openid='$openid'";
 //根据openid取出考号，以降序排列，默认查询考号最大的一次
-$examid             = "select examid from cet WHERE openid='$openid' ORDER BY examid DESC";
+$examid = "select examid from cet WHERE openid='$openid' ORDER BY examid DESC";
 //从数组取出两个变量
 //extract($mysql->getLine($query));
 $line = $mysql->getLine($query);
 
 //数据库保存的openid
-$openid             = $line['openid'];
-$examid             = $mysql->getLine($examid);
-echo $mysql->errmsg();
+$openid = $line['openid'];
+$examid = $mysql->getLine($examid);
+sae_log("获取examid失败 " . $mysql->errmsg());
 var_dump($examid);
 $name               = $line['name'];
 $_SESSION['examid'] = $examid;
