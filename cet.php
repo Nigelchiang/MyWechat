@@ -41,16 +41,19 @@ if (empty($openid)) {
         echo "你已成功注册" . "<br/>";
         sae_log("成功注册");
         echo "即将跳转到备份的页面";
+        echo "if 1";
         //跳到填写考号和姓名的页面
-        header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
+//        header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
     }
     //用户已注册，为备份考号和姓名
 } elseif (empty($examid)) {
     echo "即将跳转到备份的页面";
-    header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
+    echo "if 2";
+//    header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
     //页面获取exanid和姓名直接查询，将查询结果存到数据库并显示到页面，生成一个模板图片，让用户保存
 } else {
-    header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
+    echo "if 3";
+//    header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
 }
 
 $mysql->closeDb();
