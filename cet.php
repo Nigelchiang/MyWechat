@@ -2,19 +2,20 @@
 session_start();
 //查询数据库，openid是否已经存在
 
-$openid             = $_GET['openid'];
+$openid = $_GET['openid'];
 var_dump($openid);
 $_SESSION['openid'] = $openid;
 $mysql              = new SaeMysql();
-$query              = "SELECT openid,examid,name FROM wechat_user WHERE openid='$openid'";
+$query              = "SELECT openid,name FROM wechat_user WHERE openid='$openid'";
+//根据openid取出考号，以降序排列，默认查询考号最大的一次
+$examid             = "select examid from cet WHERE openid='$openid' ORDER BY examid DESC";
 //从数组取出两个变量
 //extract($mysql->getLine($query));
 $line = $mysql->getLine($query);
 echo $mysql->errmsg();
-var_dump($line);
 //数据库保存的openid
 $openid             = $line['openid'];
-$examid             = $line['examid'];
+$examid             = $mysql->getLine($examid)['examid'];
 $name               = $line['name'];
 $_SESSION['examid'] = $examid;
 $_SESSION['name']   = $name;
@@ -46,17 +47,17 @@ if (empty($openid)) {
         echo "即将跳转到备份的页面";
         echo "if 1";
         //跳到填写考号和姓名的页面
-//        header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
+        //        header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
     }
     //用户已注册，为备份考号和姓名
 } elseif (empty($examid)) {
     echo "即将跳转到备份的页面";
     echo "if 2";
-//    header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
+    //    header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
     //页面获取exanid和姓名直接查询，将查询结果存到数据库并显示到页面，生成一个模板图片，让用户保存
 } else {
     echo "if 3";
-//    header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
+    //    header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
 }
 
 $mysql->closeDb();
