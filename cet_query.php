@@ -28,7 +28,9 @@ if ($is_examid && $is_name) {
     //更新数据库
     $mysql  = new SaeMysql();
     $update = "insert into cet (examid,name,openid) VALUES ('$examid','$name','$openid')";
+    $mysql->runSql($update);
     sae_log("插入成绩出错" . $mysql->errmsg());
+    $mysql->closeDb();
     //跳转
     header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
 }
