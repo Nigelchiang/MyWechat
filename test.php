@@ -33,7 +33,7 @@ $welcome = function ($user_name = null) {
         Message::make('news_item')->title("『" . $i++ . "』发送图片可以查询照片中人脸的年龄和性别信息,还会在脸上标出来哦…")->PicUrl('http://n1gel-wechatimg.stor.sinaapp.com/mmbizaC7DypReicewYESlc5gXjH3IKQbYribnF72lBOIpmK0BWKZ6XTVdcSmaPzwp4NibAqdZTzSYuxNaRoqbrtqaacNWA0814814157.jpg'),
         Message::make('news_item')->title("『" . $i++ . "』机智的图灵机器人陪你聊天解闷,可以查天气查火车查航班…")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/2786001_213751420000_2.jpg'),
         Message::make('news_item')->title("『" . $i++ . "』新功能：语音聊天~直接给我发送语音就可以聊天了哦~")->PicUrl('http://www.36dsj.com/wp-content/uploads/2015/03/228.jpg'),
-        Message::make('news_item')->title("『" . $i++ . "』四六级查分已经完成，即将上线！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
+        Message::make('news_item')->title("『" . $i++ . "』四六级查分已经上线,回复『46』来备份考号吧！")->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
 };
 $server->on('event', 'subscribe', function ($event) use ($welcome) {
     sae_log("用户关注: " . $event->openid);
@@ -79,10 +79,9 @@ $server->on('message', 'text', function ($message) use ($welcome) {
     if (in_array(trim($message->Content), array("四六级", "46", "查分"))) {
         $openid = $message->FromUserName;
         $url    = "5.n1gel.sinaapp.com/cet.php?openid={$openid}";
-        sae_log("cet查分页面 {$url}");
 
         return Message::make('news')->item(
-            Message::make('news_item')->title("四六级查分")->PicUrl()->description()->url($url)
+            Message::make('news_item')->title("四六级查分-先来备份一下考号吧~")->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/cet_cover.jpg")->description("大家期待已久的四六级查分功能终于做好啦！！\n不过，考试成绩得两个月后才会公布，那么久考号早就丢了吧…\n快来备份一下考号吧，成绩公布后，我会第一时间通知你们哦，到时候还是回复『46』就可以直接查到分数啦！\n")->url($url)
         );
 
     }

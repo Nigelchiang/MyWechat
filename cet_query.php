@@ -54,8 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //更新数据库
         $mysql  = new SaeMysql();
         $update = "insert into cet (examid,name,openid) VALUES ('$examid','$name','$openid')";
-        $mysql->runSql($update);
-        sae_log("插入成绩出错" . $mysql->errmsg());
+        $bool   = $mysql->runSql($update);
+
+        if (!$bool) {
+            sae_log("插入考号姓名出错" . $mysql->errmsg());
+        }
         $mysql->closeDb();
         //跳转
         header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
