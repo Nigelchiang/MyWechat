@@ -43,12 +43,13 @@ if ($is_examid && $is_name) {
         <title>四六级查分</title>
     </head>
     <body>
+    2015年12月四六级考试成绩预计在2016年2月20-3月1左右发布，方方会第一时间提醒大家的~
     <!--可以用一个ajax，输入完成之后就发一个请求到服务器验证一下-->
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
         <label for="examid">准考证号</label>
-        <input type="text" name="examid" id="examid" value="<?php echo $examid;?>">
+        <input type="text" name="examid" id="examid" placeholder="姓名超过3个字，可只输入前3个" value="<?php echo $examid; ?>">
         <label for="name">姓名</label>
-        <input type="text" name="name" id="name" value="<?php echo $name; ?>">
+        <input type="text" name="name" id="name" placeholder="请输入15位准考证号" value="<?php echo $name; ?>">
         <input type="submit" value="备份">
     </form>
     </body>
