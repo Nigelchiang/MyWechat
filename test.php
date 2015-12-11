@@ -41,7 +41,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
     $everFollowed = "select openid,name from wechat_user WHERE openid='$event->FromUserName'";
     $user         = $mysql->getLine($everFollowed);
     //用户第一次关注
-    if ($user === array()) {
+    if ($user === false) {
         $signup = "insert into wechat_user(openid,followTime) VALUES ('$event->FromUserName',$event->CreateTime)";
         $mysql->runSql($signup);
         sae_log($mysql->errno() . "-" . $mysql->errmsg());
@@ -53,7 +53,9 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
         //更新关注时间、关注状态，获取用户姓名
         $update = "update wechat_user set followTime='$event->CreateTime',isFollow=1 WHERE openid='$event->FromUserName'";
         $mysql->runSql($update);
+        sae_log($mysql->errno() . "-" . $mysql->errmsg());
         $name = $mysql->getVar("select name from wechat_user WHERE openid='$event->FromUserName'");
+        sae_log($mysql->errno() . "-" . $mysql->errmsg());
 
         return Message::make('news')->items(function () use ($name, $welcome) {
             $welcome($name);
@@ -65,7 +67,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 $server->on('event', 'unsubscribe', function ($event) {
     sae_log("用户取消关注: " . $event->openid);
     $mysql  = new SaeMysql();
-    $signup = "insert into wechat_user(openid,followTime) VALUES ('$event->fromusername',$event->CreateTime)";
+    $signup = "insert into wechat_user(openid,isFollow,unfollowTime) VALUES ('$event->fromusername',0,$event->CreateTime)";
     $mysql->runSql($signup);
     sae_log($mysql->errno() . "-" . $mysql->errmsg());
     $mysql->closeDb();
@@ -115,6 +117,7 @@ $server->on('message', 'image', function ($image) {
 //语音消息处理，使用微信的识别结果
 $server->on('message', 'voice', function ($message) use ($welcome) {
     sae_log($message->Recogniton);
+
     return handleText($message->Recognition, $message->FromUserName, $welcome);
 
 });
