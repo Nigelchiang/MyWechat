@@ -31,6 +31,7 @@ if (empty($examid)) {
         //带上openid或者设置session
     }
 } else {
+    echo "难道跳到这里来了？";
     //跳到结果的页面 //带上openid或者session和
     //页面获取exanid和姓名直接查询，将查询结果存到数据库并显示到页面，生成一个模板图片，让用户保存
 }
