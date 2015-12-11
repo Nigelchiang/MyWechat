@@ -2,8 +2,7 @@
 session_start();
 //查询数据库，openid是否已经存在
 
-$openid = $_GET['openid'];
-var_dump($openid);
+$openid             = $_GET['openid'];
 $_SESSION['openid'] = $openid;
 $mysql              = new SaeMysql();
 $query              = "SELECT openid,name FROM wechat_user WHERE openid='$openid'";
@@ -16,14 +15,16 @@ $line = $mysql->getLine($query);
 //数据库保存的openid
 $openid = $line['openid'];
 $examid = $mysql->getLine($examid);
-sae_log("获取examid失败 " . $mysql->errmsg()."examid: ".var_dump($examid));
+if ($examid === false) {
+    sae_log("获取examid失败 " . $mysql->errmsg());
+}
 $name               = $line['name'];
 $_SESSION['examid'] = $examid;
 $_SESSION['name']   = $name;
 //var_dump($examid);
 //var_dump($mysql->getLine($query));
 //var_dump($mysql->getVar($query));
-sae_log(json_encode($openid . "-" . $examid));
+//sae_log(json_encode($openid . "-" . $examid));
 ?>
 <!DOCTYPE html>
 <html lang="zh">
