@@ -15,14 +15,14 @@ $openid = $_GET['openid'];
 
 //查询数据库，openid是否已经存在
 $mysql  = new SaeMysql();
-$query  = "SELECT examid FROM cet WHERE openid='$openid'";
-$examid = $mysql->getVar($query);
+$query  = "SELECT openid FROM cet WHERE openid='$openid'";
+$openid = $mysql->getVar($query);
 //var_dump($examid);
 //var_dump($mysql->getLine($query));
 //var_dump($mysql->getVar($query));
-sae_log(json_encode($examid));
+sae_log(json_encode($openid));
 //用户尚未备份考号
-if (empty($examid)) {
+if (empty($openid)) {
     $signup = "INSERT INTO cet (openid) VALUES('$openid') ";
     $bool   = $mysql->runSql($signup);
     if (!$bool) {
@@ -36,7 +36,7 @@ if (empty($examid)) {
     }
 } else {
     echo "难道跳到这里来了？";
-    //跳到结果的页面 //带上openid或者session和
+    //跳到备份的页面 //带上openid或者session和
     //页面获取exanid和姓名直接查询，将查询结果存到数据库并显示到页面，生成一个模板图片，让用户保存
 }
 
