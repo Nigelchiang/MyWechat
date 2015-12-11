@@ -62,7 +62,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
         $mysql->closeDb();
 
         return Message::make('news')->items(function () use ($name, $welcome) {
-            $welcome($name);
+            return $welcome($name);
         });
     }
 
