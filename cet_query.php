@@ -39,6 +39,7 @@ if ($is_examid && $is_name) {
     <html lang="zh">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,user-scalable=no"/>
         <title>四六级查分</title>
     </head>
     <body>
