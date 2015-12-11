@@ -57,7 +57,9 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
         $name = $mysql->getVar("select name from wechat_user WHERE openid = '$event->FromUserName'");
         if (is_bool($name)) {
             $name = null;
+            sae_log("名字不存在");
         }
+        $mysql->closeDb();
 
         return Message::make('news')->items(function () use ($name, $welcome) {
             $welcome($name);
