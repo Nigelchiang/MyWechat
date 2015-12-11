@@ -30,24 +30,25 @@ if (empty($openid_db)) {
         echo $debug = sprintf("注册失败 %d : %s", $mysql->errno(), $mysql->errmsg());
         sae_log($debug);
     } else {
-        echo "你已成功注册" . "<br/>";
-        echo "即将跳转到备份的页面";
-        echo "if 111111";
+        //        echo "你已成功注册" . "<br/>";
+        //        echo "即将跳转到备份的页面";
+        //        echo "if 111111";
         //跳到填写考号和姓名的页面
-        //        header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
+        header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
         //填写之后，更新session，更新数据库
     }
     //用户已注册，为备份考号和姓名
 } elseif (empty($examid)) {
-    echo "即将跳转到备份的页面";
-    echo "if 222222222";
-    //    header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
+    //    echo "即将跳转到备份的页面";
+    //    echo "if 222222222";
+    header("Location:http://5.n1gel.sinaapp.com/cet_query.php");
     //页面获取exanid和姓名直接查询，将查询结果存到数据库并显示到页面，生成一个模板图片，让用户保存
     //填写之后，更新session，更新数据库
 } else {
-    echo "if 33333333";
+    //    echo "if 33333333";
     //直接获取session，执行查询就好
-    //    header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
+    //获取微信分享的接口
+    header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
 }
 
 $mysql->closeDb();
