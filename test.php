@@ -69,7 +69,7 @@ $server->on('event', 'unsubscribe', function ($event) {
     sae_log("用户取消关注: " . $event->openid);
     $mysql  = new SaeMysql();
     $signup = "update  wechat_user set isFollow=0,unfollowTime=" . strval($event->CreateTime) . "WHERE
-    openid='$event->fromusername'";
+    openid='$event->FromUserName'";
     $mysql->runSql($signup);
     sae_log($mysql->errno() . "-" . $mysql->errmsg());
     $mysql->closeDb();
