@@ -1,5 +1,6 @@
 <?php
-session_start(); ?>
+//session_start();
+?>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -16,6 +17,7 @@ $openid = $_GET['openid'];
 $mysql  = new SaeMysql();
 $query  = "SELECT examid FROM cet WHERE openid='$openid'";
 $examid = $mysql->getData($query);
+var_dump($examid);
 sae_log(json_encode($examid));
 //用户尚未备份考号
 if (empty($examid)) {
