@@ -114,7 +114,7 @@ $server->on('message', 'image', function ($image) {
 });
 //语音消息处理，使用微信的识别结果
 $server->on('message', 'voice', function ($message) use ($welcome) {
-
+    sae_log($message->Recogniton);
     return handleText($message->Recognition, $message->FromUserName, $welcome);
 
 });
