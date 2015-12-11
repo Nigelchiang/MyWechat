@@ -21,7 +21,7 @@ if (empty($examid)) {
     $signup = "INSERT INTO cet (openid) VALUES($openid) ";
     $bool   = $mysql->runSql($signup);
     if (!$bool) {
-        echo "注册失败";
+        echo sprintf("注册失败 %d : %s",$mysql->errno(),$mysql->errmsg());
     } else {
         echo "你已成功注册" . "<br/>";
     }
