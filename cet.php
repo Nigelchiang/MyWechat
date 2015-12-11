@@ -3,6 +3,7 @@ session_start();
 //查询数据库，openid是否已经存在
 
 $openid             = $_GET['openid'];
+var_dump($openid);
 $_SESSION['openid'] = $openid;
 $mysql              = new SaeMysql();
 $query              = "SELECT openid,examid,name FROM wechat_user WHERE openid='$openid'";
@@ -33,7 +34,7 @@ sae_log(json_encode($openid . "-" . $examid));
 
 //用户尚未注册
 if (empty($openid)) {
-    $signup = "INSERT INTO wechat_user (openid) VALUES('$openid') ";
+    $signup = "INSERT INTO wechat_user (openid) VALUES ('$openid') ";
     $bool   = $mysql->runSql($signup);
     if (!$bool) {
         echo $debug = sprintf("注册失败 %d : %s", $mysql->errno(), $mysql->errmsg());
