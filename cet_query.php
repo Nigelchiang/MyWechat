@@ -7,6 +7,7 @@ $name   = $_POST['name'];
 
 $examidErr = $nameErr = '';
 $is_examid = $is_name = false;
+//region 输入验证
 if (empty($examid)) {
     $examidErr = "请输入15位准考证号";
     ?>
@@ -31,7 +32,6 @@ if (empty($name)) {
     ?>
     <script>
         alert("<?php echo $nameErr?>");
-        document.getElementById("name").focus();
     </script>
     <?php
 } elseif (!test_name($name)) {
@@ -39,7 +39,6 @@ if (empty($name)) {
     ?>
     <script>
         alert("<?php echo $nameErr?>");
-        document.getElementById("name").focus();
     </script>
     <?php
 } else {
@@ -58,12 +57,13 @@ if ($is_examid && $is_name) {
     //跳转
     header("Location:http://5.n1gel.sinaapp.com/cet_result.php");
 }
+//endregion
 ?>
     <!doctype html>
     <html lang="zh">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,user-scalable=no"/>
+        <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1"/>
         <title>四六级查分</title>
     </head>
     <body>
@@ -71,9 +71,9 @@ if ($is_examid && $is_name) {
     <!--可以用一个ajax，输入完成之后就发一个请求到服务器验证一下-->
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
         <label for="examid">准考证号</label>
-        <input type="text" name="examid" id="examid" placeholder="姓名超过3个字，可只输入前3个" value="<?php echo $examid; ?>">
+        <input type="text" name="examid" id="examid" placeholder="请输入15位准考证号" value="<?php echo $examid; ?>">
         <label for="name">姓名</label>
-        <input type="text" name="name" id="name" placeholder="请输入15位准考证号" value="<?php echo $name; ?>">
+        <input type="text" name="name" id="name" placeholder="姓名超过3个字，可只输入前3个" value="<?php echo $name; ?>">
         <input type="submit" value="备份">
     </form>
     </body>
