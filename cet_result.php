@@ -9,21 +9,23 @@ session_start();
 $openid = $_SESSION['openid'];
 $examid = $_SESSION['examid'];
 $name   = $_SESSION['name'];
-echo "这里是成绩展示界面，会生成一张成绩的图片<br/>";
+
 ?>
-<!doctype html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1"/>
-    <title>查询结果</title>
-</head>
-<body>
+    <!doctype html>
+    <html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1"/>
+        <title>查询结果</title>
+    </head>
+    <body>
+    <p>这里是成绩展示界面，会生成一张成绩的图片</p>
     <h1>恭喜你，备份成功！</h1>
-    <p>2015年12月的四六级考试，成绩大约会在2016年2月底公布</p>
+    <p>2015年12月的四六级考试，成绩大约会在2016年2月底公布。</p>
     <p>到时候，方方会第一时间通知你的~放心吧！</p>
-</body>
-</html>
+    <p>现在你可以点击左上角的叉叉返回微信啦~记得向好友推荐哦！</p>
+    </body>
+    </html>
 
 <?php
 function sae_log($msg) {

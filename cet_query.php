@@ -64,17 +64,30 @@ if ($is_examid && $is_name) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1"/>
+        <link rel="stylesheet" href="http://cdn.rmbz.net/bootstrap-3.3.5-dist/css/bootstrap.min.css">
         <title>四六级查分</title>
     </head>
     <body>
-    2015年12月四六级考试成绩预计在2016年2月20-3月1左右发布，方方会第一时间提醒大家的~
+
     <!--可以用一个ajax，输入完成之后就发一个请求到服务器验证一下-->
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-        <label for="examid">准考证号</label>
-        <input type="text" name="examid" id="examid" placeholder="请输入15位准考证号" value="<?php echo $examid; ?>">
-        <label for="name">姓名</label>
-        <input type="text" name="name" id="name" placeholder="姓名超过3个字，可只输入前3个" value="<?php echo $name; ?>">
-        <input type="submit" value="备份">
+        <div class="alert alert-info">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            2015年12月四六级考试成绩预计在2016年2月20-3月1左右发布，方方会第一时间提醒大家的~
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">准考证号</div>
+                <input type="text" maxlength="15" name="examid" class="form-control" placeholder="姓名只输入前3个字">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">姓名</div>
+                <input type="text" maxlength="15" name="name" class="form-control" placeholder="请输入15位准考证号">
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-block">备份</button>
     </form>
     </body>
     </html>
