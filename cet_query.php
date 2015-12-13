@@ -1,9 +1,14 @@
 <?php
 session_start();
 $openid = $_SESSION['openid'];
-
 $examid = $_POST['examid'];
 $name   = $_POST['name'];
+
+//判断是否由第一个页面跳转过来
+if (isset($_GET['isJump'])) {
+    $examid = $_GET['examid'];
+    $name = $_GET['name'];
+}
 
 $examidErr = $nameErr = '';
 $is_examid = $is_name = false;
@@ -76,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1"/>
         <link rel="stylesheet" href="http://cdn.rmbz.net/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+        <!--        <script src="jquery-2.1.4.min.js"></script>-->
         <title>四六级查分</title>
     </head>
     <body>

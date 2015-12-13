@@ -48,28 +48,34 @@ if (empty($openid_db)) {
     //直接获取session，执行查询就好
     //获取微信分享的接口
     //既然不能通过curl跳转，那就用curl把那个网页整个抓取过来好了，反正效果也是一样的
-    $url  = "http://5.n1gel.sinaapp.com/cet_result.php";
-//    $post = array(
-//        "examid" => $examid,
-//        "name"   => $name,
-//    );
-//    $ch = curl_init();
-//    if(substr($url,0,5)=='https'){
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 跳过证书检查
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);  // 从证书中检查SSL加密算法是否存在
-//    }
-//    //这里并不是抓取数据，而是抓网页然后直接在这里显示，所以这一项就不设置了
-//    //但是抓取过来应该也是一个被服务器解释过的静态的网页呀，用PHP实现的动态功能都不会实现了呀
-//    //curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//    curl_setopt($ch, CURLOPT_URL, $url);
-////    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-//    curl_setopt($ch, CURLOPT_POST, true);
-//    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
-//    $response = curl_exec($ch);
-//    if($error=curl_error($ch)){
-//        die($error);
-//    }
-//    curl_close($ch);
+    $url   = "http://5.n1gel.sinaapp.com/cet_query.php?";
+    $param = array(
+        "isJump" => true,
+        "examid" => $examid,
+        "name"   => $name,
+    );
+    $url .= http_build_query($param);
+    //    $post = array(
+    //        "examid" => $examid,
+    //        "name"   => $name,
+    //    );
+    //    $ch = curl_init();
+    //    if(substr($url,0,5)=='https'){
+    //        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 跳过证书检查
+    //        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);  // 从证书中检查SSL加密算法是否存在
+    //    }
+    //    //这里并不是抓取数据，而是抓网页然后直接在这里显示，所以这一项就不设置了
+    //    //但是抓取过来应该也是一个被服务器解释过的静态的网页呀，用PHP实现的动态功能都不会实现了呀
+    //    //curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //    curl_setopt($ch, CURLOPT_URL, $url);
+    ////    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    //    curl_setopt($ch, CURLOPT_POST, true);
+    //    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+    //    $response = curl_exec($ch);
+    //    if($error=curl_error($ch)){
+    //        die($error);
+    //    }
+    //    curl_close($ch);
     header("Location:" . $url);
 }
 
