@@ -30,9 +30,9 @@ class Face {
     private $newUrl;
 
     function __construct($url) {
-        $this->url    = $url;
-        $this->info   = $this->detect();
-        $this->img    = &$this->getImg();
+        $this->url  = $url;
+        $this->info = $this->detect();
+        $this->img  = &$this->getImg();
         $this->draw();
     }
 
@@ -147,8 +147,6 @@ class Face {
 
     /**
      * 将图片资源保存到storage
-     * @param $img       resource 图片资源
-     * @param $url       string 原始图片的URL，用作文件名
      * @returns string storage中图片的URL
      */
     public function save() {
@@ -158,7 +156,7 @@ class Face {
         //just for test
         //$stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
 
-        /*    imagepng这样的函数不支持wrapper,用临时文件解决
+        /*  imagepng这样的函数不支持wrapper,用临时文件解决
             imageX 第二个参数指定filename，将文件保存到一个地址而不是输出到浏览器
             使用sae storage的wrapper来保存图片
             file_put_contents("saestor://n/test.txt", "haha");
@@ -167,7 +165,7 @@ class Face {
             $bool = imagejpeg($img, SAE_TMP_PATH . $filename);
             imagedestroy($img);
 
-                $this-log("保存的文件名：" . $filename);
+            $this-log("保存的文件名：" . $filename);
             从临时文件里取出，保存到storage里
             file_put_contents("saestor://wechatimg/$filename",
                               file_get_contents(SAE_TMP_PATH . $filename));*/
