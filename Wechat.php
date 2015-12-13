@@ -21,7 +21,7 @@ $server         = new Server($appId, $token, $encodingAESKey);
 //关注事件
 /**
  * 生成提示功能的news
- * @param null $user_name
+ * @param null|string $user_name
  * @return array
  */
 $welcome = function ($user_name = "") {
@@ -162,7 +162,7 @@ function handleText($text, $openid, $welcome) {
             Message::make('news_item')
                    ->title("四六级查分-先来备份一下考号吧~")
                    ->PicUrl("http://n1gel-n1gel.stor.sinaapp.com/cet_cover.jpg")
-                   ->description("大家期待已久的四六级查分功能终于做好啦！！\n不过，考试成绩得两个月后才会公布，那么久考号早就丢了吧…\n快来备份一下考号吧，成绩公布后，我会第一时间通知你们哦，到时候还是回复『46』就可以直接查到分数啦！\n")
+                   ->description("大家期待已久的四六级查分功能终于做好啦！\n快来备份一下考号吧，成绩公布后，我会第一时间通知大家的！")
                    ->url($url)
         );
 

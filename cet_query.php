@@ -4,7 +4,7 @@ $openid = $_SESSION['openid'];
 $examid = $_POST['examid'];
 $name   = $_POST['name'];
 
-//判断是否由第一个页面跳转过来
+//判断是否已经备份过
 if (isset($_GET['isJump'])) {
     $examid = $_GET['examid'];
     $name = $_GET['name'];
@@ -90,7 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" id="submit">
         <div class="alert alert-info">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            2015年12月四六级考试成绩预计在2016年2月20-3月1左右发布，方方会第一时间提醒大家的~
+            考试成绩预计在2016年2月20-3月1左右发布~<br/>
+            每个微信号可以备份多个考号~
         </div>
         <div class="form-group">
             <div class="input-group">
