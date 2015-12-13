@@ -9,6 +9,9 @@ $examidErr = $nameErr = '';
 $is_examid = $is_name = false;
 //region 输入验证
 //防止第一次进入就报错
+//从cet.php跳转过来，设置了session，这里就不执行，也就不会跳到result页面，用户点击提交之后就会更新session，并跳转
+//但是用session无法实现下面的表单自动填写
+//另外的方法就是，用curl发送post，在header里面加上location，再加上一个校验域
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($examid)) {
         $examidErr = "请输入15位准考证号";
@@ -52,11 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['name']   = $name;
 
         //更新数据库
-        $mysql  = new SaeMysql();
-        $update = "insert into cet (examid,name,openid) VALUES ('$examid','$name','$openid')";
-        $updata_wx="update wechat_user set name='$name' WHERE openid='$openid'";
-        $bool   = $mysql->runSql($update);
-        $bool = $mysql->runSql($updata_wx);
+        $mysql     = new SaeMysql();
+        $update    = "insert into cet (examid,name,openid) VALUES ('$examid','$name','$openid')";
+        $updata_wx = "update wechat_user set name='$name' WHERE openid='$openid'";
+        $bool      = $mysql->runSql($update);
+        $bool      = $mysql->runSql($updata_wx);
         if (!$bool) {
             sae_log("插入考号姓名出错" . $mysql->errmsg());
         }
@@ -67,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 //endregion
 ?>
-    <!doctype html>
+    <!doctype>
     <html lang="zh">
     <head>
         <meta charset="UTF-8">
