@@ -90,8 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" id="submit">
         <div class="alert alert-info">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            考试成绩预计在2016年2月20-3月1左右发布~<br/>
-            每个微信号可以备份多个考号~
+            考试成绩预计在2016年2月20-3月1左右发布<br/>
+            &nbsp;&nbsp;每个微信号可以备份多个考号~
         </div>
         <div class="form-group">
             <div class="input-group">
