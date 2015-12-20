@@ -104,41 +104,24 @@ $server->on('message', 'text', function ($message) use ($welcome) {
 //图片处理，调用微软API
 $server->on('message', 'image', function ($image) {
 
-    $picUrl = $image->PicUrl;
-    $face   = new Face($picUrl);
-    $info   = $face->info;
-    if ($info !== false) {
-        $amount      = count($info);
-        $description = "";
-        $title       = "";
+    $face = new Face($image->PicUrl);
+    $info = $face->info;
+    if ($info !== null) {
         if ($info === array()) {
-            $title .= "照片中木有人脸/:fade";
-        } else {
-            $savedUrl = $face->save();
-            $title .= "照片中共检测到{$amount}张脸 点击查看大图";
-            for ($i = 0; $i < $amount; $i++) {
-                if ($amount > 1) {
-                    $description .= sprintf("\n第%s张脸\n", $i + 1);
-                }
+            return Message::make('text')->content("照片中木有人脸/:fade");
 
-                $attr = $info[$i]['attributes'];
-                $description .= "年龄: " . $attr['age'];
-                $description .= "\n性别: " . $attr['gender'];
-            }
+        } else {
 
             return Message::make('news')->item(
-                Message::make("news_item")->title($title)->description($description)->url($savedUrl)->PicUrl
-                ($savedUrl)
+                Message::make("news_item")->title($face->title)->description($face->description)->url($face->newUrl)
+                       ->PicUrl($face->newUrl)
             );
         }
-
-        return Message::make('text')->content($title);
     }
 
     return Message::make('text')->content("不好意思出错啦/:bye");
-
-
 });
+
 //语音消息处理，使用微信的识别结果
 $server->on('message', 'voice', function ($message) use ($welcome) {
 

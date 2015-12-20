@@ -17,30 +17,41 @@ class Face {
      * 图片资源
      * @var resource
      */
-    private $img;
+    private $img = null;
     /**
      * 图片识别的数据
      * @var array
      */
-    private $info;
+    public $info = null;
     /**
      * 在storage中保存的URL
      * @var string
      */
-    private $newUrl;
+    public $newUrl = null;
+    /**
+     * 描述
+     * @var string
+     */
+    public $description = null;
+    public $title       = null;
 
     function __construct($url) {
+
         $this->url  = $url;
         $this->info = $this->detect();
-        $this->img  = &$this->getImg();
-        $this->draw();
+        if ($this->info !== array()) {
+            $this->getImg();
+            $this->draw();
+            $this->description();
+            $this->save();
+        }
     }
 
     /**
      * 通过cUrl下载图片
-     * @return resource 创建的图片资源
      */
     private function getImg() {
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // good edit, thanks!
@@ -57,16 +68,17 @@ class Face {
             $this->log("图片创建失败");
         }
 
-        return $img;
+        $this->img = &$img;
     }
 
     /**
      * 调用微软人脸识别API
-     * @return array 失败返回false
+     * @return array 失败返回null
      */
     public function detect() {
+
         $faceKey    = "dd3e5074da61435dab8dc8b001ff1b2f";
-        $requestUrl = "https://api.projectoxford.ai/face/v0/detections?analyzesFaceLandmarks=true&analyzesAge=true&analyzesGender=true";
+        $requestUrl = "https://api.projectoxford.ai/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender,smile";
         $data       = array("url" => $this->url);
         $data       = json_encode($data);
         $header     = array(
@@ -94,7 +106,7 @@ class Face {
 
             $output = json_decode($output, true);
 
-            if (!isset($output['code'])) {
+            if (!isset($output['error'])) {
                 return $output;
             }
             // ...process $content now
@@ -107,7 +119,7 @@ class Face {
 
         }
 
-        return false;
+        return null;
     }
 
 
@@ -118,7 +130,7 @@ class Face {
             $y1     = $rec['faceRectangle']['top'];
             $width  = $rec['faceRectangle']['width'];
             $height = $rec['faceRectangle']['height'];
-            $gender = $rec['attributes']['gender'];
+            $gender = $rec['faceAttributes']['gender'];
             $x2     = $x1 + $width;
             $y2     = $y1 + $height;
             //拆分数组,取出需要的五个点坐标
@@ -147,9 +159,9 @@ class Face {
 
     /**
      * 将图片资源保存到storage
-     * @returns string storage中图片的URL
      */
     public function save() {
+
         //给文件名添加随机的后缀，防止重复
         $random   = mt_rand();
         $filename = substr(str_replace("/", "", parse_url($this->url, PHP_URL_PATH)), -10) . $random . ".jpg";
@@ -186,19 +198,34 @@ class Face {
         }
         $this->newUrl = $stor->getUrl($domain, $filename);
 
-        return $this->newUrl;
-
     }
 
-    function __get($name) {
-        return $this->$name;
+    public function description() {
+
+        $amount      = count($this->info);
+        $this->title = "照片中共检测到{$amount}张脸 点击查看大图";
+        for ($i = 0; $i < $amount; $i++) {
+            if ($amount > 1) {
+                $this->description .= sprintf("\n-第%s张脸\n", $i + 1);
+            }
+
+            $attr = $this->info[$i]['faceAttributes'];
+            $this->description .= " 年龄: " . $attr['age'];
+            $gender = ($attr['gender'] === 'male') ? "男" : "女";
+            $this->description .= "\n 性别: " . $gender;
+            $smile = $attr['smile'] * 100;
+            $this->description .= "\n 笑容: " . $smile . "%";
+        }
     }
+
 
     /**
      * SAE调试 在日志中心选择错误日志查看
+     *
      * @param $msg string
      */
     private function log($msg) {
+
         sae_set_display_errors(false);//关闭信息输出
         sae_debug($msg);//记录日志
         sae_set_display_errors(true);//记录日志后再打开信息输出，否则会阻止正常的错误信息的显示
