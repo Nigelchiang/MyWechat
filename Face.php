@@ -78,7 +78,7 @@ class Face {
     public function detect() {
 
         $faceKey    = "dd3e5074da61435dab8dc8b001ff1b2f";
-        $requestUrl = "https://api.projectoxford.ai/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender,smile";
+        $requestUrl = "https://api.projectoxford.ai/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=true&returnFaceAttributes=age,gender,smile";
         $data       = array("url" => $this->url);
         $data       = json_encode($data);
         $header     = array(
@@ -206,15 +206,15 @@ class Face {
         $this->title = "照片中共检测到{$amount}张脸 点击查看大图";
         for ($i = 0; $i < $amount; $i++) {
             if ($amount > 1) {
-                $this->description .= sprintf("\n-第%s张脸\n", $i + 1);
+                $this->description .= sprintf("\n> 第%s张脸\n", $i + 1);
             }
 
             $attr = $this->info[$i]['faceAttributes'];
-            $this->description .= " 年龄: " . $attr['age'];
+            $this->description .= "  年龄: " . $attr['age'];
             $gender = ($attr['gender'] === 'male') ? "男" : "女";
-            $this->description .= "\n 性别: " . $gender;
+            $this->description .= "\n  性别: " . $gender;
             $smile = $attr['smile'] * 100;
-            $this->description .= "\n 笑容: " . $smile . "%";
+            $this->description .= "\n  笑容: " . $smile . "%";
         }
     }
 
