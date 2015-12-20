@@ -161,6 +161,12 @@ function handleText($text, $openid, $welcome) {
         );
 
     }
+    if (in_array(trim($text), array("吐槽"))) {
+        $link = "<a href='http://wpa.qq.com/msgrd?v=3&uin=1510534937&site=oicqzone.com&menu=yes'>[有槽当面吐]</a>" . '/:love';
+
+        return Message::make('text')->content($link);
+    }
+
 
     $url    = "http://www.tuling123.com/openapi/api?";
     $params = array("key" => "08ad04b298923b29a203d0aca21a9779", "info" => $text);
