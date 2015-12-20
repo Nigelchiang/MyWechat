@@ -7,7 +7,7 @@ $name   = $_POST['name'];
 //判断是否已经备份过
 if (isset($_GET['isJump'])) {
     $examid = $_GET['examid'];
-    $name = $_GET['name'];
+    $name   = $_GET['name'];
 }
 
 $examidErr = $nameErr = '';
@@ -96,14 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">考号</div>
-                <input type="text" maxlength="15" name="examid" class="form-control" placeholder="请输入15位准考证号"
+                <input type="text" required maxlength="15" name="examid" class="form-control" placeholder="请输入15位准考证号"
                        value="<?php echo $examid; ?>">
             </div>
         </div>
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">姓名</div>
-                <input type="text" maxlength="3" name="name" class="form-control" placeholder="姓名只输入前3个字"
+                <input type="text" required maxlength="3" name="name" class="form-control" placeholder="姓名只输入前3个字"
                        value="<?php echo $name; ?>">
             </div>
         </div>
@@ -120,12 +120,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php
 
 function sae_log($msg) {
+
     sae_set_display_errors(false);//关闭信息输出
     sae_debug($msg);//记录日志
     sae_set_display_errors(true);//记录日志后再打开信息输出，否则会阻止正常的错误信息的显示
 }
 
 function test_examid(&$input) {
+
     $input = htmlspecialchars(stripslashes(trim($input)));
     if (!preg_match("/^\d{15}$/", $input)) {
         return false;
@@ -135,6 +137,7 @@ function test_examid(&$input) {
 }
 
 function test_name(&$name) {
+
     $name = htmlspecialchars(stripslashes(trim($name)));
     //匹配2到3个中文
     $pattern = "/^[\x{4e00}-\x{9fa5}]{2,3}$/u";

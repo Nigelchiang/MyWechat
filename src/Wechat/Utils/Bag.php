@@ -15,13 +15,14 @@
 
 namespace Overtrue\Wechat\Utils;
 
-use Overtrue\Wechat\Utils\JSON;
-// use JsonSerializable;// TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
-use IteratorAggregate;
-use ArrayIterator;
-use Serializable;
 use ArrayAccess;
+use ArrayIterator;
 use Countable;
+use IteratorAggregate;
+use Overtrue\Wechat\Utils\JSON;
+use Serializable;
+
+// use JsonSerializable;// TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
 
 /**
  * 工具类，实现一些便捷访问接口如：数组式访问
@@ -30,8 +31,7 @@ class Bag implements
     ArrayAccess,
     Countable,
     IteratorAggregate,
-    Serializable
-    // , JsonSerializable
+    Serializable // , JsonSerializable
 {
 
     /**
@@ -46,9 +46,9 @@ class Bag implements
      *
      * @param mixed $data 数据数组
      */
-    public function __construct($data = array())
-    {
-        $this->data = (array) $data;
+    public function __construct($data = array()) {
+
+        $this->data = (array)$data;
     }
 
     /**
@@ -56,8 +56,8 @@ class Bag implements
      *
      * @return array
      */
-    public function all()
-    {
+    public function all() {
+
         return $this->data;
     }
 
@@ -68,8 +68,8 @@ class Bag implements
      *
      * @return array
      */
-    public function merge($data)
-    {
+    public function merge($data) {
+
         foreach ($data as $key => $value) {
             $this->set($key, $value);
         }
@@ -84,8 +84,8 @@ class Bag implements
      *
      * @return bool
      */
-    public function has($key)
-    {
+    public function has($key) {
+
         return Arr::get($this->data, $key) !== null;
     }
 
@@ -94,8 +94,8 @@ class Bag implements
      *
      * @return mixed
      */
-    public function first()
-    {
+    public function first() {
+
         return reset($this->data);
     }
 
@@ -104,8 +104,8 @@ class Bag implements
      *
      * @return bool
      */
-    public function last()
-    {
+    public function last() {
+
         $end = end($this->data);
 
         reset($this->data);
@@ -119,8 +119,8 @@ class Bag implements
      * @param string $key
      * @param mixed  $value
      */
-    public function add($key, $value)
-    {
+    public function add($key, $value) {
+
         Arr::set($this->data, $key, $value);
     }
 
@@ -130,8 +130,8 @@ class Bag implements
      * @param string $key
      * @param mixed  $value
      */
-    public function set($key, $value)
-    {
+    public function set($key, $value) {
+
         Arr::set($this->data, $key, $value);
     }
 
@@ -143,8 +143,8 @@ class Bag implements
      *
      * @return mixed
      */
-    public function get($key, $default = null)
-    {
+    public function get($key, $default = null) {
+
         return Arr::get($this->data, $key, $default);
     }
 
@@ -153,8 +153,8 @@ class Bag implements
      *
      * @param string $key
      */
-    public function forget($key)
-    {
+    public function forget($key) {
+
         Arr::forget($this->data, $key);
     }
 
@@ -163,8 +163,8 @@ class Bag implements
      *
      * @return array
      */
-    public function toArray()
-    {
+    public function toArray() {
+
         return $this->all();
     }
 
@@ -173,8 +173,8 @@ class Bag implements
      *
      * @return string
      */
-    public function toJson()
-    {
+    public function toJson() {
+
         return JSON::encode($this->all());
     }
 
@@ -183,8 +183,8 @@ class Bag implements
      *
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
+
         return $this->toJson();
     }
 
@@ -199,32 +199,40 @@ class Bag implements
     /**
      * @see Serializable::serialize()
      */
-    public function serialize()
-    {
+    public function serialize() {
+
         return serialize($this->data);
     }
 
     /**
      * @see Serializable::unserialize()
+     *
+     * @param string $data
+     *
+     * @return mixed|void
      */
-    public function unserialize($data)
-    {
+    public function unserialize($data) {
+
         return $this->data = unserialize($data);
     }
 
     /**
      * @see ArrayIterator::getIterator()
      */
-    public function getIterator()
-    {
+    public function getIterator() {
+
         return new ArrayIterator($this->data);
     }
 
     /**
      * @see Countable::count()
+     *
+     * @param int $mode
+     *
+     * @return int
      */
-    public function count($mode = COUNT_NORMAL)
-    {
+    public function count($mode = COUNT_NORMAL) {
+
         return count($this->data, $mode);
     }
 
@@ -235,8 +243,8 @@ class Bag implements
      *
      * @return mixed
      */
-    public function __get($key)
-    {
+    public function __get($key) {
+
         return $this->get($key);
     }
 
@@ -246,8 +254,8 @@ class Bag implements
      * @param string $key
      * @param mixed  $value
      */
-    public function __set($key, $value)
-    {
+    public function __set($key, $value) {
+
         $this->set($key, $value);
     }
 
@@ -258,8 +266,8 @@ class Bag implements
      *
      * @return bool
      */
-    public function __isset($key)
-    {
+    public function __isset($key) {
+
         return $this->has($key);
     }
 
@@ -268,8 +276,8 @@ class Bag implements
      *
      * @param string $key
      */
-    public function __unset($key)
-    {
+    public function __unset($key) {
+
         $this->forget($key);
     }
 
@@ -278,8 +286,8 @@ class Bag implements
      *
      * @return array
      */
-    public function __set_state()
-    {
+    public function __set_state() {
+
         return $this->all();
     }
 
@@ -289,8 +297,8 @@ class Bag implements
      * @param string $offset
      * @param mixed  $value
      */
-    public function offsetSet($offset, $value)
-    {
+    public function offsetSet($offset, $value) {
+
         $this->set($offset, $value);
     }
 
@@ -301,8 +309,8 @@ class Bag implements
      *
      * @return bool
      */
-    public function offsetExists($offset)
-    {
+    public function offsetExists($offset) {
+
         return $this->has($offset);
     }
 
@@ -313,8 +321,8 @@ class Bag implements
      *
      * @return array
      */
-    public function offsetUnset($offset)
-    {
+    public function offsetUnset($offset) {
+
         if ($this->offsetExists($offset)) {
             $this->forget($offset);
         }
@@ -327,8 +335,8 @@ class Bag implements
      *
      * @return mixed
      */
-    public function offsetGet($offset)
-    {
+    public function offsetGet($offset) {
+
         return $this->offsetExists($offset) ? $this->get($offset) : null;
     }
 }

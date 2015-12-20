@@ -55,7 +55,7 @@ class News extends BaseMessage {
         if ($items instanceof Closure) {
             $items = $items();
         }
-        //这个不太对吧…我怎么看不懂这是什么意思啊…
+        //这个写法真的可以吗？数组转换为callback是怎么转换的呀？
         array_map(array($this, 'item'), (array)$items);
 
         return $this;

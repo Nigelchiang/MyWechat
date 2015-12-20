@@ -21,8 +21,7 @@ use Closure;
 /**
  * Array helper from Illuminate\Support\Arr
  */
-class Arr
-{
+class Arr {
 
     /**
      * Add an element to an array using "dot" notation if it doesn't exist.
@@ -33,8 +32,7 @@ class Arr
      *
      * @return array
      */
-    public static function add($array, $key, $value)
-    {
+    public static function add($array, $key, $value) {
         if (is_null(static::get($array, $key))) {
             static::set($array, $key, $value);
         }
@@ -50,8 +48,7 @@ class Arr
      *
      * @return array
      */
-    public static function build($array, Closure $callback)
-    {
+    public static function build($array, Closure $callback) {
         $results = array();
 
         foreach ($array as $key => $value) {
@@ -69,12 +66,11 @@ class Arr
      *
      * @return array
      */
-    public static function divide($array)
-    {
+    public static function divide($array) {
         return array(
-                array_keys($array),
-                array_values($array),
-               );
+            array_keys($array),
+            array_values($array),
+        );
     }
 
     /**
@@ -85,15 +81,15 @@ class Arr
      *
      * @return array
      */
-    public static function dot($array, $prepend = '')
-    {
+    public static function dot($array, $prepend = '') {
         $results = array();
 
         foreach ($array as $key => $value) {
+            //递归 将多维数组变成dot形式
             if (is_array($value)) {
-                $results = array_merge($results, static::dot($value, $prepend.$key.'.'));
+                $results = array_merge($results, static::dot($value, $prepend . $key . '.'));
             } else {
-                $results[$prepend.$key] = $value;
+                $results[$prepend . $key] = $value;
             }
         }
 
@@ -108,9 +104,9 @@ class Arr
      *
      * @return array
      */
-    public static function except($array, $keys)
-    {
-        return array_diff_key($array, array_flip((array) $keys));
+    public static function except($array, $keys) {
+
+        return array_diff_key($array, array_flip((array)$keys));
     }
 
     /**
@@ -121,14 +117,13 @@ class Arr
      *
      * @return array
      */
-    public static function fetch($array, $key)
-    {
+    public static function fetch($array, $key) {
         $results = array();
 
         foreach (explode('.', $key) as $segment) {
             $results = array();
             foreach ($array as $value) {
-                $value = (array) $value;
+                $value     = (array)$value;
                 $results[] = $value[$segment];
             }
             $array = array_values($results);
@@ -146,8 +141,7 @@ class Arr
      *
      * @return mixed
      */
-    public static function first($array, $callback, $default = null)
-    {
+    public static function first($array, $callback, $default = null) {
         foreach ($array as $key => $value) {
             if (call_user_func($callback, $key, $value)) {
                 return $value;
@@ -166,8 +160,7 @@ class Arr
      *
      * @return mixed
      */
-    public static function last($array, $callback, $default = null)
-    {
+    public static function last($array, $callback, $default = null) {
         return static::first(array_reverse($array), $callback, $default);
     }
 
@@ -178,8 +171,7 @@ class Arr
      *
      * @return array
      */
-    public static function flatten($array)
-    {
+    public static function flatten($array) {
         $return = array();
         array_walk_recursive(
             $array,
@@ -197,11 +189,10 @@ class Arr
      * @param array        $array
      * @param array|string $keys
      */
-    public static function forget(&$array, $keys)
-    {
+    public static function forget(&$array, $keys) {
         $original = &$array;
 
-        foreach ((array) $keys as $key) {
+        foreach ((array)$keys as $key) {
             $parts = explode('.', $key);
             while (count($parts) > 1) {
                 $part = array_shift($parts);
@@ -224,8 +215,7 @@ class Arr
      *
      * @return mixed
      */
-    public static function get($array, $key, $default = null)
-    {
+    public static function get($array, $key, $default = null) {
         if (is_null($key)) {
             return $array;
         }
@@ -252,9 +242,9 @@ class Arr
      *
      * @return array
      */
-    public static function only($array, $keys)
-    {
-        return array_intersect_key($array, array_flip((array) $keys));
+    public static function only($array, $keys) {
+
+        return array_intersect_key($array, array_flip((array)$keys));
     }
 
     /**
@@ -266,8 +256,7 @@ class Arr
      *
      * @return array
      */
-    public static function pluck($array, $value, $key = null)
-    {
+    public static function pluck($array, $value, $key = null) {
         $results = array();
 
         foreach ($array as $item) {
@@ -278,7 +267,7 @@ class Arr
             if (is_null($key)) {
                 $results[] = $itemValue;
             } else {
-                $itemKey = is_object($item) ? $item->{$key} : $item[$key];
+                $itemKey           = is_object($item) ? $item->{$key} : $item[$key];
                 $results[$itemKey] = $itemValue;
             }
         }
@@ -295,8 +284,7 @@ class Arr
      *
      * @return mixed
      */
-    public static function pull(&$array, $key, $default = null)
-    {
+    public static function pull(&$array, $key, $default = null) {
         $value = static::get($array, $key, $default);
         static::forget($array, $key);
 
@@ -314,8 +302,7 @@ class Arr
      *
      * @return array
      */
-    public static function set(&$array, $key, $value)
-    {
+    public static function set(&$array, $key, $value) {
         if (is_null($key)) {
             return $array = $value;
         }
@@ -345,8 +332,7 @@ class Arr
      *
      * @return array
      */
-    public static function sort($array, Closure $callback)
-    {
+    public static function sort($array, Closure $callback) {
         $results = array();
 
         foreach ($array as $key => $value) {
@@ -364,8 +350,7 @@ class Arr
      *
      * @return array
      */
-    public static function where($array, Closure $callback)
-    {
+    public static function where($array, Closure $callback) {
         $filtered = array();
 
         foreach ($array as $key => $value) {

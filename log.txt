@@ -1,9 +1,0 @@
-
-
-<xml><ToUserName><![CDATA[]]></ToUserName><FromUserName><![CDATA[]]></FromUserName><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[Default]]></Content><CreateTime><![CDATA[1449334226]]></CreateTime><FuncFlag><![CDATA[0]]></FuncFlag></xml>
-
-
-<xml><ToUserName><![CDATA[]]></ToUserName><FromUserName><![CDATA[]]></FromUserName><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[Default]]></Content><CreateTime><![CDATA[1449334309]]></CreateTime><FuncFlag><![CDATA[0]]></FuncFlag></xml>
-
-
-<xml><ToUserName><![CDATA[]]></ToUserName><FromUserName><![CDATA[]]></FromUserName><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[Default]]></Content><CreateTime><![CDATA[1449334334]]></CreateTime><FuncFlag><![CDATA[0]]></FuncFlag></xml>

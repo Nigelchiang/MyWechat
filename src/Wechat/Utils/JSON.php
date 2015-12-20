@@ -20,13 +20,13 @@ defined('JSON_UNESCAPED_UNICODE') || define('JSON_UNESCAPED_UNICODE', 256);
 /**
  * Unicode2multi characters supported for the wechat server
  */
-class JSON
-{
+class JSON {
+
     /**
      * To prevent new operation, under static usage only
      */
-    protected function __construct()
-    {}
+    protected function __construct() {
+    }
 
     /**
      * PHP >= 5.3 JSON_UNESCAPED_UNICODE constant supported
@@ -39,8 +39,7 @@ class JSON
      *
      * @return mixed Returns a string containing the JSON representation of data
      */
-    public static function encode($value, $options = 0, $depth = 512)
-    {
+    public static function encode($value, $options = 0, $depth = 512) {
         // multi-characters supported by default
         $options |= JSON_UNESCAPED_UNICODE;
 
@@ -75,8 +74,7 @@ class JSON
      *
      * @return mixed Returns the value encoded in json in appropriate PHP type.
      */
-    public static function decode($json, $assoc = false, $depth = 512, $options = 0)
-    {
+    public static function decode($json, $assoc = false, $depth = 512, $options = 0) {
         if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
             return json_decode($json, $assoc, $depth, $options);
         }

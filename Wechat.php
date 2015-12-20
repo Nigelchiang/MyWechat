@@ -10,8 +10,8 @@ use Overtrue\Wechat\Server;
 if (isset($debug) && $debug) {
     sae_xhprof_start();
 }
+
 require __DIR__ . "/autoload.php";
-require "Face.php";
 
 $appId          = "wxea2364b2dfd8449b";
 $token          = "test";
@@ -21,10 +21,13 @@ $server         = new Server($appId, $token, $encodingAESKey);
 //关注事件
 /**
  * 生成提示功能的news
+ *
  * @param null|string $user_name
+ *
  * @return array
  */
 $welcome = function ($user_name = "") {
+
     $i = 1;
 
     return array(
@@ -45,6 +48,7 @@ $welcome = function ($user_name = "") {
                ->PicUrl('http://n1gel-n1gel.stor.sinaapp.com/img%2F%E5%9B%9B%E5%85%AD%E7%BA%A7%E6%9F%A5%E5%88%86.jpg'));
 };
 $server->on('event', 'subscribe', function ($event) use ($welcome) {
+
     sae_log("用户关注: " . $event->FromUserName);
     $mysql = new SaeMysql();
     //用户以前是否关注过
@@ -74,6 +78,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
         $mysql->closeDb();
 
         return Message::make('news')->items(function () use ($name, $welcome) {
+
             return $welcome($name);
         });
     }
@@ -81,6 +86,7 @@ $server->on('event', 'subscribe', function ($event) use ($welcome) {
 });
 //取消关注
 $server->on('event', 'unsubscribe', function ($event) {
+
     sae_log("用户取消关注: " . $event->openid);
     $mysql  = new SaeMysql();
     $signup = "update  wechat_user set isFollow = 0, unfollowTime = '" . date("Y/m/d-H:i:s") . "'WHERE
@@ -89,14 +95,15 @@ $server->on('event', 'unsubscribe', function ($event) {
     sae_log($mysql->errno() . "-" . $mysql->errmsg());
     $mysql->closeDb();
 });
-
 //文字消息处理，调用图灵机器人
 $server->on('message', 'text', function ($message) use ($welcome) {
+
     //四六级查分-备份考号
     return handleText($message->Content, $message->FromUserName, $welcome);
 });
 //图片处理，调用微软API
 $server->on('message', 'image', function ($image) {
+
     $picUrl = $image->PicUrl;
     $face   = new Face($picUrl);
     $info   = $face->info;
@@ -134,6 +141,7 @@ $server->on('message', 'image', function ($image) {
 });
 //语音消息处理，使用微信的识别结果
 $server->on('message', 'voice', function ($message) use ($welcome) {
+
     sae_log($message->Recogniton);
 
     return handleText($message->Recognition, $message->FromUserName, $welcome);
@@ -146,12 +154,15 @@ echo $result;
 
 /**
  * 处理文字消息
+ *
  * @param $text    string
  * @param $openid  string
  * @param $welcome closure
+ *
  * @return mixed
  */
 function handleText($text, $openid, $welcome) {
+
     if (in_array(trim($text), array("你好", "你能干什么", "哈哈", "您好", "喂", "你有什么功能"))) {
         return Message::make('news')->items($welcome);
     }
@@ -233,6 +244,7 @@ function handleText($text, $openid, $welcome) {
             }
 
             return Message::make('news')->items(function () use ($city, $items) {
+
                 return array(
                     Message::make('news_item')
                            ->title("亲，已为你找到{$city}的天气信息")
@@ -240,7 +252,7 @@ function handleText($text, $openid, $welcome) {
                     Message::make('news_item')->title($items[0]['title'])->PicUrl($items[0]['url']),
                     Message::make('news_item')->title($items[1]['title'])->PicUrl($items[1]['url']),
                     Message::make('news_item')->title($items[2]['title'])->PicUrl($items[2]['url']),
-                    Message::make('news_item')->title($items[3]['title'])->PicUrl($items[3]['url'])
+                    Message::make('news_item')->title($items[3]['title'])->PicUrl($items[3]['url']),
                 );
             });
         }
@@ -260,9 +272,11 @@ if (isset($debug) && $debug) {
 
 /**
  * SAE调试 在日志中心选择错误日志查看
+ *
  * @param $msg string
  */
 function sae_log($msg) {
+
     sae_set_display_errors(false);//关闭信息输出
     sae_debug($msg);//记录日志
     sae_set_display_errors(true);//记录日志后再打开信息输出，否则会阻止正常的错误信息的显示

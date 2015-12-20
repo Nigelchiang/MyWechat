@@ -22,8 +22,7 @@ use Overtrue\Wechat\Media;
  *
  * @property string $media_id
  */
-class Voice extends BaseMessage
-{
+class Voice extends BaseMessage {
 
     /**
      * 属性
@@ -42,12 +41,13 @@ class Voice extends BaseMessage
     /**
      * 设置语音
      *
-     * @param string $mediaId
+     * @param $mediaid
      *
-     * @return Voice
+*@return Voice
+     * @internal param string $mediaId
+     *
      */
-    public function media($mediaid)
-    {
+    public function media($mediaid) {
         $this->setAttribute('media_id', $mediaid);
 
         return $this;
@@ -58,13 +58,12 @@ class Voice extends BaseMessage
      *
      * @return array
      */
-    public function toStaff()
-    {
+    public function toStaff() {
         return array(
-                'voice' => array(
-                            'media_id' => $this->media_id,
-                           ),
-               );
+            'voice' => array(
+                'media_id' => $this->media_id,
+            ),
+        );
     }
 
     /**
@@ -72,12 +71,11 @@ class Voice extends BaseMessage
      *
      * @return array
      */
-    public function toReply()
-    {
+    public function toReply() {
         return array(
-                'Voice' => array(
-                            'MediaId' => $this->media_id,
-                           ),
-               );
+            'Voice' => array(
+                'MediaId' => $this->media_id,
+            ),
+        );
     }
 }

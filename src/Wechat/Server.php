@@ -102,10 +102,18 @@ class Server {
      *
      * @return Server
      */
+    //这个也是很牛逼的实现啊。主要就是在Bag和Arr两个类之间set/get两个方法一直跳，
+    //难点是在Arr里的get和set比较复杂，也不知道写代码的人是怎么能想到的…脑子肯定不正常…
+    //这里的on的目的就是把匿名函数保存到对应层级的数组里，以便后面监听事件时直接调用
+    //然而就是这个分级的数组，在arr里面搞得异常复杂…要不是单点调试我怕永远也搞不懂…
+    //比如说监听event.subscribe事件，首先get到现有的event.subscribe监听器，第一次都是null,所以局部变量listeners为array()
+    //然后，把绑定的时间放到listeners里面，调用set,通过一层层分解event.subsccribe,最终把这个闭包放到了this->listeners->data->event->subscribe里面
+    //这样一次on的调用就完成了。
     public function on($target, $type, $callback = null) {
 
         if (is_null($callback)) {
             $callback = $type;
+            //即监听所有类型
             $type     = '*';
         }
 
@@ -114,7 +122,7 @@ class Server {
         }
 
         $type = strtolower($type);
-
+        //那个Arr的工具类就是喜欢把数组弄成这样的点记法，到底有什么好处啊…=
         $listeners = $this->listeners->get("{$target}.{$type}") ?: array();
 
         array_push($listeners, $callback);

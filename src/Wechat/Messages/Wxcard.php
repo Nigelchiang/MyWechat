@@ -21,26 +21,28 @@ namespace Overtrue\Wechat\Messages;
  * @property string $card_id
  * @property string $card_ext
  */
-class Wxcard extends BaseMessage
-{
+class Wxcard extends BaseMessage {
+
     /**
      * 属性
      *
      * @var array
      */
     protected $properties = array(
-        'card_id','card_ext'
+        'card_id',
+        'card_ext',
     );
 
     /**
      * 设置 card_id
      *
      * @param string $cardId
+     *
      * @return $this
      */
-    public function cardId($cardId)
-    {
-        $this->setAttribute('card_id',$cardId);
+    public function cardId($cardId) {
+
+        $this->setAttribute('card_id', $cardId);
 
         return $this;
     }
@@ -49,11 +51,12 @@ class Wxcard extends BaseMessage
      * 设置 card_ext
      *
      * @param string $cardExt
+     *
      * @return $this
      */
-    public function cardExt($cardExt)
-    {
-        $this->setAttribute('card_ext',$cardExt);
+    public function cardExt($cardExt) {
+
+        $this->setAttribute('card_ext', $cardExt);
 
         return $this;
     }
@@ -63,13 +66,13 @@ class Wxcard extends BaseMessage
      *
      * @return array
      */
-    public function toStaff()
-    {
+    public function toStaff() {
+
         return array(
-            'wxcard'=>array(
-                'card_id'=>$this->card_id,
-                'card_ext'=>$this->card_ext
-            )
+            'wxcard' => array(
+                'card_id'  => $this->card_id,
+                'card_ext' => $this->card_ext,
+            ),
         );
     }
 }

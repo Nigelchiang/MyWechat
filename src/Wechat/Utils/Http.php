@@ -20,15 +20,15 @@ namespace Overtrue\Wechat\Utils;
  *
  * from https://github.com/dsyph3r/curl-php/blob/master/lib/Network/Curl/Curl.php
  */
-class Http
-{
+class Http {
+
     /**
      * Constants for available HTTP methods.
      */
-    const GET = 'GET';
-    const POST = 'POST';
-    const PUT = 'PUT';
-    const PATCH = 'PATCH';
+    const GET    = 'GET';
+    const POST   = 'POST';
+    const PUT    = 'PUT';
+    const PATCH  = 'PATCH';
     const DELETE = 'DELETE';
 
     /**
@@ -41,16 +41,16 @@ class Http
     /**
      * Create the cURL resource.
      */
-    public function __construct()
-    {
+    public function __construct() {
+
         $this->curl = curl_init();
     }
 
     /**
      * Clean up the cURL handle.
      */
-    public function __destruct()
-    {
+    public function __destruct() {
+
         if (is_resource($this->curl)) {
             curl_close($this->curl);
         }
@@ -61,8 +61,8 @@ class Http
      *
      * @return resource cURL handle
      */
-    public function getCurl()
-    {
+    public function getCurl() {
+
         return $this->curl;
     }
 
@@ -75,8 +75,8 @@ class Http
      *
      * @return array
      */
-    public function get($url, $params = array(), $options = array())
-    {
+    public function get($url, $params = array(), $options = array()) {
+
         return $this->request($url, self::GET, $params, $options);
     }
 
@@ -89,8 +89,8 @@ class Http
      *
      * @return array
      */
-    public function post($url, $params = array(), $options = array())
-    {
+    public function post($url, $params = array(), $options = array()) {
+
         return $this->request($url, self::POST, $params, $options);
     }
 
@@ -103,8 +103,8 @@ class Http
      *
      * @return array
      */
-    public function put($url, $params = array(), $options = array())
-    {
+    public function put($url, $params = array(), $options = array()) {
+
         return $this->request($url, self::PUT, $params, $options);
     }
 
@@ -117,8 +117,8 @@ class Http
      *
      * @return array
      */
-    public function patch($url, $params = array(), $options = array())
-    {
+    public function patch($url, $params = array(), $options = array()) {
+
         return $this->request($url, self::PATCH, $params, $options);
     }
 
@@ -131,8 +131,8 @@ class Http
      *
      * @return array
      */
-    public function delete($url, $params = array(), $options = array())
-    {
+    public function delete($url, $params = array(), $options = array()) {
+
         return $this->request($url, self::DELETE, $params, $options);
     }
 
@@ -146,10 +146,10 @@ class Http
      *
      * @return array
      */
-    protected function request($url, $method = self::GET, $params = array(), $options = array())
-    {
+    protected function request($url, $method = self::GET, $params = array(), $options = array()) {
+
         if ($method === self::GET || $method === self::DELETE) {
-            $url .= (stripos($url, '?') ? '&' : '?').http_build_query($params);
+            $url .= (stripos($url, '?') ? '&' : '?') . http_build_query($params);
             $params = array();
         }
 
@@ -189,7 +189,7 @@ class Http
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
         } else {
             if (isset($options['json'])) {
-                $params = JSON::encode($params);
+                $params               = JSON::encode($params);
                 $options['headers'][] = 'content-type:application/json';
             }
 
@@ -203,23 +203,24 @@ class Http
 
         // Check for basic auth
         if (isset($options['auth']['type']) && 'basic' === $options['auth']['type']) {
-            curl_setopt($this->curl, CURLOPT_USERPWD, $options['auth']['username'].':'.$options['auth']['password']);
+            curl_setopt($this->curl, CURLOPT_USERPWD,
+                        $options['auth']['username'] . ':' . $options['auth']['password']);
         }
 
         $response = $this->doCurl();
 
         // Separate headers and body
         $headerSize = $response['curl_info']['header_size'];
-        $header = substr($response['response'], 0, $headerSize);
-        $body = substr($response['response'], $headerSize);
+        $header     = substr($response['response'], 0, $headerSize);
+        $body       = substr($response['response'], $headerSize);
 
         $results = array(
-                    'curl_info' => $response['curl_info'],
-                    'content_type' => $response['curl_info']['content_type'],
-                    'status' => $response['curl_info']['http_code'],
-                    'headers' => $this->splitHeaders($header),
-                    'data' => $body,
-                   );
+            'curl_info'    => $response['curl_info'],
+            'content_type' => $response['curl_info']['content_type'],
+            'status'       => $response['curl_info']['http_code'],
+            'headers'      => $this->splitHeaders($header),
+            'data'         => $body,
+        );
 
         return $results;
     }
@@ -231,13 +232,13 @@ class Http
      *
      * @return \CURLFile|string
      */
-    protected function createCurlFile($filename)
-    {
+    protected function createCurlFile($filename) {
+
         if (function_exists('curl_file_create')) {
             return curl_file_create($filename);
         }
 
-        return "@$filename;filename=".basename($filename);
+        return "@$filename;filename=" . basename($filename);
     }
 
     /**
@@ -247,11 +248,11 @@ class Http
      *
      * @return array
      */
-    protected function splitHeaders($rawHeaders)
-    {
+    protected function splitHeaders($rawHeaders) {
+
         $headers = array();
 
-        $lines = explode("\n", trim($rawHeaders));
+        $lines           = explode("\n", trim($rawHeaders));
         $headers['HTTP'] = array_shift($lines);
 
         foreach ($lines as $h) {
@@ -270,8 +271,8 @@ class Http
      *
      * @return array
      */
-    protected function doCurl()
-    {
+    protected function doCurl() {
+
         $response = curl_exec($this->curl);
 
         if (curl_errno($this->curl)) {
@@ -281,9 +282,9 @@ class Http
         $curlInfo = curl_getinfo($this->curl);
 
         $results = array(
-                    'curl_info' => $curlInfo,
-                    'response' => $response,
-                   );
+            'curl_info' => $curlInfo,
+            'response'  => $response,
+        );
 
         return $results;
     }

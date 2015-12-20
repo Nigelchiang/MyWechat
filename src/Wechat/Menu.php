@@ -22,8 +22,8 @@ use Closure;
  *
  * @property array $sub_button
  */
-class Menu
-{
+class Menu {
+
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
     const API_GET    = 'https://api.weixin.qq.com/cgi-bin/menu/get';
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
@@ -42,8 +42,7 @@ class Menu
      * @param string $appId
      * @param string $appSecret
      */
-    public function __construct($appId, $appSecret)
-    {
+    public function __construct($appId, $appSecret) {
         $this->http = new Http(new AccessToken($appId, $appSecret));
     }
 
@@ -52,8 +51,7 @@ class Menu
      *
      * @return bool
      */
-    public function set($menus)
-    {
+    public function set($menus) {
         if ($menus instanceof Closure) {
             $menus = $menus($this);
         }
@@ -74,8 +72,7 @@ class Menu
      *
      * @return array
      */
-    public function get()
-    {
+    public function get() {
         $menus = $this->http->get(self::API_GET);
 
         return empty($menus['menu']['button']) ? array() : $menus['menu']['button'];
@@ -86,8 +83,7 @@ class Menu
      *
      * @return bool
      */
-    public function delete()
-    {
+    public function delete() {
         $this->http->get(self::API_DELETE);
 
         return true;
@@ -98,9 +94,9 @@ class Menu
      *
      * @return array
      */
-    public function current()
-    {
+    public function current() {
         $menus = $this->http->get(self::API_QUERY);
+
         return empty($menus) ? array() : $menus;
     }
 
@@ -111,8 +107,7 @@ class Menu
      *
      * @return array
      */
-    protected function extractMenus(array $menus)
-    {
+    protected function extractMenus(array $menus) {
         foreach ($menus as $key => $menu) {
             $menus[$key] = $menu->toArray();
 

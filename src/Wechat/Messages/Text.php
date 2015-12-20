@@ -28,7 +28,6 @@ class Text extends BaseMessage {
      * @var array
      */
     //这里覆盖了父类的的属性，添加了content属性，那么祖父的attributes有什么用呢？
-    //properties和attributes里面只是属性名的数组，没有属性值
     protected $properties = array('content');
 
     /**

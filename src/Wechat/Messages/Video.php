@@ -24,8 +24,7 @@ namespace Overtrue\Wechat\Messages;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Video extends BaseMessage
-{
+class Video extends BaseMessage {
 
     /**
      * 属性
@@ -33,11 +32,11 @@ class Video extends BaseMessage
      * @var array
      */
     protected $properties = array(
-                             'title',
-                             'description',
-                             'media_id',
-                             'thumb_media_id',
-                            );
+        'title',
+        'description',
+        'media_id',
+        'thumb_media_id',
+    );
 
     /**
      * 设置视频消息
@@ -46,8 +45,7 @@ class Video extends BaseMessage
      *
      * @return Video
      */
-    public function media($mediaId)
-    {
+    public function media($mediaId) {
         $this->setAttribute('media_id', $mediaId);
 
         return $this;
@@ -60,8 +58,7 @@ class Video extends BaseMessage
      *
      * @return Video
      */
-    public function thumb($mediaId)
-    {
+    public function thumb($mediaId) {
         $this->setAttribute('thumb_media_id', $mediaId);
 
         return $this;
@@ -72,16 +69,15 @@ class Video extends BaseMessage
      *
      * @return array
      */
-    public function toStaff()
-    {
+    public function toStaff() {
         return array(
-                'video' => array(
-                            'title'          => $this->title,
-                            'media_id'       => $this->media_id,
-                            'description'    => $this->description,
-                            'thumb_media_id' => $this->thumb_media_id,
-                           ),
-               );
+            'video' => array(
+                'title'          => $this->title,
+                'media_id'       => $this->media_id,
+                'description'    => $this->description,
+                'thumb_media_id' => $this->thumb_media_id,
+            ),
+        );
     }
 
     /**
@@ -89,15 +85,14 @@ class Video extends BaseMessage
      *
      * @return array
      */
-    public function toReply()
-    {
+    public function toReply() {
         $response = array(
-                     'Video' => array(
-                                 'MediaId'     => $this->media_id,
-                                 'Title'       => $this->title,
-                                 'Description' => $this->description,
-                                ),
-                    );
+            'Video' => array(
+                'MediaId'     => $this->media_id,
+                'Title'       => $this->title,
+                'Description' => $this->description,
+            ),
+        );
 
         return $response;
     }
