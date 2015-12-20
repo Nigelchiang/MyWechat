@@ -210,11 +210,11 @@ class Face {
             }
 
             $attr = $this->info[$i]['faceAttributes'];
-            $this->description .= "  年龄: " . $attr['age'];
+            $this->description .= "   年龄: " . $attr['age'];
             $gender = ($attr['gender'] === 'male') ? "男" : "女";
-            $this->description .= "\n  性别: " . $gender;
+            $this->description .= "\n   性别: " . $gender;
             $smile = $attr['smile'] * 100;
-            $this->description .= "\n  笑容: " . $smile . "%";
+            $this->description .= "\n   笑容: " . $smile . "%";
         }
     }
 
