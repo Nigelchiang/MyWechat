@@ -144,6 +144,8 @@ class Face {
             imagesetthickness($this->img, 3);
             //画一个矩形
             $bool = imagerectangle($this->img, $x1, $y1, $x2, $y2, $color);
+            //人脸上方标上序号
+
             //画点
             foreach ($points as $point) {
                 $bool = imagefilledrectangle($this->img, $point['x'] - 7, $point['y'] - 7, $point['x'] + 7,
