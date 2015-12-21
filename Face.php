@@ -165,7 +165,7 @@ class Face {
         //给文件名添加随机的后缀，防止重复
         $random = mt_rand();
         //$filename = substr(str_replace("/", "", parse_url($this->url, PHP_URL_PATH)), -10) . $random . ".jpg";
-        $filename = date('YmdHis') . $random . '.jpg';
+        $filename = date('Y_m_d_H_i_s_') . $random . '.jpg';
         //just for test
         //$stor = new SaeStorage("n353jmy031","zwwkm3wjxmmkxkhwzlyjhxz3lh2xkyj3zhx014lh");
 
